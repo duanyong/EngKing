@@ -211,7 +211,7 @@ window.SwaggerUi = Backbone.Router.extend({
       $(this).html(marked($(this).html()));
     });
 
-    $('.propDesc', '.model-signature .description').each(function () {
+    $('.propDesc', '.bean-signature .description').each(function () {
       $(this).html(marked($(this).html())).addClass('markdown');
     });
   }
@@ -685,7 +685,7 @@ this["Handlebars"]["templates"]["operation"] = Handlebars.template({"1":function
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
   return "          <h4><span data-sw-translate>Response Class</span> (<span data-sw-translate>Status</span> "
     + escapeExpression(((helper = (helper = helpers.successCode || (depth0 != null ? depth0.successCode : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"successCode","hash":{},"data":data}) : helper)))
-    + ")</h4>\n          <p><span class=\"model-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
+    + ")</h4>\n          <p><span class=\"bean-signature\" /></p>\n          <br/>\n          <div class=\"response-content-type\" />\n";
 },"18":function(depth0,helpers,partials,data) {
   return "          <h4 data-sw-translate>Parameters</h4>\n          <table class='fullwidth'>\n          <thead>\n            <tr>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter</th>\n            <th style=\"width: 310px; max-width: 310px\" data-sw-translate>Value</th>\n            <th style=\"width: 200px; max-width: 200px\" data-sw-translate>Description</th>\n            <th style=\"width: 100px; max-width: 100px\" data-sw-translate>Parameter Type</th>\n            <th style=\"width: 220px; max-width: 230px\" data-sw-translate>Data Type</th>\n            </tr>\n          </thead>\n          <tbody class=\"operation-params\">\n\n          </tbody>\n          </table>\n";
   },"20":function(depth0,helpers,partials,data) {
@@ -821,7 +821,7 @@ this["Handlebars"]["templates"]["param"] = Handlebars.template({"1":function(dep
   buffer += "</td>\n<td>";
   stack1 = ((helper = (helper = helpers.paramType || (depth0 != null ? depth0.paramType : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramType","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td>\n	<span class=\"model-signature\"></span>\n</td>\n";
+  return buffer + "</td>\n<td>\n	<span class=\"bean-signature\"></span>\n</td>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   return " required";
@@ -890,7 +890,7 @@ this["Handlebars"]["templates"]["param_list"] = Handlebars.template({"1":functio
   buffer += "</td>\n<td>";
   stack1 = ((helper = (helper = helpers.paramType || (depth0 != null ? depth0.paramType : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramType","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  return buffer + "</td>\n<td><span class=\"bean-signature\"></span></td>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -927,7 +927,7 @@ this["Handlebars"]["templates"]["param_readonly"] = Handlebars.template({"1":fun
   buffer += "</td>\n<td>";
   stack1 = ((helper = (helper = helpers.paramType || (depth0 != null ? depth0.paramType : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramType","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  return buffer + "</td>\n<td><span class=\"bean-signature\"></span></td>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_readonly_required"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var helper, functionType="function", helperMissing=helpers.helperMissing, escapeExpression=this.escapeExpression;
@@ -964,7 +964,7 @@ this["Handlebars"]["templates"]["param_readonly_required"] = Handlebars.template
   buffer += "</td>\n<td>";
   stack1 = ((helper = (helper = helpers.paramType || (depth0 != null ? depth0.paramType : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramType","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  return buffer + "</td>\n<td><span class=\"bean-signature\"></span></td>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
@@ -1032,7 +1032,7 @@ this["Handlebars"]["templates"]["param_required"] = Handlebars.template({"1":fun
   buffer += "</span></strong>\n</td>\n<td>";
   stack1 = ((helper = (helper = helpers.paramType || (depth0 != null ? depth0.paramType : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"paramType","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "</td>\n<td><span class=\"model-signature\"></span></td>\n";
+  return buffer + "</td>\n<td><span class=\"bean-signature\"></span></td>\n";
 },"useData":true});
 this["Handlebars"]["templates"]["parameter_content_type"] = Handlebars.template({"1":function(depth0,helpers,partials,data) {
   var stack1, buffer = "";
@@ -1144,7 +1144,7 @@ this["Handlebars"]["templates"]["status_code"] = Handlebars.template({"1":functi
     + "</td>\n<td class=\"markdown\">";
   stack1 = ((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"message","hash":{},"data":data}) : helper));
   if (stack1 != null) { buffer += stack1; }
-  buffer += "</td>\n<td width='50%'><span class=\"model-signature\" /></td>\n<td class=\"headers\">\n  <table>\n    <tbody>\n";
+  buffer += "</td>\n<td width='50%'><span class=\"bean-signature\" /></td>\n<td class=\"headers\">\n  <table>\n    <tbody>\n";
   stack1 = helpers.each.call(depth0, (depth0 != null ? depth0.headers : depth0), {"name":"each","hash":{},"fn":this.program(1, data),"inverse":this.noop,"data":data});
   if (stack1 != null) { buffer += stack1; }
   return buffer + "    </tbody>\n  </table>\n</td>";
@@ -3332,7 +3332,7 @@ SwaggerSpecConverter.prototype.declaration = function(obj, swagger) {
     swagger.produces = obj.produces;
   }
 
-  // build a mapping of id to name for 1.0 model resolutions
+  // build a mapping of id to name for 1.0 bean resolutions
   if(_.isObject(obj)) {
     for(name in obj.models) {
       var existingModel = obj.models[name];
@@ -4074,7 +4074,7 @@ var Operation = module.exports = function (parent, scheme, operationId, httpMeth
       this.successResponse = {};
       successResponse = this.successResponse[defaultResponseCode] = resolvedModel;
     } else if (!response.schema.type || response.schema.type === 'object' || response.schema.type === 'array') {
-      // Inline model
+      // Inline bean
       this.successResponse = {};
       successResponse = this.successResponse[defaultResponseCode] = new Model(undefined, response.schema || {}, this.models, parent.modelPropertyMacro);
     } else {
@@ -4186,7 +4186,7 @@ Operation.prototype.getType = function (param) {
 };
 
 /**
- * adds an inline schema (model) to a hash, where we can ref it later
+ * adds an inline schema (bean) to a hash, where we can ref it later
  * @param {object} schema a schema
  * @return {number} the ID of the schema being added, or null
  **/
@@ -4195,15 +4195,15 @@ Operation.prototype.addInlineModel = function (schema) {
   var model = this.resolveModel(schema, {});
   if(model) {
     this.inlineModels.push(model);
-    return 'Inline Model '+len; // return string ref of the inline model (used with #getInlineModel)
+    return 'Inline Model '+len; // return string ref of the inline bean (used with #getInlineModel)
   }
   return null; // report errors?
 };
 
 /**
- * gets the internal ref to an inline model
- * @param {string} inline_str a string reference to an inline model
- * @return {Model} the model being referenced. Or null
+ * gets the internal ref to an inline bean
+ * @param {string} inline_str a string reference to an inline bean
+ * @return {Model} the bean being referenced. Or null
  **/
 Operation.prototype.getInlineModel = function(inlineStr) {
   if(/^Inline Model \d+$/.test(inlineStr)) {
@@ -4266,7 +4266,7 @@ Operation.prototype.getModelSignature = function (type, definitions) {
     isPrimitive = true;
 
   } else if (definitions[type]){
-    // a model def exists?
+    // a bean def exists?
     type = definitions[type]; /* Model */
     isPrimitive = false;
 
@@ -12728,7 +12728,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		val = parseFloat( val ) || 0;
 	}
 
-	// Use the active box-sizing model to add/subtract irrelevant styles
+	// Use the active box-sizing bean to add/subtract irrelevant styles
 	return ( val +
 		augmentWidthOrHeight(
 			elem,
@@ -31365,10 +31365,10 @@ SwaggerUi.Views.OperationView = Backbone.View.extend({
         router: this.router,
         tagName: 'div'
       });
-      $('.model-signature', $(this.el)).append(responseSignatureView.render().el);
+      $('.bean-signature', $(this.el)).append(responseSignatureView.render().el);
     } else {
       this.model.responseClassSignature = 'string';
-      $('.model-signature', $(this.el)).html(this.model.type);
+      $('.bean-signature', $(this.el)).html(this.model.type);
     }
     contentTypeModel = {
       isParam: false
@@ -31960,10 +31960,10 @@ SwaggerUi.Views.ParameterView = Backbone.View.extend({
 
     if (this.model.sampleJSON) {
       var signatureView = new SwaggerUi.Views.SignatureView({model: signatureModel, tagName: 'div'});
-      $('.model-signature', $(this.el)).append(signatureView.render().el);
+      $('.bean-signature', $(this.el)).append(signatureView.render().el);
     }
     else {
-      $('.model-signature', $(this.el)).html(this.model.signature);
+      $('.bean-signature', $(this.el)).html(this.model.signature);
     }
 
     var isParam = false;
@@ -32178,9 +32178,9 @@ SwaggerUi.Views.StatusCodeView = Backbone.View.extend({
       };
 
       var responseModelView = new SwaggerUi.Views.SignatureView({model: responseModel, tagName: 'div'});
-      $('.model-signature', this.$el).append(responseModelView.render().el);
+      $('.bean-signature', this.$el).append(responseModelView.render().el);
     } else {
-      $('.model-signature', this.$el).html('');
+      $('.bean-signature', this.$el).html('');
     }
     return this;
   }
