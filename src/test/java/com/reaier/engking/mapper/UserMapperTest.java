@@ -1,7 +1,6 @@
 package com.reaier.engking.mapper;
 
 import com.reaier.engking.bean.User;
-import com.reaier.engking.util.Md5Util;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

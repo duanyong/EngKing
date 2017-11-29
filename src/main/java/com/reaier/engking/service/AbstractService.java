@@ -11,7 +11,7 @@ import java.util.List;
  * Created by PP on 10/9/16.
  */
 
-public abstract class AbstractService<T extends AbstractBean> {
+public abstract class AbstractService<T extends AbstractBean, I extends Object>  {
     //根据关键字查询单个列表
     public abstract T find(String key);
 
@@ -39,16 +39,22 @@ public abstract class AbstractService<T extends AbstractBean> {
 
     protected SqlSession sqlSession;
 
-    protected <T> getMapper(T t) {
-//        if (sqlSession != null) {
-//            closeSession();
-//        }
-//
-//        try {
-//            sqlSession = sessionFactory.openSession();
-//        } catch (Exception execption) {
-//            return sqlSession.getMapper(t.getClass());
-//        }
+    protected <T extends Object> T getMapper(Class<T> c) {
+        if (sqlSession != null) {
+            closeSession();
+        }
+
+        try {
+            sqlSession = sessionFactory.openSession();
+
+            return (T) sqlSession.getMapper(c);
+        } catch (Exception execption) {
+            return null;
+        }
+    }
+
+    public <T extends AbstractBean> T getListByPage(Integer page, Integer size) {
+        I mapper = getMapper(I);
     }
 
     protected void closeSession() {
