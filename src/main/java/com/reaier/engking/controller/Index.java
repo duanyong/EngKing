@@ -14,6 +14,7 @@ public class Index {
     public String index(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
         logger.info("hello");
         model.addAttribute("name", name);
+
         return "hello";
     }
 
