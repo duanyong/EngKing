@@ -1,9 +1,17 @@
 package com.reaier.engking.bean;
 
+import com.reaier.engking.dao.model.Entity;
+import lombok.Data;
+
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserSource extends AbstractBean implements Serializable {
+@Data
+@Table(name = "user_source")
+public class UserSource extends Entity {
+    private Object id;
+
     private Integer sourceId;
 
     private Integer userId;
@@ -15,46 +23,6 @@ public class UserSource extends AbstractBean implements Serializable {
     private Boolean insertType;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Date getInsertTime() {
-        return insertTime;
-    }
-
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
-    }
-
-    public String getInsertText() {
-        return insertText;
-    }
-
-    public void setInsertText(String insertText) {
-        this.insertText = insertText == null ? null : insertText.trim();
-    }
-
-    public Boolean getInsertType() {
-        return insertType;
-    }
-
-    public void setInsertType(Boolean insertType) {
-        this.insertType = insertType;
-    }
 
     @Override
     public boolean equals(Object that) {

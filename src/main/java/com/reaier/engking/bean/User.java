@@ -1,60 +1,22 @@
 package com.reaier.engking.bean;
 
-import java.io.Serializable;
+import com.reaier.engking.dao.model.Entity;
+import lombok.Data;
+
+import javax.persistence.Table;
 import java.util.Date;
 
-public class User extends AbstractBean implements Serializable {
-    private Integer id;
 
+@Data
+@Table(name = "user")
+public class User extends Entity {
+    private static final long serialVersionUID = -5227564951878481064L;
+    private Object id;
     private String username;
-
     private String password;
-
     private Boolean isLogin;
-
     private Date time;
 
-    private static final long serialVersionUID = 1L;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
-    }
-
-    public Boolean getIsLogin() {
-        return isLogin;
-    }
-
-    public void setIsLogin(Boolean isLogin) {
-        this.isLogin = isLogin;
-    }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
 
     @Override
     public boolean equals(Object that) {

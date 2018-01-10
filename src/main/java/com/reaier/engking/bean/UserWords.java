@@ -1,9 +1,16 @@
 package com.reaier.engking.bean;
 
-import java.io.Serializable;
+import com.reaier.engking.dao.model.Entity;
+import lombok.Data;
+
+import javax.persistence.Table;
 import java.util.Date;
 
-public class UserWords extends AbstractBean implements Serializable {
+@Data
+@Table(name = "user_words")
+public class UserWords extends Entity {
+    private Object id;
+
     private Integer userWordId;
 
     private Integer sourceId;
@@ -17,54 +24,6 @@ public class UserWords extends AbstractBean implements Serializable {
     private Date insertTime;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getUserWordId() {
-        return userWordId;
-    }
-
-    public void setUserWordId(Integer userWordId) {
-        this.userWordId = userWordId;
-    }
-
-    public Integer getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Integer sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getWordId() {
-        return wordId;
-    }
-
-    public void setWordId(Integer wordId) {
-        this.wordId = wordId;
-    }
-
-    public Integer getTranslationId() {
-        return translationId;
-    }
-
-    public void setTranslationId(Integer translationId) {
-        this.translationId = translationId;
-    }
-
-    public Date getInsertTime() {
-        return insertTime;
-    }
-
-    public void setInsertTime(Date insertTime) {
-        this.insertTime = insertTime;
-    }
 
     @Override
     public boolean equals(Object that) {

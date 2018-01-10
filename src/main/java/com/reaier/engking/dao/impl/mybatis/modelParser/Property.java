@@ -15,9 +15,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-/**
- * @author Chanedi
- */
 @Slf4j
 public class Property {
 
@@ -93,15 +90,7 @@ public class Property {
 			return column.name();
 		}
 	}
-	
-	public String getOrder() {
-		OrderColumn orderColumn = (OrderColumn) getAnnotation(readMethod, OrderColumn.class);
-		if (orderColumn == null) {
-			orderColumn = (OrderColumn) getAnnotation(field, OrderColumn.class);
-		}
-		return getColumnName() + " " + orderColumn.name();
-	}
-	
+
 	public boolean isNullValue(Object object) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		return readMethod.invoke(object) == null;
 	}

@@ -1,8 +1,16 @@
 package com.reaier.engking.bean;
 
-import java.io.Serializable;
+import com.reaier.engking.dao.model.Entity;
+import lombok.Data;
 
-public class Words extends AbstractBean implements Serializable {
+import javax.persistence.Table;
+
+
+@Data
+@Table(name = "words")
+public class Words extends Entity {
+    private Object id;
+
     private Integer wordId;
 
     private String word;
@@ -12,38 +20,6 @@ public class Words extends AbstractBean implements Serializable {
     private Boolean completeStatus;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getWordId() {
-        return wordId;
-    }
-
-    public void setWordId(Integer wordId) {
-        this.wordId = wordId;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word == null ? null : word.trim();
-    }
-
-    public Byte getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Byte grade) {
-        this.grade = grade;
-    }
-
-    public Boolean getCompleteStatus() {
-        return completeStatus;
-    }
-
-    public void setCompleteStatus(Boolean completeStatus) {
-        this.completeStatus = completeStatus;
-    }
 
     @Override
     public boolean equals(Object that) {

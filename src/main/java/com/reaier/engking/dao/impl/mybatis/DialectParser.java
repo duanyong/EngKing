@@ -1,6 +1,10 @@
 package com.reaier.engking.dao.impl.mybatis;
 
 import com.reaier.engking.dao.dialect.Dialect;
+import com.reaier.engking.dao.dialect.H2Dialect;
+import com.reaier.engking.dao.dialect.MySql5Dialect;
+import com.reaier.engking.dao.dialect.OracleDialect;
+import com.reaier.engking.dao.enums.DBDialectType;
 import org.apache.ibatis.session.Configuration;
 
 /**
