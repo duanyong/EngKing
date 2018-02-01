@@ -16,6 +16,10 @@ public class Source extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     //小程序ID
+    @Column(name = "user_id", nullable = false, updatable = false, length = 32)
+    Integer userId;
+
+    //小程序ID
     @Column(name = "content", nullable = false, updatable = false, length = 32)
     String content;
 
@@ -28,8 +32,8 @@ public class Source extends BaseEntity implements Serializable {
     SourceProcess proccessStatus;
 
 
-    protected Source(String openid, Boolean isUpdate) {
-        super(openid, isUpdate);
+    protected Source(Integer userId) {
+        super(userId.toString(), false);
     }
 
 }

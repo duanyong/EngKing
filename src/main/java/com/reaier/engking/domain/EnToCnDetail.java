@@ -1,6 +1,7 @@
 package com.reaier.engking.domain;
 
 import com.reaier.core.domain.BaseEntity;
+import com.reaier.engking.constants.PartOfSpeech;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-public class User extends BaseEntity implements Serializable {
+public class EnToCnDetail extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
 
@@ -19,23 +20,21 @@ public class User extends BaseEntity implements Serializable {
     //
 
     //小程序ID
-    @Column(name = "nickname", nullable = false, updatable = false, length = 32)
-    String username;
+    @Column(name = "name", nullable = false, updatable = false, length = 32)
+    String name;
 
     //商户号
-    @Column(name = "password", nullable = false, updatable = false, length = 32)
-    String password;
+    @Column(name = "part_of_speech", nullable = false, updatable = false, length = 32)
+    PartOfSpeech partOfSpeech;
 
-    //商户号
-    @Column(name = "password", nullable = false, updatable = false, length = 32)
-    String password;
+
 
     //
     //请求部分
     ////////////////////////////////////////////////////////////////////////////////
 
 
-    protected User(String openid, Boolean isUpdate) {
+    protected EnToCnDetail(String openid, Boolean isUpdate) {
         super(openid, isUpdate);
     }
 
