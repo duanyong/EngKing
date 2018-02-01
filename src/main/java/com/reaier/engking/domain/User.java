@@ -13,26 +13,13 @@ import java.io.Serializable;
 public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
-    ////////////////////////////////////////////////////////////////////////////////
-    //请求部分
-    //
-
     //小程序ID
     @Column(name = "nickname", nullable = false, updatable = false, length = 32)
     String username;
 
-    //商户号
-    @Column(name = "password", nullable = false, updatable = false, length = 32)
-    String password;
-
-    //商户号
-    @Column(name = "password", nullable = false, updatable = false, length = 32)
-    String password;
-
-    //
-    //请求部分
-    ////////////////////////////////////////////////////////////////////////////////
+    //头像
+    @Column(name = "avatar", length = 128)
+    String avatar;
 
 
     protected User(String openid, Boolean isUpdate) {

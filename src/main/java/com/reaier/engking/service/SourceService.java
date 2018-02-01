@@ -5,6 +5,8 @@ import com.reaier.engking.domain.Source;
 import java.io.File;
 
 public interface SourceService {
+    Source insert(Source source);
+
     Source proccess(Source source);
 
     boolean proccessUrl(String uri);

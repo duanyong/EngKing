@@ -20,6 +20,13 @@ public class SourceServiceImpl implements SourceService {
     EnToCnService wordService;
 
     @Override
+    public Source insert(Source source) {
+        source.createByOpenId(source.getUserId().toString());
+
+        return sourceRepository.save(source);
+    }
+
+    @Override
     public Source proccess(Source source) {
         switch (source.getType()) {
             case URL:

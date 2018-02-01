@@ -25,10 +25,6 @@ public class WechatAuth extends BaseEntity implements Serializable {
     @Column(name = "user_id", nullable = false, updatable = false)
     Integer userId;
 
-    //商户号
-    @Column(name = "avatar", nullable = false, updatable = false, length = 128)
-    String avatar;
-
 
     protected WechatAuth(String openid, Boolean isUpdate) {
         super(openid, isUpdate);
