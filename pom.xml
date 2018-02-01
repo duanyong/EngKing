@@ -6,7 +6,7 @@
 	<groupId>com.reaier</groupId>
 	<artifactId>engking</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>engking</name>
 	<description>Demo project for Spring Boot</description>
@@ -19,18 +19,25 @@
 	</parent>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<warname>com.reaier.engking</warname>
+		<start-class>com.reaier.engking.SpringBootStartApplication</start-class>
 
-
-		<junit.version>4.11</junit.version>
-
-		<mybatis.version>3.4.5</mybatis.version>
-		<mybatis.generator.configurationFile>${project.basedir}/src/main/resources/mybatisConfig.xml</mybatis.generator.configurationFile>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.locales>zh_CN</project.build.locales>
 	</properties>
 
+
 	<dependencies>
+		<dependency>
+			<groupId>com.reaier</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -41,55 +48,27 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
-		<dependency>
-			<groupId>javax.persistence</groupId>
-			<artifactId>persistence-api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-
-		<!--支持使用 JDBC 访问数据库-->
+		<!-- 只需引入spring-boot-devtools 即可实现热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 
-		<!--添加适用于生产环境的功能，如性能指标和监测等功能。 -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
-		<!--Mybatis-->
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
-			<version>1.3.1</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.4.5</version>
-		</dependency>
-
-
-		<!--Mysql / DataSource-->
-		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
-		</dependency>
+		<!-- Use MySQL Connector-J -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-			<version>1.2.41</version>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 		</dependency>
 
 		<dependency>
@@ -104,32 +83,6 @@
 			<version>1.16.16</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.6</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjlib -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjlib</artifactId>
-			<version>1.6.2</version>
-		</dependency>
-
-
-		<!-- log -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId><!-- 桥接apache的log接口和slf4j的接口 -->
-		</dependency>
-
 
 	</dependencies>
 
