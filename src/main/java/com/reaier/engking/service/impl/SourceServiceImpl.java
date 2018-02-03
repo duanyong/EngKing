@@ -7,6 +7,7 @@ import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.EnToCnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.File;
 
@@ -59,6 +60,10 @@ public class SourceServiceImpl implements SourceService {
 
     @Override
     public boolean proccessText(String text) {
+        //按空格分折文本，然后按对应的单词插入到单词表中
+        String[] words = StringUtils.split(StringUtils.trimWhitespace(text), " ");
+
+
         return false;
     }
 }

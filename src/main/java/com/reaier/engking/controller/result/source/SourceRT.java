@@ -12,5 +12,5 @@ public class SourceRT {
 
 //    @JsonProperty("paid_time")
     @JsonFormat(pattern = DateUtils.DATAFORMAT)
-    Date tiem;
+    Date time;
 }
