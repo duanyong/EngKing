@@ -68,7 +68,7 @@ public class SourceServiceImpl implements SourceService {
         EnWord enWord;
         for (String word : words) {
             enWord = enWordService.insert(word, source);
-            userWordsService.insert(1, enWord.getId(), source);
+            userWordsService.insert(source.getUserId(), enWord.getId(), source);
         }
     }
 }

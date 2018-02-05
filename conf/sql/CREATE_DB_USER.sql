@@ -1,0 +1,4 @@
+CREATE SCHEMA IF NOT EXISTS `engking` DEFAULT CHARACTER SET utf8 ;
+CREATE USER 'engking'@'localhost' IDENTIFIED BY '9adAs2@a-[ldsD-[a';
+GRANT ALL PRIVILEGES ON engking.* TO 'engking'@'localhost' IDENTIFIED BY '9adAs2@a-[ldsD-[a' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

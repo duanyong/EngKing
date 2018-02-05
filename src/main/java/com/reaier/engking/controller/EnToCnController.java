@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/en2cn")
-public class UserController {
+public class EnToCnController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -58,7 +58,8 @@ public class UserController {
 
         SourceResult result = new SourceResult();
         result.getSource().setId(source.getId());
-        result.getSource().setTime(source.getCreateAt());
+        result.getSource().setTime(source.getTime());
+        result.getSource().setStatus(source.getStatus());
 
         return result;
     }

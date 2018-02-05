@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Entity
@@ -20,10 +21,13 @@ public class EnWord extends Word implements Serializable {
 
     WordProcess status;
 
+    Date time;
+
     @Builder(toBuilder = true)
-    public EnWord(String word, String phonetic, Integer sourceId, WordProcess status) {
+    public EnWord(String word, String phonetic, Integer sourceId, WordProcess status, Date time) {
         super(null, word, phonetic, word.hashCode());
-        this.sourceId = sourceId;
-        this.status = status;
+        this.sourceId   = sourceId;
+        this.status     = status;
+        this.time       = time;
     }
 }
