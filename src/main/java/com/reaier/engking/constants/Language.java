@@ -1,7 +1,7 @@
 package com.reaier.engking.constants;
 
 public enum Language {
-    ENGLISH("english"), CHINESE("chinese");
+    ENGLISH("en_word"), CHINESE("cn_word");
 
     private String language;
 

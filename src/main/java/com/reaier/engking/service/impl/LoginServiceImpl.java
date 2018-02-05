@@ -13,7 +13,17 @@ public class LoginServiceImpl implements LoginService {
     LoginRepository repository;
 
     @Override
+    public boolean isExpireTime(Login login) {
+        return false;
+    }
+
+    @Override
     public Login findByToken(String token) {
         return repository.findByToken(token);
+    }
+
+    @Override
+    public Login refreshToken(Login login) {
+        return null;
     }
 }

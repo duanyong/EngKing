@@ -1,15 +1,16 @@
 package com.reaier.engking.service.impl;
 
-import com.reaier.engking.constants.SourceProcess;
+import com.reaier.engking.constants.WordProcess;
+import com.reaier.engking.domain.word.EnWord;
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.domain.UserWord;
 import com.reaier.engking.repository.SourceRepository;
+import com.reaier.engking.service.EnWordService;
 import com.reaier.engking.service.SourceService;
-import com.reaier.engking.service.EnToCnService;
+import com.reaier.engking.service.UserWordsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.io.File;
 
 @Service
 public class SourceServiceImpl implements SourceService {
@@ -18,52 +19,56 @@ public class SourceServiceImpl implements SourceService {
     SourceRepository sourceRepository;
 
     @Autowired
-    EnToCnService wordService;
+    EnWordService enWordService;
+
+    @Autowired
+    UserWordsService userWordsService;
 
     @Override
     public Source insert(Source source) {
-        source.createByOpenId(source.getUserId().toString());
-
         return sourceRepository.save(source);
     }
 
     @Override
     public Source proccess(Source source) {
+        source.setStatus(WordProcess.WAIT);
+
         switch (source.getType()) {
             case URL:
-                proccessUrl(source.getContent());
+                proccessUrl(source);
                 break;
             case TEXT:
-                proccessText(source.getContent());
+                proccessText(source);
                 break;
             case IMAGE:
-                proccessImage(new File(source.getContent()));
+                proccessImage(source);
                 break;
 
                 default:
         }
 
-        source.setProccessStatus(SourceProcess.DOING);
 
         return sourceRepository.save(source);
     }
 
     @Override
-    public boolean proccessUrl(String uri) {
-        return false;
+    public void proccessUrl(Source source) {
     }
 
     @Override
-    public boolean proccessImage(File path) {
-        return false;
+    public void proccessImage(Source source) {
     }
 
     @Override
-    public boolean proccessText(String text) {
+    public void proccessText(Source source) {
         //按空格分折文本，然后按对应的单词插入到单词表中
-        String[] words = StringUtils.split(StringUtils.trimWhitespace(text), " ");
+        String[] words = StringUtils.split(StringUtils.trimWhitespace(source.getContent()), " ");
 
 
-        return false;
+        EnWord enWord;
+        for (String word : words) {
+            enWord = enWordService.insert(word, source);
+            userWordsService.insert(1, enWord.getId(), source);
+        }
     }
 }

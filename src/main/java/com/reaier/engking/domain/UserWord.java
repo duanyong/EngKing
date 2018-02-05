@@ -1,19 +1,18 @@
 package com.reaier.engking.domain;
 
 import com.reaier.engking.constants.Language;
-import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.constants.SourceType;
 import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 
 @Data
-@Builder
 @Entity
-public class Source implements Serializable {
+@Builder
+public class UserWord implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,15 +21,12 @@ public class Source implements Serializable {
     //用户主键
     Integer userId;
 
-    //待翻译内容
-    String content;
+    //单词主键
+    Integer wordId;
 
-    //翻译语音
+    //单词所属语言
     Language language;
 
-    //待翻译类别
-    SourceType type;
-
-    //当前状态
-    WordProcess status;
+    //创建时间
+    Date creatAt;
 }

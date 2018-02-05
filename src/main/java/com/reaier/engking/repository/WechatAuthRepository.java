@@ -1,6 +1,6 @@
 package com.reaier.engking.repository;
 
-import com.reaier.engking.domain.EnWord;
+import com.reaier.engking.domain.word.EnWord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;

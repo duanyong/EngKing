@@ -9,7 +9,7 @@ public interface SourceService {
 
     Source proccess(Source source);
 
-    boolean proccessUrl(String uri);
-    boolean proccessImage(File path);
-    boolean proccessText(String text);
+    void proccessUrl(Source source);
+    void proccessImage(Source source);
+    void proccessText(Source source);
 }
