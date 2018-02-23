@@ -53,7 +53,7 @@ public class EnToCnController {
                 .userId(login.getUserId())
                 .content(text).build();
 
-        sourceService.insert(source);
+        source = sourceService.insert(source);
 
 
         SourceResult result = new SourceResult();
