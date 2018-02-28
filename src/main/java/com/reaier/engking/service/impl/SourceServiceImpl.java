@@ -52,6 +52,11 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
+    public Source getOneByStatus(WordProcess status) {
+        return sourceRepository.findOneByStatus(status);
+    }
+
+    @Override
     public void proccessUrl(Source source) {
     }
 

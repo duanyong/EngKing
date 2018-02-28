@@ -2,6 +2,7 @@ package com.reaier.engking.controller;
 
 import com.reaier.core.controller.result.RestResult;
 import com.reaier.engking.constants.Language;
+import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.controller.result.SourceResult;
 import com.reaier.engking.domain.Login;
 import com.reaier.engking.domain.Source;
@@ -52,6 +53,7 @@ public class EnToCnController {
         Source source = Source.builder()
                 .language(Language.ENGLISH)
                 .userId(login.getUserId())
+                .status(WordProcess.WAIT)
                 .content(text).build();
 
         source = sourceService.insert(source);
