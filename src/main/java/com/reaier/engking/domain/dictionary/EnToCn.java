@@ -26,7 +26,7 @@ public class EnToCn implements Serializable {
     PartOfSpeech partOfSpeech;
 
     //单词解释
-    @Column(name = "desc", nullable = false, updatable = false, length = 32)
+    @Column(name = "`desc`", nullable = false, updatable = false, length = 32)
     String desc;
 
     WordProcess status;

@@ -18,7 +18,7 @@ public class EnWordServiceImpl implements EnWordService {
         EnWord enWord = enWordRepository.findFirstByHash(word.hashCode());
         if (enWord == null) {
             enWord = EnWord.builder()
-                    .sourceId(source.getId())
+                    .word(word)
                     .word(word)
                     .status(WordProcess.WAIT).build();
 

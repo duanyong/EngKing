@@ -31,9 +31,10 @@ public class EnToCnController {
     //英译汉文字翻译接口
     @PostMapping("/text.do")
     public RestResult unifiedOrder(
-            @RequestParam(value="token") String token,                          //授权主键
+//            @RequestParam(value="token") String token,                          //授权主键
             @RequestParam(value="text") String text                             //物品名称
     ) {
+        String token = "1";
         if (StringUtils.isEmpty(text)) {
             return RestResult.fail("no text");
         }

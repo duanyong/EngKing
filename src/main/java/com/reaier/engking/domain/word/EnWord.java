@@ -2,32 +2,38 @@ package com.reaier.engking.domain.word;
 
 import com.reaier.engking.constants.WordProcess;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 
+@Data
 @Entity
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-public class EnWord extends Word implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class EnWord implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-    //来源主键
-    Integer sourceId;
+    //英语单词
+    protected String word;
 
-    WordProcess status;
+    //用于查找的HASH值
+    private int hash;
+
+    //音标
+    protected String phonetic;
 
     Date time;
 
+    WordProcess status;
+
     @Builder(toBuilder = true)
-    public EnWord(String word, String phonetic, Integer sourceId, WordProcess status, Date time) {
-        super(null, word, phonetic, word.hashCode());
-        this.sourceId   = sourceId;
+    public EnWord(String word, String phonetic, WordProcess status) {
+        this.word       = word;
+        this.phonetic   = phonetic;
         this.status     = status;
-        this.time       = time;
+        this.time       = new Date();
     }
 }
