@@ -27,8 +27,14 @@ public class EnWord implements Serializable {
     //用于查找的HASH值
     private int hash;
 
-    //音标
-    protected String phonetic;
+    //英式发音
+    String enMp3;
+    String enPhonetic;
+
+    //美式发音
+    String amMp3;
+    String amPhonetic;
+
 
     Date time;
 
