@@ -13,11 +13,4 @@ public class EnToCnServiceImpl implements EnToCnService {
     public EnToCn insert(String word, Language source) {
         return null;
     }
-
-    @Override
-    public EnToCnMean translate(String word) {
-
-
-        return null;
-    }
 }

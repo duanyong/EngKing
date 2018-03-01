@@ -8,6 +8,8 @@ import com.reaier.engking.service.EnWordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EnWordServiceImpl implements EnWordService {
     @Autowired
@@ -34,4 +36,10 @@ public class EnWordServiceImpl implements EnWordService {
 
         return enWord;
     }
+
+    @Override
+    public List<EnWord> getListByStatus(WordProcess status, int page, int size) {
+        return enWordRepository.getTopByStatus(status, (page -1) * size, size);
+    }
+
 }
