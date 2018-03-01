@@ -24,10 +24,13 @@ public class SourceToWordTasks {
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         Source source = sourceService.getOneByStatus(WordProcess.WAIT);
-
         if (source == null) {
             return;
         }
+
+
+        source.setStatus(WordProcess.DOING);
+        sourceService.update(source);
 
         switch (source.getType()) {
             case TEXT:
@@ -36,4 +39,6 @@ public class SourceToWordTasks {
 
         logger.info("The time is now {}", dateFormat.format(new Date()));
     }
+
+
 }

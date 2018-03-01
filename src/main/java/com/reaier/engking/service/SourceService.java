@@ -7,6 +7,7 @@ import java.io.File;
 
 public interface SourceService {
     Source insert(Source source);
+    Source update(Source source);
 
     Source proccess(Source source);
 

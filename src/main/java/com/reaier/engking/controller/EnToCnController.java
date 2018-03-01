@@ -2,6 +2,7 @@ package com.reaier.engking.controller;
 
 import com.reaier.core.controller.result.RestResult;
 import com.reaier.engking.constants.Language;
+import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.controller.result.SourceResult;
 import com.reaier.engking.domain.Login;
@@ -40,7 +41,11 @@ public class EnToCnController {
             return RestResult.fail("no text");
         }
 
-        Login login = loginService.findByToken(token);
+//        Login login = loginService.findByToken(token);
+        Login login = new Login();
+        login.setId(1);
+        login.setToken("1");
+        login.setUserId(1);
 
         if (login == null) {
             return RestResult.fail("no user");
@@ -51,6 +56,7 @@ public class EnToCnController {
         }
 
         Source source = Source.builder()
+                .type(SourceType.TEXT)
                 .language(Language.ENGLISH)
                 .userId(login.getUserId())
                 .status(WordProcess.WAIT)

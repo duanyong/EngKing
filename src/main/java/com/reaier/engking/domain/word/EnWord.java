@@ -1,8 +1,10 @@
 package com.reaier.engking.domain.word;
 
 import com.reaier.engking.constants.WordProcess;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -10,7 +12,10 @@ import java.util.Date;
 
 
 @Data
+@Builder
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class EnWord implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,12 +33,4 @@ public class EnWord implements Serializable {
     Date time;
 
     WordProcess status;
-
-    @Builder(toBuilder = true)
-    public EnWord(String word, String phonetic, WordProcess status) {
-        this.word       = word;
-        this.phonetic   = phonetic;
-        this.status     = status;
-        this.time       = new Date();
-    }
 }

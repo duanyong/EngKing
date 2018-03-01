@@ -1,8 +1,10 @@
 package com.reaier.engking.domain;
 
 import com.reaier.engking.constants.Language;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +14,8 @@ import java.util.Date;
 @Data
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserWord implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

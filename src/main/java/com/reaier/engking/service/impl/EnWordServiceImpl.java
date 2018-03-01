@@ -15,11 +15,18 @@ public class EnWordServiceImpl implements EnWordService {
 
     @Override
     public EnWord insert(String word, Source source) {
-        EnWord enWord = enWordRepository.findFirstByHash(word.hashCode());
+        if (word == null) {
+            return null;
+        }
+
+        word = word.toLowerCase();
+        int hasCode = word.hashCode();
+
+        EnWord enWord = enWordRepository.findFirstByHash(hasCode);
         if (enWord == null) {
             enWord = EnWord.builder()
                     .word(word)
-                    .word(word)
+                    .hash(hasCode)
                     .status(WordProcess.WAIT).build();
 
             enWordRepository.save(enWord);
