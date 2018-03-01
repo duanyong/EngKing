@@ -1,11 +1,11 @@
 package com.reaier.engking.constants;
 
-public enum SourceProcess {
+public enum WordProcess {
     WAIT("wait"), DOING("doing"), DONE("done"), FAIL("fail");
 
     private String type;
 
-    private SourceProcess(String type) {
+    private WordProcess(String type) {
         this.type = type;
     }
 

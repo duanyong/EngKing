@@ -1,6 +1,8 @@
 package com.reaier.engking.service;
 
-public interface UserService {
+import com.reaier.engking.domain.User;
 
+public interface UserService {
+    User findById(Integer userId);
 
 }

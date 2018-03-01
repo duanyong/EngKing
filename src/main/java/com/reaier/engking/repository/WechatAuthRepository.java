@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EnWordRepository extends CrudRepository<EnWord, Integer> {
+public interface WechatAuthRepository extends CrudRepository<EnWord, Integer> {
     Page<EnWord> findAll(Pageable pageable);
-    EnWord findFirstByHash(int hash);
 }
