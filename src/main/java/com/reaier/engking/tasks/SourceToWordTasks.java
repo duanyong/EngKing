@@ -2,7 +2,9 @@ package com.reaier.engking.tasks;
 
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
 import com.reaier.engking.domain.word.EnWord;
+import com.reaier.engking.service.EnToCnService;
 import com.reaier.engking.service.EnWordService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.translate.EnToCnTranslateService;
@@ -27,6 +29,8 @@ public class SourceToWordTasks {
     @Autowired
     EnWordService enWordService;
 
+    EnToCnService enToCnService;
+
     @Autowired
     EnToCnTranslateService translateService;
 
@@ -42,15 +46,34 @@ public class SourceToWordTasks {
                 sourceService.proccessText(source);
         }
 
-        List<EnWord> list;
-        while (null != ( list = enWordService.getListByStatus(WordProcess.DOING, 1, 100) )) {
+        EnWord english = null;
+        List<EnWord> list = enWordService.getListByStatus(WordProcess.WAIT, 1, 100);
+        while (list.size() > 0) {
             for (EnWord word : list) {
-                //NOT DONE
-                translateService.translate(word.getWord());
+                EnToCn[] cns = translateService.translate(word.getWord());
+
+                for (EnToCn cn : cns) {
+                    if (english == null) {
+                        if (null == ( english = enWordService.findWordByName(cn.getWord().getWord()) )) {
+                            //需要把英文单词存储起来，按道理不会出来这个错误
+                            english = new EnWord();
+                            english.setWord(cn.getWord().getWord());
+                        }
+
+                        english.setEnPhonetic(cn.getWord().getEnPhonetic());
+                        english.setEnMp3(cn.getWord().getEnMp3());
+                        english.setAmPhonetic(cn.getWord().getAmPhonetic());
+                        english.setAmMp3(cn.getWord().getAmMp3());
+
+                        english = enWordService.update(english);
+                    }
+
+                    cn.setEnWordId(english.getId());
+
+                    enToCnService.insert(english, cn.getPart(), cn.getMeans());
+                }
             }
         }
-
-
 
         source.setStatus(WordProcess.DOING);
         sourceService.update(source);

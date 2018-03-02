@@ -6,6 +6,9 @@ import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.EnWordRepository;
 import com.reaier.engking.service.EnWordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,19 +19,26 @@ public class EnWordServiceImpl implements EnWordService {
     EnWordRepository enWordRepository;
 
     @Override
+    public int getHashCode(String word) {
+        return word.toLowerCase().hashCode();
+    }
+
+    @Override
+    public EnWord findWordByName(String word) {
+        return enWordRepository.findFirstByHash(getHashCode(word));
+    }
+
+    @Override
     public EnWord insert(String word, Source source) {
         if (word == null) {
             return null;
         }
 
-        word = word.toLowerCase();
-        int hasCode = word.hashCode();
-
-        EnWord enWord = enWordRepository.findFirstByHash(hasCode);
+        EnWord enWord = findWordByName(word);
         if (enWord == null) {
             enWord = EnWord.builder()
                     .word(word)
-                    .hash(hasCode)
+                    .hash(getHashCode(word))
                     .status(WordProcess.WAIT).build();
 
             enWordRepository.save(enWord);
@@ -38,8 +48,13 @@ public class EnWordServiceImpl implements EnWordService {
     }
 
     @Override
+    public EnWord update(EnWord word) {
+        return enWordRepository.save(word);
+    }
+
+    @Override
     public List<EnWord> getListByStatus(WordProcess status, int page, int size) {
-        return enWordRepository.getTopByStatus(status, (page -1) * size, size);
+        return enWordRepository.findAllByStatus(status, new PageRequest(page -1, size));
     }
 
 }

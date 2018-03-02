@@ -50,6 +50,7 @@ public class IcibaEnToCnTranslateServiceImpl implements EnToCnTranslateService {
             EnWord source = new EnWord();
 
             WordDesc english = result.getDescs()[0];
+            source.setWord(result.getWord());
             source.setAmMp3(english.getAmMp3());
             source.setAmPhonetic(english.getAmPhonetic());
             source.setEnMp3(english.getEnMp3());
