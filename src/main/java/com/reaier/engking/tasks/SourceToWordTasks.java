@@ -46,8 +46,7 @@ public class SourceToWordTasks {
         }
 
         switch (source.getType()) {
-            case TEXT:
-                sourceService.proccessText(source);
+            case TEXT: sourceService.proccessText(source);
         }
 
         List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
@@ -74,6 +73,10 @@ public class SourceToWordTasks {
             for (Mean mean : means) {
                 enToCnService.insert(english, mean.getPart(), mean.getMeans());
             }
+
+            english.setStatus(WordProcess.DONE);
+
+            englishService.update(english);
         }
 
         source.setStatus(WordProcess.DONE);
