@@ -1,0 +1,26 @@
+server {
+    listen 80;
+
+    # 注意名称
+    server_name engking.reaier.com;
+
+    client_max_body_size 1m;
+
+    root    /var/www/engking;
+    index   index.html index.shtml;
+
+    error_log       /var/log/nginx/engking.reaier.com.error.log;
+    access_log      /var/log/nginx/engking.reaier.com.access.log;
+
+
+    #启用压缩，但IE7以下不压缩
+    gzip on;
+    gzip_types	    "text/plain" "application/xml";
+    gzip_disable    "msie[1-6]\.";
+
+
+    #禁止访问dev目录或以dev开关的任何文件
+    location ~ ^/dev {
+        deny all;
+    }
+}
