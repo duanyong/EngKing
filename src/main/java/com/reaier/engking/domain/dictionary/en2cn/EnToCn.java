@@ -1,7 +1,5 @@
 package com.reaier.engking.domain.dictionary.en2cn;
 
-import com.reaier.engking.constants.PartOfSpeech;
-import com.reaier.engking.domain.word.EnWord;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,16 +15,15 @@ public class EnToCn implements Serializable {
     private Integer id;
 
     //英语单词主键
-    Integer EnWordId;
+    @Column(name = "english_id", nullable = false, updatable = false, length = 32)
+    Integer EnglishId;
 
     //词性
     @Column(name = "part", nullable = false, updatable = false, length = 32)
-    PartOfSpeech part;
+//    PartOfSpeech part;
+    String part;
 
     //单词解释，相同词性之间用|分隔
-    @Column(name = "means", nullable = false, updatable = false)
+    @Column(name = "means", nullable = false, updatable = false, columnDefinition = "TEXT")
     String means;
-
-    @Transient
-    EnWord word;
 }

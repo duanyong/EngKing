@@ -1,20 +1,18 @@
 package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.word.EnWord;
+import com.reaier.engking.domain.word.English;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.EnWordRepository;
-import com.reaier.engking.service.EnWordService;
+import com.reaier.engking.service.EnglishService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EnWordServiceImpl implements EnWordService {
+public class EnglishServiceImpl implements EnglishService {
     @Autowired
     EnWordRepository enWordRepository;
 
@@ -24,36 +22,36 @@ public class EnWordServiceImpl implements EnWordService {
     }
 
     @Override
-    public EnWord findWordByName(String word) {
+    public English findWordByName(String word) {
         return enWordRepository.findFirstByHash(getHashCode(word));
     }
 
     @Override
-    public EnWord insert(String word, Source source) {
+    public English insert(String word, Source source) {
         if (word == null) {
             return null;
         }
 
-        EnWord enWord = findWordByName(word);
-        if (enWord == null) {
-            enWord = EnWord.builder()
+        English english = findWordByName(word);
+        if (english == null) {
+            english = English.builder()
                     .word(word)
                     .hash(getHashCode(word))
                     .status(WordProcess.WAIT).build();
 
-            enWordRepository.save(enWord);
+            enWordRepository.save(english);
         }
 
-        return enWord;
+        return english;
     }
 
     @Override
-    public EnWord update(EnWord word) {
+    public English update(English word) {
         return enWordRepository.save(word);
     }
 
     @Override
-    public List<EnWord> getListByStatus(WordProcess status, int page, int size) {
+    public List<English> getListByStatus(WordProcess status, int page, int size) {
         return enWordRepository.findAllByStatus(status, new PageRequest(page -1, size));
     }
 

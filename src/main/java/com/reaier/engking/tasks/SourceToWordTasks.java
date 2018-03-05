@@ -3,11 +3,14 @@ package com.reaier.engking.tasks;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
-import com.reaier.engking.domain.word.EnWord;
+import com.reaier.engking.domain.trsanslate.word.Mean;
+import com.reaier.engking.domain.trsanslate.word.Word;
+import com.reaier.engking.domain.word.English;
 import com.reaier.engking.service.EnToCnService;
-import com.reaier.engking.service.EnWordService;
+import com.reaier.engking.service.EnglishService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.translate.EnToCnTranslateService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,8 +30,9 @@ public class SourceToWordTasks {
     SourceService sourceService;
 
     @Autowired
-    EnWordService enWordService;
+    EnglishService englishService;
 
+    @Autowired
     EnToCnService enToCnService;
 
     @Autowired
@@ -46,40 +50,35 @@ public class SourceToWordTasks {
                 sourceService.proccessText(source);
         }
 
-        EnWord english = null;
-        List<EnWord> list = enWordService.getListByStatus(WordProcess.WAIT, 1, 100);
-        while (list.size() > 0) {
-            for (EnWord word : list) {
-                EnToCn[] cns = translateService.translate(word.getWord());
+        List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
+        for (English english : list) {
+            Word word = translateService.translate(english.getWord());
 
-                for (EnToCn cn : cns) {
-                    if (english == null) {
-                        if (null == ( english = enWordService.findWordByName(cn.getWord().getWord()) )) {
-                            //需要把英文单词存储起来，按道理不会出来这个错误
-                            english = new EnWord();
-                            english.setWord(cn.getWord().getWord());
-                        }
+            if (StringUtils.isEmpty(english.getAmMp3())) {
+                english.setAmMp3(word.getPhonetic().getAmMp3());
+            }
 
-                        english.setEnPhonetic(cn.getWord().getEnPhonetic());
-                        english.setEnMp3(cn.getWord().getEnMp3());
-                        english.setAmPhonetic(cn.getWord().getAmPhonetic());
-                        english.setAmMp3(cn.getWord().getAmMp3());
+            if (StringUtils.isEmpty(english.getEnMp3())) {
+                english.setEnMp3(word.getPhonetic().getEnMp3());
+            }
 
-                        english = enWordService.update(english);
-                    }
+            if (StringUtils.isEmpty(english.getAmPhonetic())) {
+                english.setAmPhonetic(word.getPhonetic().getAmPhonetic());
+            }
 
-                    cn.setEnWordId(english.getId());
+            if (StringUtils.isEmpty(english.getEnPhonetic())) {
+                english.setEnPhonetic(word.getPhonetic().getEnPhonetic());
+            }
 
-                    enToCnService.insert(english, cn.getPart(), cn.getMeans());
-                }
+            List<Mean> means = word.getMeans();
+            for (Mean mean : means) {
+                enToCnService.insert(english, mean.getPart(), mean.getMeans());
             }
         }
 
-        source.setStatus(WordProcess.DOING);
+        source.setStatus(WordProcess.DONE);
         sourceService.update(source);
 
         logger.info("The time is now {}", dateFormat.format(new Date()));
     }
-
-
 }

@@ -1,11 +1,11 @@
-package com.reaier.engking.translate.domain.iciba;
+package com.reaier.engking.domain.trsanslate.iciba;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 @Data
-public class WordMean {
+public class Mean {
     @JsonProperty("part")
     String part;
 
@@ -13,6 +13,6 @@ public class WordMean {
     String[] means;
 
     public String getMeanString() {
-        return StringUtils.join("|", means);
+        return StringUtils.join(means, "|");
     }
 }

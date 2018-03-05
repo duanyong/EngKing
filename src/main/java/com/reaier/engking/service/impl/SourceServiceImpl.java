@@ -1,13 +1,12 @@
 package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.word.EnWord;
+import com.reaier.engking.domain.word.English;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
-import com.reaier.engking.service.EnWordService;
+import com.reaier.engking.service.EnglishService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.UserWordsService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class SourceServiceImpl implements SourceService {
     SourceRepository sourceRepository;
 
     @Autowired
-    EnWordService enWordService;
+    EnglishService englishService;
 
     @Autowired
     UserWordsService userWordsService;
@@ -77,10 +76,10 @@ public class SourceServiceImpl implements SourceService {
         Pattern pattern = Pattern.compile("\\w+");
         Matcher matcher = pattern.matcher(source.getContent());
 
-        EnWord enWord;
+        English english;
         while(matcher.find()){
-            enWord = enWordService.insert(matcher.group(), source);
-            userWordsService.insert(source.getUserId(), enWord.getId(), source);
+            english = englishService.insert(matcher.group().toLowerCase(), source);
+            userWordsService.insert(source.getUserId(), english.getId(), source);
         }
     }
 }
