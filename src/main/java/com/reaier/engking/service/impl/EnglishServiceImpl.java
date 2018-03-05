@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class EnglishServiceImpl implements EnglishService {
             english = English.builder()
                     .word(word)
                     .hash(getHashCode(word))
+                    .time(new Date())
                     .status(WordProcess.WAIT).build();
 
             enWordRepository.save(english);
