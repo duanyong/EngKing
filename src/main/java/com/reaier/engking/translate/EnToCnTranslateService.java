@@ -1,7 +1,7 @@
 package com.reaier.engking.translate;
 
-import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
+import com.reaier.engking.domain.trsanslate.word.Word;
 
 public interface EnToCnTranslateService {
-    EnToCn[] translate(String word);
+    Word translate(String spell);
 }

@@ -1,10 +1,14 @@
-package com.reaier.engking.translate.domain.iciba;
+package com.reaier.engking.domain.trsanslate.iciba;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class WordDesc {
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Phonetic {
     //英式发音
     @JsonProperty("ph_en_mp3")
     String enMp3;
@@ -21,5 +25,5 @@ public class WordDesc {
 
     //单词解释
     @JsonProperty("parts")
-    WordMean[] means;
+    Mean[] means;
 }
