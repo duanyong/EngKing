@@ -1,5 +1,6 @@
 package com.reaier.engking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.constants.SourceType;
@@ -25,9 +26,11 @@ public class Source implements Serializable {
     private Integer id;
 
     //用户主键
+    @JsonIgnore
     Integer userId;
 
     //待翻译内容
+    @Column(name = "content", nullable = false, updatable = false, columnDefinition = "TEXT")
     String content;
 
     //翻译语音

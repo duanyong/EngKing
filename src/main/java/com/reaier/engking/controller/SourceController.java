@@ -7,21 +7,20 @@ import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.controller.result.SourceResult;
 import com.reaier.engking.domain.Login;
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.domain.User;
 import com.reaier.engking.service.LoginService;
 import com.reaier.engking.service.SourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/en2cn")
-public class EnToCnController {
+@RequestMapping("/api/source")
+public class SourceController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
@@ -31,11 +30,13 @@ public class EnToCnController {
     LoginService loginService;
 
     //英译汉文字翻译接口
-    @PostMapping("/text.do")
+    @PostMapping("/import.do")
     public RestResult unifiedOrder(
 //            @RequestParam(value="token") String token,                          //授权主键
-            @RequestParam(value="text") String text                             //物品名称
+            @RequestParam(value="text") String text,                            //物品名称
+            @RequestParam(value="type") String type                             //物品名称
     ) {
+        type = "en2cn";
         String token = "1";
         if (StringUtils.isEmpty(text)) {
             return RestResult.fail("no text");
@@ -73,5 +74,16 @@ public class EnToCnController {
         return result;
     }
 
+    //获取导入文章对应的单词列表
+    @GetMapping("/list.do")
+    public RestResult list(
+            @RequestParam(value="page", defaultValue = "1") Integer page,
+            @RequestParam(value="size", defaultValue = "50") Integer size
+    ) {
+        User user = new User();
+        user.setId(1);
+
+        return SourceResult.list(sourceService.getListByUser(user, page, size));
+    }
 }
 

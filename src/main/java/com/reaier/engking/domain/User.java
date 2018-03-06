@@ -21,8 +21,11 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "avatar", length = 128)
     String avatar;
 
+    public User() {
+        super(null, false);
+    }
 
-    protected User(String openid, Boolean isUpdate) {
+    public User(String openid, Boolean isUpdate) {
         super(openid, isUpdate);
     }
 
