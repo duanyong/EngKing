@@ -25,6 +25,9 @@ public class UserWord implements Serializable {
     //用户主键
     Integer userId;
 
+    //来源主键
+    Integer sourceId;
+
     //单词主键
     Integer wordId;
 

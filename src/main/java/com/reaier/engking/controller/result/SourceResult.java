@@ -23,6 +23,14 @@ public class SourceResult extends RestResult {
         this.source     = new SourceRT();
     }
 
+    public static SourceResult noSource() {
+        SourceResult result = new SourceResult();
+        result.code     = RestResult.RootErrorCode;
+        result.message  = "no source";
+
+        return result;
+    }
+
     public static SourceResult list(Page page) {
         SourceResult result = new SourceResult();
 

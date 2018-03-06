@@ -20,24 +20,25 @@
     <h2>Bordered Table</h2>
     <p>The .table-bordered class adds borders to a table:</p>
     <div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>标号</th>
-            <th>导入内容</th>
-            <th>导入时间</th>
-            <th>处理状态</th>
-        </tr>
-        </thead>
-        <tbody id="data_list">
+        <table class="table table-bordered">
+            <thead>
             <tr>
-                <td><a href="/source-words.html?source_id={id}">{id}</a></td>
+                <th>标号</th>
+                <th>单词</th>
+                <th>词性</th>
+                <th>解释</th>
+                <th>是否收录</th>
+            </tr>
+            </thead>
+            <tbody id="data_list">
+            <tr>
+                <td><a href="/word-list.html?source_id={id}">{id}</a></td>
                 <td>{content}</td>
                 <td>{time}</td>
                 <td>{status}</td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 </div>
 

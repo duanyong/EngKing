@@ -3,18 +3,22 @@ package com.reaier.engking.service;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
+import com.reaier.engking.domain.word.English;
 import org.springframework.data.domain.Page;
 
 public interface SourceService {
-    Source insert(Source source);
-    Source update(Source source);
-    Page<Source> getListByUser(User user, Integer page, Integer size);
+    Source getId(Integer id);
 
-    Source proccess(Source source);
+    Source insert(Source source);
+    Page<Source> findAllByUser(User user, Integer page, Integer size);
+    Page<English> findAllBySource(Source source, Integer page, Integer size);
+
+
+    Source proccess(User user, Source source);
 
     Source getOneByStatus(WordProcess status);
 
-    void proccessUrl(Source source);
-    void proccessImage(Source source);
-    void proccessText(Source source);
+    void proccessUrl(User user, Source source);
+    void proccessImage(User user, Source source);
+    void proccessText(User user, Source source);
 }

@@ -29,38 +29,37 @@ public class SourceServiceImpl implements SourceService {
     UserWordsService userWordsService;
 
     @Override
+    public Source getId(Integer id) {
+        return sourceRepository.findFirstById(id);
+    }
+
+    @Override
     public Source insert(Source source) {
         return sourceRepository.save(source);
     }
 
     @Override
-    public Source update(Source source) {
-        return sourceRepository.save(source);
-    }
-
-    @Override
-    public Page<Source> getListByUser(User user, Integer page, Integer size) {
+    public Page<Source> findAllByUser(User user, Integer page, Integer size) {
         return sourceRepository.findAllByUserId(user.getId(), new PageRequest(page -1, size));
     }
 
     @Override
-    public Source proccess(Source source) {
-        source.setStatus(WordProcess.WAIT);
+    public Page<English> findAllBySource(Source source, Integer page, Integer size) {
+        return userWordsService.findBySourceId(source.getId(), page, size);
+    }
+
+    @Override
+    public Source proccess(User user, Source source) {
+        source.setStatus(WordProcess.DOING);
+        sourceRepository.save(source);
 
         switch (source.getType()) {
-            case URL:
-                proccessUrl(source);
-                break;
-            case TEXT:
-                proccessText(source);
-                break;
-            case IMAGE:
-                proccessImage(source);
-                break;
-
-                default:
+            case URL: proccessUrl(user, source); break;
+            case TEXT: proccessText(user, source); break;
+            case IMAGE: proccessImage(user, source); break;
         }
 
+        source.setStatus(WordProcess.DONE);
 
         return sourceRepository.save(source);
     }
@@ -71,15 +70,17 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public void proccessUrl(Source source) {
+    public void proccessUrl(User user, Source source) {
+
     }
 
     @Override
-    public void proccessImage(Source source) {
+    public void proccessImage(User user, Source source) {
+
     }
 
     @Override
-    public void proccessText(Source source) {
+    public void proccessText(User user, Source source) {
         //按空格分折文本，然后按对应的单词插入到单词表中
         Pattern pattern = Pattern.compile("\\w+");
         Matcher matcher = pattern.matcher(source.getContent());
@@ -87,7 +88,7 @@ public class SourceServiceImpl implements SourceService {
         English english;
         while(matcher.find()){
             english = englishService.insert(matcher.group().toLowerCase(), source);
-            userWordsService.insert(source.getUserId(), english.getId(), source);
+            userWordsService.insert(user, english, source);
         }
     }
 }

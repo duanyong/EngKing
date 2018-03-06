@@ -1,10 +1,15 @@
 package com.reaier.engking.service;
 
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.domain.User;
 import com.reaier.engking.domain.UserWord;
+import com.reaier.engking.domain.word.English;
+import org.springframework.data.domain.Page;
 
 public interface UserWordsService {
     UserWord findByUserIdAndWordId(Integer userId, Integer wordId);
-    UserWord insert(Integer userId, Integer wordId, Source source);
+    UserWord insert(User user, English english, Source source);
+
+    Page<English> findBySourceId(Integer sourceId, Integer page, Integer size);
 
 }
