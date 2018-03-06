@@ -24,8 +24,8 @@ server {
         deny all;
     }
 
-    location / {
-        proxy_pass   http://localhost:18030/com.reaier.miniapp/;
+    location /api/ {
+        proxy_pass   http://localhost:18030;
 
         proxy_set_header   Host             $host;
         proxy_set_header   Remote_Addr      $remote_addr;

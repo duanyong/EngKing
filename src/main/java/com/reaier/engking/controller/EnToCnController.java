@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/en2cn")
+@RequestMapping("/api/en2cn")
 public class EnToCnController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

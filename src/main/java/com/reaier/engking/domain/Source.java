@@ -28,6 +28,7 @@ public class Source implements Serializable {
     Integer userId;
 
     //待翻译内容
+    @Column(name = "content", nullable = false, updatable = false, columnDefinition = "TEXT")
     String content;
 
     //翻译语音

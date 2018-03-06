@@ -2,7 +2,6 @@ package com.reaier.engking.tasks;
 
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
 import com.reaier.engking.domain.trsanslate.word.Mean;
 import com.reaier.engking.domain.trsanslate.word.Word;
 import com.reaier.engking.domain.word.English;
@@ -21,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class SourceToWordTasks {
+public class TranslateWordTasks {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
@@ -40,16 +39,39 @@ public class SourceToWordTasks {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        Source source = sourceService.getOneByStatus(WordProcess.WAIT);
-        if (source == null) {
-            return;
-        }
+        Word word;
+        List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
+        for (English english : list) {
+            try {
+                word = translateService.translate(english.getWord());
+            } catch (Exception e) {
+                continue;
+            }
 
-        switch (source.getType()) {
-            case TEXT: sourceService.proccessText(source);
-        }
+            if (StringUtils.isEmpty(english.getAmMp3())) {
+                english.setAmMp3(word.getPhonetic().getAmMp3());
+            }
 
-        source.setStatus(WordProcess.DONE);
-        sourceService.update(source);
+            if (StringUtils.isEmpty(english.getEnMp3())) {
+                english.setEnMp3(word.getPhonetic().getEnMp3());
+            }
+
+            if (StringUtils.isEmpty(english.getAmPhonetic())) {
+                english.setAmPhonetic(word.getPhonetic().getAmPhonetic());
+            }
+
+            if (StringUtils.isEmpty(english.getEnPhonetic())) {
+                english.setEnPhonetic(word.getPhonetic().getEnPhonetic());
+            }
+
+            List<Mean> means = word.getMeans();
+            for (Mean mean : means) {
+                enToCnService.insert(english, mean.getPart(), mean.getMeans());
+            }
+
+            english.setStatus(WordProcess.DONE);
+
+            englishService.update(english);
+        }
     }
 }

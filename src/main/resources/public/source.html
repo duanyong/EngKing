@@ -24,7 +24,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form action="/en2cn/text.do">
+            <form action="/api/en2cn/text.do" method="post">
                 <div class="form-group">
                     <textarea class="form-control" rows="35" name="text"></textarea>
                 </div>
@@ -37,9 +37,10 @@
     </div>
 </div>
 
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script>
-    $(document).on("input propertychange", "textarea", function (e) {
+    $(document).on("textarea", function (e) {
        var target = e.target;
        // 保存初始高度，之后需要重新设置一下初始高度，避免只能增高不能减低。
         var dh = $(target).attr('defaultHeight') || 0;
