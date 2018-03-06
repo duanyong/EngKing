@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SourceRepository extends CrudRepository<Source, Integer> {
-    Page<Source> findAll(Pageable pageable);
+    Page<Source> findAllByUserId(Integer userId, Pageable pageable);
     Source findFirstByStatusOrderById(WordProcess status);
 }

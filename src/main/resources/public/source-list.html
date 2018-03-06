@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="container">
+    <h2>Bordered Table</h2>
+    <p>The .table-bordered class adds borders to a table:</p>
+    <div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>标号</th>
+            <th>导入内容</th>
+            <th>导入时间</th>
+            <th>处理状态</th>
+        </tr>
+        </thead>
+        <tbody id="data_list">
+            <tr>
+                <td><a href="/word-list.html?source_id={id}">{id}</a></td>
+                <td>{content}</td>
+                <td>{time}</td>
+                <td>{status}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="result_center" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">提示</h5>
+            </div>
+            <div id="modal_message" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function(){
+    function query(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+
+    function getTemplate() {
+        return $('#data_list').html();
+    }
+
+    function load(source_id, page, size) {
+        page = page ? page : 1;
+        size = size ? size : 50;
+
+        $.get("/api/source/list.do?source_id=" + source_id + "&page=" + page + "&size=" + size, function(ret) {
+            if (!ret || ret.code !== 0) {
+                return null;
+            }
+
+            var conetent, status, time, id, html = '';
+            for (var i=0, len=ret.page.content.length; i<len; ++i) {
+                content = ret.page.content[i]['content'];
+                status  = ret.page.content[i]['status'];
+                time    = ret.page.content[i]['time'];
+                id      = ret.page.content[i]['id'];
+
+                switch (status) {
+                    case 'WAIT': status = "等待翻译"; break;
+                    case 'DONE': status = "翻译完成"; break;
+                }
+
+                html += template.replace(/{id}/gi, id).replace(/{content}/gi, content).replace(/{status}/gi, status).replace(/{time}/gi, time);
+            }
+
+            $("#data_list").html(html);
+        });
+    }
+
+    var source_id = query('id');
+    var template  = getTemplate();
+    load(source_id, query('page'), query('size'));
+});
+</script>
+</body>
+</html>

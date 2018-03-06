@@ -1,6 +1,7 @@
 package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.WordProcess;
+import com.reaier.engking.domain.User;
 import com.reaier.engking.domain.word.English;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
@@ -8,6 +9,8 @@ import com.reaier.engking.service.EnglishService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.UserWordsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.regex.Matcher;
@@ -33,6 +36,11 @@ public class SourceServiceImpl implements SourceService {
     @Override
     public Source update(Source source) {
         return sourceRepository.save(source);
+    }
+
+    @Override
+    public Page<Source> getListByUser(User user, Integer page, Integer size) {
+        return sourceRepository.findAllByUserId(user.getId(), new PageRequest(page -1, size));
     }
 
     @Override

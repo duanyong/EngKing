@@ -40,16 +40,16 @@ public class SourceToWordTasks {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        Source source = sourceService.getOneByStatus(WordProcess.WAIT);
-        if (source == null) {
-            return;
-        }
-
-        switch (source.getType()) {
-            case TEXT: sourceService.proccessText(source);
-        }
-
-        source.setStatus(WordProcess.DONE);
-        sourceService.update(source);
+//        Source source = sourceService.getOneByStatus(WordProcess.WAIT);
+//        if (source == null) {
+//            return;
+//        }
+//
+//        switch (source.getType()) {
+//            case TEXT: sourceService.proccessText(source);
+//        }
+//
+//        source.setStatus(WordProcess.DONE);
+//        sourceService.update(source);
     }
 }
