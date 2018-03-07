@@ -10,6 +10,6 @@ public interface UserWordsService {
     UserWord findByUserIdAndWordId(Integer userId, Integer wordId);
     UserWord insert(User user, English english, Source source);
 
-    Page<English> findBySourceId(Integer sourceId, Integer page, Integer size);
+    Page<UserWord> findBySourceId(Integer sourceId, Integer page, Integer size);
 
 }

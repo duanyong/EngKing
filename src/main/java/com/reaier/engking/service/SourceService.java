@@ -11,8 +11,6 @@ public interface SourceService {
 
     Source insert(Source source);
     Page<Source> findAllByUser(User user, Integer page, Integer size);
-    Page<English> findWordsBySource(Source source, Integer page, Integer size);
-
 
     Source proccess(User user, Source source);
 

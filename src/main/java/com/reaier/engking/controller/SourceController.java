@@ -5,11 +5,11 @@ import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.controller.result.SourceResult;
-import com.reaier.engking.domain.Login;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
 import com.reaier.engking.service.LoginService;
 import com.reaier.engking.service.SourceService;
+import com.reaier.engking.service.SourceWordsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,44 +26,36 @@ public class SourceController {
     SourceService sourceService;
 
     @Autowired
+    SourceWordsService sourceWordsViewService;
+
+    @Autowired
     LoginService loginService;
 
     //英译汉文字翻译接口
     @PostMapping("/import.do")
     public RestResult unifiedOrder(
-//            @RequestParam(value="token") String token,                          //授权主键
+            @RequestParam(value="token", defaultValue = "test") String token,                          //授权主键
             @RequestParam(value="text") String text,                            //物品名称
             @RequestParam(value="type") String type                             //物品名称
     ) {
         type = "en2cn";
-        String token = "1";
         if (StringUtils.isEmpty(text)) {
             return RestResult.fail("no text");
         }
 
-//        Login login = loginService.findByToken(token);
-        Login login = new Login();
-        login.setId(1);
-        login.setToken("1");
-        login.setUserId(1);
-
-        if (login == null) {
-            return RestResult.fail("no user");
-        }
-
-        if (loginService.isExpireTime(login)) {
-            loginService.refreshToken(login);
+        User user;
+        if (( user = loginService.findUserByToken(token) ) == null) {
+            return SourceResult.noLogin();
         }
 
         Source source = Source.builder()
                 .type(SourceType.TEXT)
                 .language(Language.ENGLISH)
-                .userId(login.getUserId())
+                .userId(user.getId())
                 .status(WordProcess.WAIT)
                 .content(text).build();
 
         source = sourceService.insert(source);
-
 
         SourceResult result = new SourceResult();
         result.getSource().setId(source.getId());
@@ -76,7 +68,7 @@ public class SourceController {
     //获取导入文章对应的单词列表
     @GetMapping("/list.do")
     public RestResult list(
-            @RequestParam(value="token") String token,
+            @RequestParam(value="token", defaultValue = "test") String token,
             @RequestParam(value="page", defaultValue = "1") Integer page,
             @RequestParam(value="size", defaultValue = "50") Integer size
     ) {
@@ -92,7 +84,7 @@ public class SourceController {
     //获取导入文章对应的单词列表
     @GetMapping("/words.do")
     public RestResult list(
-            @RequestParam(value="token")     String  token,
+            @RequestParam(value="token", defaultValue = "test") String token,
             @RequestParam(value="source_id") Integer sourceId,
             @RequestParam(value="page", defaultValue = "1")  Integer page,
             @RequestParam(value="size", defaultValue = "50") Integer size
@@ -112,7 +104,7 @@ public class SourceController {
             return SourceResult.noSource();
         }
 
-        return SourceResult.list(sourceService.findWordsBySource(source, page, size));
+        return SourceResult.list(sourceWordsViewService.findWordsBySource(source, page, size));
     }
 }
 

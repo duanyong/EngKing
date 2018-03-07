@@ -44,11 +44,6 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public Page<English> findWordsBySource(Source source, Integer page, Integer size) {
-        return userWordsService.findBySourceId(source.getId(), page, size);
-    }
-
-    @Override
     public Source proccess(User user, Source source) {
         source.setStatus(WordProcess.DOING);
         sourceRepository.save(source);

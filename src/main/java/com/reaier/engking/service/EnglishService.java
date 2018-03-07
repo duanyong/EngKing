@@ -3,6 +3,8 @@ package com.reaier.engking.service;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.word.English;
 import com.reaier.engking.domain.Source;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 

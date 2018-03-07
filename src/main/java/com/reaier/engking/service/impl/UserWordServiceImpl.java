@@ -37,7 +37,7 @@ public class UserWordServiceImpl implements UserWordsService {
     }
 
     @Override
-    public Page<English> findBySourceId(Integer sourceId, Integer page, Integer size) {
+    public Page<UserWord> findBySourceId(Integer sourceId, Integer page, Integer size) {
         return repository.findAllBySourceId(sourceId, new PageRequest(page -1, size));
     }
 
