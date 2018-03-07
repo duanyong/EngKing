@@ -28,13 +28,20 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public User findUserByToken(String token) {
-        Login login = findByToken(token);
+        User user = new User();
+        user.setId(1);
+        user.setUsername("duanyong");
+        user.setAvatar("http://163.com/duanyong/avatar.gif");
 
-        if (login == null) {
-            return null;
-        }
+        return user;
 
-        return userService.findById(login.getUserId());
+//        Login login = findByToken(token);
+//
+//        if (login == null) {
+//            return null;
+//        }
+//
+//        return userService.findById(login.getUserId());
     }
 
     @Override

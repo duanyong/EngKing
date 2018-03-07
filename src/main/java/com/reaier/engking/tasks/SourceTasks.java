@@ -33,23 +33,14 @@ public class SourceTasks {
     @Autowired
     SourceService sourceService;
 
-    @Autowired
-    EnglishService englishService;
-
-    @Autowired
-    EnToCnService enToCnService;
-
-    @Autowired
-    EnToCnTranslateService translateService;
 
     @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        Source source = sourceService.getOneByStatus(WordProcess.WAIT);
-        User user = userService.findById(source.getUserId());
-        if (source == null) {
+    public void proccess() {
+        Source source;
+        if (( source = sourceService.getOneByStatus(WordProcess.WAIT) ) == null) {
             return;
         }
 
-        sourceService.proccess(user, source);
+        sourceService.proccess(userService.findById(source.getUserId()), source);
     }
 }

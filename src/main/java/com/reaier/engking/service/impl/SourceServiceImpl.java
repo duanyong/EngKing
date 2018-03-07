@@ -44,7 +44,7 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public Page<English> findAllBySource(Source source, Integer page, Integer size) {
+    public Page<English> findWordsBySource(Source source, Integer page, Integer size) {
         return userWordsService.findBySourceId(source.getId(), page, size);
     }
 

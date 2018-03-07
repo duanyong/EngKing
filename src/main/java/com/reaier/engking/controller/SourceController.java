@@ -80,9 +80,8 @@ public class SourceController {
             @RequestParam(value="page", defaultValue = "1") Integer page,
             @RequestParam(value="size", defaultValue = "50") Integer size
     ) {
-        User user     = loginService.findUserByToken(token);
-
-        if (user == null) {
+        User user;
+        if (( user = loginService.findUserByToken(token) ) == null) {
             return RestResult.noLogin();
         }
 
@@ -110,10 +109,10 @@ public class SourceController {
 
         if (source.getUserId() != user.getId()) {
             //来源内容不属于用户自己提供
-
+            return SourceResult.noSource();
         }
 
-        return SourceResult.list(sourceService.findAllBySource(source, page, size));
+        return SourceResult.list(sourceService.findWordsBySource(source, page, size));
     }
 }
 
