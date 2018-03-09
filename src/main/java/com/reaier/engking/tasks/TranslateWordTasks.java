@@ -26,9 +26,6 @@ public class TranslateWordTasks {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     @Autowired
-    SourceService sourceService;
-
-    @Autowired
     EnglishService englishService;
 
     @Autowired
@@ -39,39 +36,39 @@ public class TranslateWordTasks {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-//        Word word;
-//        List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
-//        for (English english : list) {
-//            try {
-//                word = translateService.translate(english.getWord());
-//            } catch (Exception e) {
-//                continue;
-//            }
-//
-//            if (StringUtils.isEmpty(english.getAmMp3())) {
-//                english.setAmMp3(word.getPhonetic().getAmMp3());
-//            }
-//
-//            if (StringUtils.isEmpty(english.getEnMp3())) {
-//                english.setEnMp3(word.getPhonetic().getEnMp3());
-//            }
-//
-//            if (StringUtils.isEmpty(english.getAmPhonetic())) {
-//                english.setAmPhonetic(word.getPhonetic().getAmPhonetic());
-//            }
-//
-//            if (StringUtils.isEmpty(english.getEnPhonetic())) {
-//                english.setEnPhonetic(word.getPhonetic().getEnPhonetic());
-//            }
-//
-//            List<Mean> means = word.getMeans();
-//            for (Mean mean : means) {
-//                enToCnService.insert(english, mean.getPart(), mean.getMeans());
-//            }
-//
-//            english.setStatus(WordProcess.DONE);
-//
-//            englishService.update(english);
-//        }
+        Word word;
+        List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
+        for (English english : list) {
+            try {
+                word = translateService.translate(english.getWord());
+            } catch (Exception e) {
+                continue;
+            }
+
+            if (StringUtils.isEmpty(english.getAmMp3())) {
+                english.setAmMp3(word.getPhonetic().getAmMp3());
+            }
+
+            if (StringUtils.isEmpty(english.getEnMp3())) {
+                english.setEnMp3(word.getPhonetic().getEnMp3());
+            }
+
+            if (StringUtils.isEmpty(english.getAmPhonetic())) {
+                english.setAmPhonetic(word.getPhonetic().getAmPhonetic());
+            }
+
+            if (StringUtils.isEmpty(english.getEnPhonetic())) {
+                english.setEnPhonetic(word.getPhonetic().getEnPhonetic());
+            }
+
+            List<Mean> means = word.getMeans();
+            for (Mean mean : means) {
+                enToCnService.insert(english, mean.getPart(), mean.getMeans());
+            }
+
+            english.setStatus(WordProcess.DONE);
+
+            englishService.update(english);
+        }
     }
 }

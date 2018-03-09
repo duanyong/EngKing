@@ -4,15 +4,18 @@ import com.reaier.core.controller.result.RestResult;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.constants.WordProcess;
+import com.reaier.engking.controller.result.Response;
 import com.reaier.engking.controller.result.SourceResult;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
+import com.reaier.engking.domain.view.SourceWords;
 import com.reaier.engking.service.LoginService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.SourceWordsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,26 +29,26 @@ public class SourceController {
     SourceService sourceService;
 
     @Autowired
-    SourceWordsService sourceWordsViewService;
+    SourceWordsService sourceWordsService;
 
     @Autowired
     LoginService loginService;
 
     //英译汉文字翻译接口
     @PostMapping("/import.do")
-    public RestResult unifiedOrder(
+    public Response unifiedOrder(
             @RequestParam(value="token", defaultValue = "test") String token,                          //授权主键
             @RequestParam(value="text") String text,                            //物品名称
             @RequestParam(value="type") String type                             //物品名称
     ) {
         type = "en2cn";
         if (StringUtils.isEmpty(text)) {
-            return RestResult.fail("no text");
+            return Response.fail("no text");
         }
 
         User user;
         if (( user = loginService.findUserByToken(token) ) == null) {
-            return SourceResult.noLogin();
+            return Response.noLogin();
         }
 
         Source source = Source.builder()
@@ -104,7 +107,16 @@ public class SourceController {
             return SourceResult.noSource();
         }
 
-        return SourceResult.list(sourceWordsViewService.findWordsBySource(source, page, size));
+        Page<SourceWords> pageable;
+        if (( pageable = sourceWordsService.findWordsBySource(source, page, size)) == null ) {
+            return SourceResult.noSource();
+        }
+
+        for ( SourceWords word : pageable.getContent()) {
+            English
+        }
+
+        return SourceResult.list();
     }
 }
 

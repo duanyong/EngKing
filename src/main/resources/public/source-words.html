@@ -79,7 +79,7 @@ $(document).ready(function(){
         page = page ? page : 1;
         size = size ? size : 50;
 
-        $.get("/api/source/list.do?source_id=" + source_id + "&page=" + page + "&size=" + size, function(ret) {
+        $.get("/api/source/words.do?source_id=" + source_id + "&page=" + page + "&size=" + size, function(ret) {
             if (!ret || ret.code !== 0) {
                 return null;
             }

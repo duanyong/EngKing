@@ -1,4 +1,4 @@
 CREATE VIEW source_words_view AS
-    SELECT s.id AS source_id, w.id as word_id, uw.user_id, w.word, w.am_mp3, w.am_phonetic, w.en_mp3, w.en_phonetic
+    SELECT  UUID() AS id s.id AS source_id, w.id as word_id, uw.user_id, w.word, w.am_mp3, w.am_phonetic, w.en_mp3, w.en_phonetic
     FROM source AS s, english as w, user_word as uw
     WHERE uw.source_id = s.id and uw.word_id = w.id;
