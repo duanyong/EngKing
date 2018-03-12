@@ -2,7 +2,7 @@ package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.User;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.English;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
 import com.reaier.engking.service.EnglishService;

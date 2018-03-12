@@ -7,6 +7,7 @@ import com.reaier.engking.controller.result.Response;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
 import com.reaier.engking.domain.view.SourceWords;
+import com.reaier.engking.service.DictionaryService;
 import com.reaier.engking.service.LoginService;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.SourceWordsService;
@@ -22,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/source")
 public class SourceController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @Autowired
+    DictionaryService dictionaryService;
 
     @Autowired
     SourceService sourceService;
@@ -97,6 +101,10 @@ public class SourceController {
         Page<SourceWords> pageable;
         if (( pageable = sourceWordsService.findWordsBySource(source, page, size)) == null ) {
             return Response.fail("no source");
+        }
+
+        for (SourceWords word : pageable.getContent()) {
+//            word.setMeans(dictionaryService.findMeansByWordId(Language.ENGLISH, word.getWordId()));
         }
 
         return Response.list(pageable);

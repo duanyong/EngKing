@@ -1,11 +1,8 @@
 package com.reaier.engking.repository;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.Source;
-import com.reaier.engking.domain.word.English;
-import org.springframework.data.domain.Page;
+import com.reaier.engking.domain.dictionary.English;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

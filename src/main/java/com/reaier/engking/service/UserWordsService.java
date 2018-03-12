@@ -3,7 +3,7 @@ package com.reaier.engking.service;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
 import com.reaier.engking.domain.UserWord;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.English;
 import org.springframework.data.domain.Page;
 
 public interface UserWordsService {
