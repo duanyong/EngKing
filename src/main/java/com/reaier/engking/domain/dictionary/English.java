@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -51,4 +52,10 @@ public class English implements Serializable {
     Date time;
 
     WordProcess status;
+
+    List<? extends EnglishDictionary> means;
+
+    public void setMeans(<? extends EnglishDictionary> means) {
+        this.means = means;
+    }
 }
