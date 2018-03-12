@@ -3,7 +3,6 @@ package com.reaier.engking.service;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
-import com.reaier.engking.domain.word.English;
 import org.springframework.data.domain.Page;
 
 public interface SourceService {

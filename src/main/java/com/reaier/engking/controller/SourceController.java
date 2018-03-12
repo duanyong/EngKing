@@ -1,11 +1,9 @@
 package com.reaier.engking.controller;
 
-import com.reaier.core.controller.result.RestResult;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.constants.WordProcess;
 import com.reaier.engking.controller.result.Response;
-import com.reaier.engking.controller.result.SourceResult;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
 import com.reaier.engking.domain.view.SourceWords;
@@ -36,12 +34,11 @@ public class SourceController {
 
     //英译汉文字翻译接口
     @PostMapping("/import.do")
-    public Response unifiedOrder(
+    public String unifiedOrder(
             @RequestParam(value="token", defaultValue = "test") String token,                          //授权主键
             @RequestParam(value="text") String text,                            //物品名称
             @RequestParam(value="type") String type                             //物品名称
     ) {
-        type = "en2cn";
         if (StringUtils.isEmpty(text)) {
             return Response.fail("no text");
         }
@@ -58,35 +55,28 @@ public class SourceController {
                 .status(WordProcess.WAIT)
                 .content(text).build();
 
-        source = sourceService.insert(source);
-
-        SourceResult result = new SourceResult();
-        result.getSource().setId(source.getId());
-        result.getSource().setTime(source.getTime());
-        result.getSource().setStatus(source.getStatus());
-
-        return result;
+        return Response.data(sourceService.insert(sourceService.insert(source)));
     }
 
     //获取导入文章对应的单词列表
     @GetMapping("/list.do")
-    public RestResult list(
+    public String list(
             @RequestParam(value="token", defaultValue = "test") String token,
             @RequestParam(value="page", defaultValue = "1") Integer page,
             @RequestParam(value="size", defaultValue = "50") Integer size
     ) {
         User user;
         if (( user = loginService.findUserByToken(token) ) == null) {
-            return RestResult.noLogin();
+            return Response.noLogin();
         }
 
-        return SourceResult.list(sourceService.findAllByUser(user, page, size));
+        return Response.list(sourceService.findAllByUser(user, page, size));
     }
 
 
     //获取导入文章对应的单词列表
     @GetMapping("/words.do")
-    public RestResult list(
+    public String list(
             @RequestParam(value="token", defaultValue = "test") String token,
             @RequestParam(value="source_id") Integer sourceId,
             @RequestParam(value="page", defaultValue = "1")  Integer page,
@@ -94,29 +84,22 @@ public class SourceController {
     ) {
         User user;
         if (( user = loginService.findUserByToken(token) ) == null) {
-            return RestResult.noLogin();
+            return Response.noLogin();
         }
 
         Source source;
-        if (( source = sourceService.getId(sourceId) ) == null) {
-            return SourceResult.noSource();
-        }
-
-        if (source.getUserId() != user.getId()) {
-            //来源内容不属于用户自己提供
-            return SourceResult.noSource();
+        if (( source = sourceService.getId(sourceId) ) == null
+                || source.getUserId() != user.getId()
+        ) {
+            return Response.fail("no source");
         }
 
         Page<SourceWords> pageable;
         if (( pageable = sourceWordsService.findWordsBySource(source, page, size)) == null ) {
-            return SourceResult.noSource();
+            return Response.fail("no source");
         }
 
-        for ( SourceWords word : pageable.getContent()) {
-            English
-        }
-
-        return SourceResult.list();
+        return Response.list(pageable);
     }
 }
 

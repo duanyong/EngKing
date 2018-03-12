@@ -1,8 +1,8 @@
 package com.reaier.engking.controller.result.dictionary;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import com.reaier.engking.controller.result.dictionary.en2cn.EnToCn;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,35 +12,35 @@ import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class English {
-    @JsonProperty("source_id")
+    @SerializedName("source_id")
     private Integer sourceId;
 
-    @JsonProperty("word_id")
+    @SerializedName("word_id")
     private Integer wordId;
 
-    @JsonProperty("user_id")
+    @SerializedName("user_id")
     private Integer userId;
 
-    @JsonProperty("word")
+    @SerializedName("word")
     protected String word;
 
     //英式发音
-    @JsonProperty("en_mp3")
+    @SerializedName("en_mp3")
     String enMp3;
 
-    @JsonProperty("en_phonetic")
+    @SerializedName("en_phonetic")
     String enPhonetic;
 
     //美式发音
-    @JsonProperty("am_mp3")
+    @SerializedName("am_mp3")
     String amMp3;
 
-    @JsonProperty("am_phonetic")
+    @SerializedName("am_phonetic")
     String amPhonetic;
 
-    @JsonProperty("means")
+    @SerializedName("means")
     List<EnToCn> means;
 }
