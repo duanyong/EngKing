@@ -62,8 +62,6 @@ public class Response<T> extends BaseResult {
     public static String data(Object data) {
         Response response = Response.builder();
 
-        response.code       = RootSuccessCode;
-        response.message    = RootSuccessMessage;
         response.data       = data;
 
         return JsonUtils.toJsonWithGson(response);
@@ -71,9 +69,6 @@ public class Response<T> extends BaseResult {
 
     public static String list(Page page) {
         Response response = Response.builder();
-
-        response.code       = RootSuccessCode;
-        response.message    = RootSuccessMessage;
 
         response.list       = page.getContent();
         response.pagebar    = Pagebar.fromPageable(page);

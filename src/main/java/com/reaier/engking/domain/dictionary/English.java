@@ -3,6 +3,7 @@ package com.reaier.engking.domain.dictionary;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.reaier.engking.constants.WordProcess;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
-@NoArgsConstructor
+@Builder
 public class English {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

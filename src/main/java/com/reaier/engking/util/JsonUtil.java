@@ -19,8 +19,4 @@ public class JsonUtil {
     public static <T> T derialiser(String json, Class clz) {
         return (T) JSON.fromJson(json, clz);
     }
-
-    public static void registerTypeAdapter(Class clz, Object object) {
-        JSON.
-    }
 }

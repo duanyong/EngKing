@@ -25,16 +25,17 @@
             <tr>
                 <th>标号</th>
                 <th>单词</th>
-                <th>词性</th>
+                <th>音标</th>
                 <th>解释</th>
                 <th>是否收录</th>
             </tr>
             </thead>
             <tbody id="data_list">
             <tr>
-                <td><a href="/word-list.html?source_id={id}">{id}</a></td>
-                <td>{content}</td>
-                <td>{time}</td>
+                <td><a href="/word-list.html?source_id={id}">{index}</a></td>
+                <td>{word}</td>
+                <td>{phonetic}</td>
+                <td>{means}</td>
                 <td>{status}</td>
             </tr>
             </tbody>
@@ -64,7 +65,7 @@
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
 <script>
-$(document).ready(function(){
+$(document).ready(function() {
     function query(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         var r = window.location.search.substr(1).match(reg);
@@ -79,28 +80,39 @@ $(document).ready(function(){
         page = page ? page : 1;
         size = size ? size : 50;
 
-        $.get("/api/source/words.do?source_id=" + source_id + "&page=" + page + "&size=" + size, function(ret) {
+        $.get("/api/source/words.do?source_id=" + source_id + "&page=" + page + "&size=" + size, null, function(ret) {
             if (!ret || ret.code !== 0) {
                 return null;
             }
 
-            var phonetic, word, time, id, html = '';
-            for (var i=0, len=ret.page.content.length; i<len; ++i) {
-                content = ret.page.content[i]['content'];
-                status  = ret.page.content[i]['status'];
-                time    = ret.page.content[i]['time'];
-                id      = ret.page.content[i]['id'];
+            var phonetic, word, means, html = '';
+            for (var i=0, len=ret.list.length; i<len; ++i) {
+                phonetic = ret.list[i]['am_phonetic'];
+                word     = ret.list[i]['word'];
+                items    = JSON.parse(ret.list[i]['means']);
+                means    = "";
+                id       = null;
 
-                switch (status) {
-                    case 'WAIT': status = "等待翻译"; break;
-                    case 'DONE': status = "翻译完成"; break;
+                for (var j=0, l=items.length; j<l; ++ j) {
+                    if (items[j]['part']) {
+                        means += items[j]['part'] + "&nbsp;:&nbsp;";
+                    }
+                    means += items[j]['chinese'] + "<br />";
+
+                    if (id === null) {
+                        id = items[j]['id'];
+                    }
                 }
 
-                html += template.replace(/{id}/gi, id).replace(/{content}/gi, content).replace(/{status}/gi, status).replace(/{time}/gi, time);
+                html += template
+                .replace(/{id}/gi, id)
+                .replace(/{index}/gi, i + 1)
+                .replace(/{phonetic}/gi, phonetic ? "/" + phonetic + "/" : "")
+                .replace(/{word}/gi, word).replace(/{means}/gi, means);
             }
 
             $("#data_list").html(html);
-        });
+        }, "json");
     }
 
     var source_id = query('id');

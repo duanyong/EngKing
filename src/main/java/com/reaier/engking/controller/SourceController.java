@@ -93,7 +93,7 @@ public class SourceController {
 
         Source source;
         if (( source = sourceService.getId(sourceId) ) == null
-                || source.getUserId() != user.getId()
+            || source.getUserId() != user.getId()
         ) {
             return Response.fail("no source");
         }
@@ -104,7 +104,7 @@ public class SourceController {
         }
 
         for (SourceWords word : pageable.getContent()) {
-//            word.setMeans(dictionaryService.findMeansByWordId(Language.ENGLISH, word.getWordId()));
+            word.setMeans(dictionaryService.findMeansByWordId(Language.ENGLISH, word.getWordId()));
         }
 
         return Response.list(pageable);
