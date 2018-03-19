@@ -3,36 +3,29 @@ package com.reaier.engking.domain.dictionary;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.reaier.engking.constants.WordProcess;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
 @Data
-@Builder
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
-public class English implements Serializable {
+public class English {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private  Integer id;
 
     //英语单词
-    @Expose
     protected String word;
 
     //用于查找的HASH值
     private int hash;
 
     //英式发音
-    @Expose
     @SerializedName("en_mp3")
     String enMp3;
 
@@ -49,13 +42,12 @@ public class English implements Serializable {
     @SerializedName("am_phonetic")
     String amPhonetic;
 
+    @Expose(serialize = false)
     Date time;
 
+    @Expose(serialize = false)
     WordProcess status;
 
+    @Transient
     List<? extends EnglishDictionary> means;
-
-    public void setMeans(<? extends EnglishDictionary> means) {
-        this.means = means;
-    }
 }
