@@ -1,5 +1,7 @@
 package com.reaier.engking.tasks;
 
+import com.reaier.engking.constants.WordProcess;
+import com.reaier.engking.domain.Source;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.UserService;
 import org.slf4j.LoggerFactory;
@@ -23,11 +25,11 @@ public class SourceTasks {
 
     @Scheduled(fixedRate = 5000)
     public void proccess() {
-//        Source source;
-//        if (( source = sourceService.getOneByStatus(WordProcess.WAIT) ) == null) {
-//            return;
-//        }
-//
-//        sourceService.proccess(userService.findById(source.getUserId()), source);
+        Source source;
+        if (( source = sourceService.getOneByStatus(WordProcess.WAIT) ) == null) {
+            return;
+        }
+
+        sourceService.proccess(userService.findById(source.getUserId()), source);
     }
 }

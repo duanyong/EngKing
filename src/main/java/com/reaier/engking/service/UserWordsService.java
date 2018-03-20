@@ -1,15 +1,16 @@
 package com.reaier.engking.service;
 
+import com.reaier.engking.constants.RecitalPlan;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.User;
-import com.reaier.engking.domain.UserWord;
+import com.reaier.engking.domain.UserEnglish;
 import com.reaier.engking.domain.dictionary.English;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface UserWordsService {
-    UserWord findByUserIdAndWordId(Integer userId, Integer wordId);
-    UserWord insert(User user, English english, Source source);
+    UserEnglish findByUserIdAndWordId(Integer userId, Integer wordId);
+    UserEnglish insert(User user, English english, Source source);
 
-    Page<UserWord> findBySourceId(Integer sourceId, Integer page, Integer size);
-
+    List<UserEnglish> findByUserAndSourceAndPlan(User user, Source source, RecitalPlan plan, Integer page, Integer size);
 }
