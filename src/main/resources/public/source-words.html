@@ -40,6 +40,15 @@
             </tr>
             </tbody>
         </table>
+        <ul id="pagebar" class="pagination pagination-sm">
+            <li><a href="#">&laquo;</a></li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+        </ul>
     </div>
 </div>
 
@@ -73,7 +82,11 @@ $(document).ready(function() {
     }
 
     function getTemplate() {
-        return $('#data_list').html();
+        if (!$('#data_list').data('data-template')) {
+            $('#data_list').data('data-template', $('#data_list').html());
+        }
+
+        return $('#data_list').data('data-template');
     }
 
     function load(source_id, page, size) {
@@ -104,7 +117,7 @@ $(document).ready(function() {
                     }
                 }
 
-                html += template
+                html += getTemplate()
                 .replace(/{id}/gi, id)
                 .replace(/{index}/gi, i + 1)
                 .replace(/{phonetic}/gi, phonetic ? "/" + phonetic + "/" : "")
@@ -116,7 +129,6 @@ $(document).ready(function() {
     }
 
     var source_id = query('id');
-    var template  = getTemplate();
     load(source_id, query('page'), query('size'));
 });
 </script>
