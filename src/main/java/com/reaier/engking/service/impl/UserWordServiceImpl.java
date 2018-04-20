@@ -28,7 +28,7 @@ public class UserWordServiceImpl implements UserWordsService {
                     .creatAt(new Date())
                     .plan(RecitalPlan.NOPLAN)
                     .sourceId(source.getId())
-                    .wordId(english.getId())
+                    .englishId(english.getId())
                     .userId(user.getId())
                     .build();
 
@@ -46,6 +46,6 @@ public class UserWordServiceImpl implements UserWordsService {
 
     @Override
     public UserEnglish findByUserIdAndWordId(Integer userId, Integer wordId) {
-        return repository.findFirstByUserIdAndWordId(userId, wordId);
+        return repository.findFirstByUserIdAndEnglishId(userId, wordId);
     }
 }

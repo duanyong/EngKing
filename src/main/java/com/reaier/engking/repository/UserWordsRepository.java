@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserWordsRepository extends CrudRepository<UserEnglish, Integer> {
-    UserEnglish findFirstByUserIdAndWordId(Integer userId, Integer wordId);
+    UserEnglish findFirstByUserIdAndEnglishId(Integer userId, Integer wordId);
     Page<UserEnglish> findAllBySourceId(Integer sourceId, Pageable pageable);
     Page<UserEnglish> findAllByUserIdAndSourceIdAndPlan(Integer userId, Integer sourceId, RecitalPlan plan, Pageable pageable);
 }

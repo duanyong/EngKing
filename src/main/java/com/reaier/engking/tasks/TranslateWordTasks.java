@@ -7,18 +7,17 @@ import com.reaier.engking.domain.trsanslate.word.Word;
 import com.reaier.engking.service.EnToCnService;
 import com.reaier.engking.service.EnglishService;
 import com.reaier.engking.translate.EnToCnTranslateService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class TranslateWordTasks {
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     EnglishService englishService;
 
