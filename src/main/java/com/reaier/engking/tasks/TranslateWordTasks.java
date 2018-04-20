@@ -1,34 +1,23 @@
 package com.reaier.engking.tasks;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.Source;
-import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
+import com.reaier.engking.domain.dictionary.English;
 import com.reaier.engking.domain.trsanslate.word.Mean;
 import com.reaier.engking.domain.trsanslate.word.Word;
-import com.reaier.engking.domain.word.English;
 import com.reaier.engking.service.EnToCnService;
 import com.reaier.engking.service.EnglishService;
-import com.reaier.engking.service.SourceService;
 import com.reaier.engking.translate.EnToCnTranslateService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Component
-public class SourceToWordTasks {
-    private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
-    @Autowired
-    SourceService sourceService;
-
+public class TranslateWordTasks {
     @Autowired
     EnglishService englishService;
 
@@ -39,19 +28,15 @@ public class SourceToWordTasks {
     EnToCnTranslateService translateService;
 
     @Scheduled(fixedRate = 5000)
-    public void reportCurrentTime() {
-        Source source = sourceService.getOneByStatus(WordProcess.WAIT);
-        if (source == null) {
-            return;
-        }
-
-        switch (source.getType()) {
-            case TEXT: sourceService.proccessText(source);
-        }
-
+    public void translateWords() {
+        Word word;
         List<English> list = englishService.getListByStatus(WordProcess.WAIT, 1, 100);
         for (English english : list) {
-            Word word = translateService.translate(english.getWord());
+            try {
+                word = translateService.translate(english.getWord());
+            } catch (Exception e) {
+                continue;
+            }
 
             if (StringUtils.isEmpty(english.getAmMp3())) {
                 english.setAmMp3(word.getPhonetic().getAmMp3());
@@ -78,10 +63,5 @@ public class SourceToWordTasks {
 
             englishService.update(english);
         }
-
-        source.setStatus(WordProcess.DONE);
-        sourceService.update(source);
-
-        logger.info("The time is now {}", dateFormat.format(new Date()));
     }
 }

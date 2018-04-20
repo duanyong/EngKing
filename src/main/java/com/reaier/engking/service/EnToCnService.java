@@ -1,10 +1,10 @@
 package com.reaier.engking.service;
 
-import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.EnglishToChinese;
+import com.reaier.engking.domain.dictionary.English;
 
 public interface EnToCnService {
-    EnToCn findByEnWordId(int enWordId);
+    EnglishToChinese findByEnWordId(int enWordId);
 
-    EnToCn insert(English word, String part, String means);
+    EnglishToChinese insert(English word, String part, String means);
 }

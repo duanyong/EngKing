@@ -1,9 +1,9 @@
 package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.English;
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.repository.EnWordRepository;
+import com.reaier.engking.repository.EnglishRepository;
 import com.reaier.engking.service.EnglishService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class EnglishServiceImpl implements EnglishService {
     @Autowired
-    EnWordRepository enWordRepository;
+    EnglishRepository englishRepository;
 
     @Override
     public int getHashCode(String word) {
@@ -24,7 +24,7 @@ public class EnglishServiceImpl implements EnglishService {
 
     @Override
     public English findWordByName(String word) {
-        return enWordRepository.findFirstByHash(getHashCode(word));
+        return englishRepository.findFirstByHash(getHashCode(word));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class EnglishServiceImpl implements EnglishService {
                     .time(new Date())
                     .status(WordProcess.WAIT).build();
 
-            enWordRepository.save(english);
+            englishRepository.save(english);
         }
 
         return english;
@@ -49,12 +49,11 @@ public class EnglishServiceImpl implements EnglishService {
 
     @Override
     public English update(English word) {
-        return enWordRepository.save(word);
+        return englishRepository.save(word);
     }
 
     @Override
     public List<English> getListByStatus(WordProcess status, int page, int size) {
-        return enWordRepository.findAllByStatus(status, new PageRequest(page -1, size));
+        return englishRepository.findAllByStatus(status, new PageRequest(page -1, size));
     }
-
 }

@@ -1,8 +1,8 @@
 package com.reaier.engking.service.impl;
 
 
-import com.reaier.engking.domain.dictionary.en2cn.EnToCn;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.EnglishToChinese;
+import com.reaier.engking.domain.dictionary.English;
 import com.reaier.engking.repository.EnToCnRepository;
 import com.reaier.engking.service.EnToCnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +14,13 @@ public class EnToCnServiceImpl implements EnToCnService {
     EnToCnRepository repository;
 
     @Override
-    public EnToCn findByEnWordId(int enWordId) {
+    public EnglishToChinese findByEnWordId(int enWordId) {
         return repository.findOne(enWordId);
     }
 
     @Override
-    public EnToCn insert(English word, String part, String means) {
-        EnToCn enToCn = new EnToCn();
+    public EnglishToChinese insert(English word, String part, String means) {
+        EnglishToChinese enToCn = new EnglishToChinese();
         enToCn.setEnglishId(word.getId());
         enToCn.setMeans(means);
         enToCn.setPart(part);

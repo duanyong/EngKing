@@ -1,7 +1,7 @@
 package com.reaier.engking.service;
 
 import com.reaier.engking.constants.WordProcess;
-import com.reaier.engking.domain.word.English;
+import com.reaier.engking.domain.dictionary.English;
 import com.reaier.engking.domain.Source;
 
 import java.util.List;
