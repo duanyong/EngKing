@@ -2,7 +2,7 @@ server {
     listen 80;
 
     # 注意名称
-    server_name engking.reaier.com;
+    server_name engking.reaier.com engking.tonghua-arch.com;
 
     client_max_body_size 1m;
 
