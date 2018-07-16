@@ -1,14 +1,12 @@
 package com.reaier.engking.domain.view;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import com.reaier.engking.domain.adatper.SourceWordsAdatper;
 import com.reaier.engking.domain.dictionary.EnglishDictionary;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -16,14 +14,13 @@ import java.util.List;
 
 @Entity
 @Data
-@Immutable
 @NoArgsConstructor
 @Table(name = "source_words_view")
 @JsonAdapter(SourceWordsAdatper.class)
 public class SourceWords {
     @Id
-    @Column(name = "id", updatable = false, insertable = false)
-    private String id;
+//    @Column(name = "id", updatable = false, insertable = false)
+//    private String id;
 
     @Column(name = "source_id", updatable = false, insertable = false)
     private Integer sourceId;

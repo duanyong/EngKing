@@ -1,0 +1,11 @@
+[Unit]
+Description=frps daemon
+
+[Service]
+Type=simple
+ExecStart=/etc/frps/frps -c /etc/frps/conf/frps.ini
+
+[Install]
+WantedBy=multi-user.target
+
+# /etc/systemd/system/multi-user.target.wants/frps.service

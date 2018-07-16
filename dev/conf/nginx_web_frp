@@ -1,0 +1,38 @@
+upstream engking_frp {
+    keepalive 64;
+    server 127.0.0.1:19000;
+}
+
+
+server {
+    listen 80;
+
+    # 注意名称
+    server_name leads.sales.sina.com.cn;
+
+    client_max_body_size 1m;
+
+    error_log       /var/log/nginx/engking.reaier.com.error.log;
+    access_log      /var/log/nginx/engking.reaier.com.access.log;
+
+
+    #启用压缩，但IE7以下不压缩
+    gzip on;
+    gzip_types	    "text/plain" "application/xml";
+    gzip_disable    "msie[1-6]\.";
+
+
+    #禁止访问dev目录或以dev开关的任何文件
+    location ~ ^/dev {
+        deny all;
+    }
+
+    location / {
+        proxy_pass       http://engking_frp/;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header Host               $http_host:19000;
+        proxy_set_header X-Nginx-Proxy      true;
+        proxy_set_header Connection         "";
+    }
+}
