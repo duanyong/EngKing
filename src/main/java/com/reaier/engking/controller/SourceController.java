@@ -39,7 +39,7 @@ public class SourceController {
     //英译汉文字翻译接口
     @PostMapping("/import.do")
     public String unifiedOrder(
-            @RequestParam(value="token", defaultValue = "test") String token,                          //授权主键
+            @RequestParam(value="token", defaultValue = "test") String token,   //授权主键
             @RequestParam(value="text") String text,                            //物品名称
             @RequestParam(value="type") String type                             //物品名称
     ) {

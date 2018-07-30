@@ -1,15 +1,12 @@
 package com.reaier.engking.domain.dictionary;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.WordProcess;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 
 @Data
@@ -20,35 +17,28 @@ public class English {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  Integer id;
 
-    //英语单词
+    @Column(name = "word",                      columnDefinition = "VARCHAR(256) NOT NULL COMMENT '英语单词'")
     protected String word;
 
-    //用于查找的HASH值
-    private int hash;
-
-    //英式发音
-    @SerializedName("en_mp3")
+    @JsonProperty("en_mp3")
+    @Column(name = "en_mp3",                    columnDefinition = "VARCHAR(256) NOT NULL COMMENT '英式发音'")
     String enMp3;
 
-    @Expose
-    @SerializedName("en_phonetic")
+    @JsonProperty("en_phonetic")
+    @Column(name = "en_phonetic",               columnDefinition = "VARCHAR(256) NOT NULL COMMENT '英式拼写'")
     String enPhonetic;
 
-    //美式发音
-    @Expose
-    @SerializedName("am_mp3")
+    @JsonProperty("am_mp3")
+    @Column(name = "am_mp3",                    columnDefinition = "VARCHAR(256) NOT NULL COMMENT '美式发音'")
     String amMp3;
 
-    @Expose
-    @SerializedName("am_phonetic")
+    @JsonProperty("am_phonetic")
+    @Column(name = "am_phonetic",               columnDefinition = "VARCHAR(256) NOT NULL COMMENT '美式拼写'")
     String amPhonetic;
 
-    @Expose(serialize = false)
-    Date time;
-
-    @Expose(serialize = false)
+    @Column(name = "status",                    columnDefinition = "VARCHAR(256) NOT NULL COMMENT '专利或著作权号'")
     WordProcess status;
 
-    @Transient
-    List<? extends EnglishDictionary> means;
+    @Column(name = "create_at",                 columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '创建时间'", insertable = false, updatable = false)
+    Date createAt;
 }

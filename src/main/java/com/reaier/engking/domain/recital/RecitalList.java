@@ -1,6 +1,5 @@
 package com.reaier.engking.domain.recital;
 
-import com.google.gson.annotations.SerializedName;
 import com.reaier.engking.constants.Ebbinghaus;
 import com.reaier.engking.constants.RecitalPlan;
 import lombok.Builder;
@@ -33,18 +32,18 @@ public class RecitalList {
     @Column(name = "plan_time")
     private Date planTime;                      //背诵时间
 
-    @SerializedName("ebbinghaus")
+    @JsonProperty("ebbinghaus")
     Ebbinghaus ebbinghaus;                      //背诵曲线
 
-    @SerializedName("next_time")
+    @JsonProperty("next_time")
     @Column(name = "next_time")
     private Date nextTime;                      //下次背诵时间
 
-    @SerializedName("recital_plan")
+    @JsonProperty("recital_plan")
     @Column(name = "recital_plan")
     private RecitalPlan recitalPlan;            //背诵结果列表
 
-    @SerializedName("result_time")
+    @JsonProperty("result_time")
     @Column(name = "result_time")
     private Date resultTime;                    //背诵结果时间
 }
