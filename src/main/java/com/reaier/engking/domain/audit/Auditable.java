@@ -1,21 +1,23 @@
 package com.reaier.engking.domain.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.reaier.engking.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.Column;
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Date;
 
+@MappedSuperclass
 @Getter(AccessLevel.PROTECTED)
 @Setter(AccessLevel.PROTECTED)
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable<U> {
     @CreatedBy
@@ -35,4 +37,28 @@ public class Auditable<U> {
     @JsonIgnore
     @Column(name = "update_at",                 columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP() COMMENT '最后更新时间'", insertable = false, updatable = false)
     Date modifyAt;
+
+    @PrePersist
+    public void prePersist() {
+        User creator = getUsernameOfAuthenticatedUser();
+
+        this.creatorBy = (U) creator.getId();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        User modifier = getUsernameOfAuthenticatedUser();
+
+        this.modifierBy = (U) modifier.getId();
+    }
+
+    private User getUsernameOfAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return null;
+        }
+
+        return ((User) authentication.getCredentials());
+    }
 }

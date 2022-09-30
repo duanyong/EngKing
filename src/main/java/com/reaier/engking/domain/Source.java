@@ -19,6 +19,7 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Table(name = "Sources",
         indexes = {
                 @Index(name = "IDX_MD5",            columnList = "md5")
