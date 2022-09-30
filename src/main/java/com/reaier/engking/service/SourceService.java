@@ -5,9 +5,11 @@ import com.reaier.engking.domain.Source;
 import java.io.File;
 
 public interface SourceService {
-    Source proccess(Source source);
+    Source update(Source source);
 
-    boolean proccessUrl(String uri);
-    boolean proccessImage(File path);
-    boolean proccessText(String text);
+    Source process(Source source);
+
+    boolean processUrl(String uri);
+    boolean processImage(File path);
+    boolean processText(String text);
 }

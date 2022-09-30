@@ -6,52 +6,57 @@ import com.reaier.engking.repository.SourceRepository;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.service.EnToCnService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 
 @Service
 public class SourceServiceImpl implements SourceService {
-
     @Autowired
     SourceRepository sourceRepository;
 
-    @Autowired
-    EnToCnService wordService;
+    @Override
+    public Source update(Source source) {
+        return sourceRepository.save(source);
+    }
 
     @Override
-    public Source proccess(Source source) {
+    public Source process(Source source) {
         switch (source.getType()) {
             case URL:
-                proccessUrl(source.getContent());
+                processUrl(source.getContent());
                 break;
             case TEXT:
-                proccessText(source.getContent());
+                processText(source.getContent());
                 break;
             case IMAGE:
-                proccessImage(new File(source.getContent()));
+                processImage(new File(source.getContent()));
                 break;
 
                 default:
         }
 
-        source.setProccessStatus(SourceProcess.DOING);
+        source.setProcessStatus(SourceProcess.DOING);
 
         return sourceRepository.save(source);
     }
 
+    @Async
     @Override
-    public boolean proccessUrl(String uri) {
+    public boolean processUrl(String uri) {
         return false;
     }
 
+    @Async
     @Override
-    public boolean proccessImage(File path) {
+    public boolean processImage(File path) {
         return false;
     }
 
+    @Async
     @Override
-    public boolean proccessText(String text) {
+    public boolean processText(String text) {
         return false;
     }
 }

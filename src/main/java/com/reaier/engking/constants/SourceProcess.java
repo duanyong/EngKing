@@ -5,7 +5,7 @@ public enum SourceProcess {
 
     private String type;
 
-    private SourceProcess(String type) {
+    SourceProcess(String type) {
         this.type = type;
     }
 
