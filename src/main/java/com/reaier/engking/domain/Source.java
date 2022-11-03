@@ -22,10 +22,10 @@ import java.io.Serializable;
 
 @Table(name = "Sources",
         indexes = {
-                @Index(name = "IDX_MD5",            columnList = "md5")
+                @Index(name = "IDX_TOKEN",            columnList = "token")
         },
         uniqueConstraints = {
-                @UniqueConstraint(name = "UNQ_MD5",       columnNames = {"md5"})
+                @UniqueConstraint(name = "UNQ_TOKEN",       columnNames = {"token"})
         })
 public class Source extends Auditable<Integer> implements Serializable {
     @Id
@@ -35,14 +35,19 @@ public class Source extends Auditable<Integer> implements Serializable {
     private Integer id;
 
     @ApiModelProperty(notes = "内容标识")
-    @JsonProperty("md5")
-    @Column(name = "md5",                       columnDefinition = "CHAR(32) NULL COMMENT '内容标识'")
-    String md5;
+    @JsonProperty("token")
+    @Column(name = "token",                     columnDefinition = "CHAR(32) NULL COMMENT '内容标识'")
+    String token;
 
     @ApiModelProperty(notes = "处理的内容")
     @JsonProperty("content")
     @Column(name = "content",                   columnDefinition = "TEXT NULL COMMENT '处理的内容'")
     String content;
+
+    @ApiModelProperty(notes = "用于存储是图片地址或网址")
+    @JsonProperty("source")
+    @Column(name = "source",                   columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
+    String source;
 
     @ApiModelProperty(notes = "上传的类型：图片，文字等")
     @Enumerated(EnumType.STRING)

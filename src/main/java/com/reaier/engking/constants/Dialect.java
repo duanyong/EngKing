@@ -4,7 +4,7 @@ public enum Dialect {
     Chinese("cn"),
 
     English("en"),
-    American("am"),
+    American("us"),
     ;
 
     private String symbol;

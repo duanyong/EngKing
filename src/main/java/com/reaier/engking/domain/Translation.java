@@ -26,10 +26,7 @@ import java.io.Serializable;
                 @UniqueConstraint(name = "UNQ_WORD_LANGUAGE",       columnNames = {"word_id", "language"})
         })
 public class Translation extends Auditable<Integer> implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
-    Integer id;
+
 
     @ApiModelProperty(notes = "单词主键")
     @JsonProperty("word_id")

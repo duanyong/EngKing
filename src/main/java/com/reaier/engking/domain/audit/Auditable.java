@@ -15,11 +15,16 @@ import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
-@Getter(AccessLevel.PROTECTED)
+@Getter
 @Setter(AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable<U> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
+    Integer id;
+
     @CreatedBy
     @JsonIgnore
     @Column(name = "creator_by",                columnDefinition = "INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建者账号主键'")
@@ -56,7 +61,8 @@ public class Auditable<U> {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            return null;
+//            return null;
+            return User.builder().id(1).username("Tucker Duan").build();
         }
 
         return ((User) authentication.getCredentials());
