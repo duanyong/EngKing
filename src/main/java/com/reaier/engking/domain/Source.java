@@ -1,6 +1,7 @@
 package com.reaier.engking.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.audit.Auditable;
@@ -33,6 +34,18 @@ public class Source extends Auditable<Integer> implements Serializable {
     @JsonProperty("id")
     @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
     private Integer id;
+
+    @ApiModelProperty(notes = "从哪种语言翻译到目标语言：哪种语言")
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("origin")
+    @Column(name = "origin",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '从哪种语言翻译到目标语言：哪种语言'")
+    Language origin;
+
+    @ApiModelProperty(notes = "从哪种语言翻译到目标语言：目标语言")
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("target")
+    @Column(name = "target",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '从哪种语言翻译到目标语言：目标语言'")
+    Language target;
 
     @ApiModelProperty(notes = "内容标识")
     @JsonProperty("token")

@@ -20,10 +20,10 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 public class Auditable<U> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
-    Integer id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
+//    Integer id;
 
     @CreatedBy
     @JsonIgnore
@@ -31,8 +31,8 @@ public class Auditable<U> {
     U creatorBy;
 
     @JsonIgnore
-    @Column(name = "update_at",                 columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP() COMMENT '最后更新时间'", insertable = false, updatable = false)
-    Date updateAt;
+    @Column(name = "create_at",                 columnDefinition = "DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT '创建时间'", insertable = false, updatable = false)
+    Date createAt;
 
     @LastModifiedBy
     @JsonIgnore
@@ -48,6 +48,7 @@ public class Auditable<U> {
         User creator = getUsernameOfAuthenticatedUser();
 
         this.creatorBy = (U) creator.getId();
+        this.modifierBy = (U) creator.getId();
     }
 
     @PreUpdate

@@ -1,6 +1,7 @@
 package com.reaier.engking.controller;
 
 import com.reaier.engking.ApplicationTest;
+import com.reaier.engking.constants.Language;
 import com.reaier.engking.controller.request.SourceAddVO;
 import com.reaier.engking.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,8 @@ class SourceControllerTest extends ApplicationTest {
         final String api = API + "/add";
         SourceAddVO params = SourceAddVO.builder()
                 .content("Apps may be able to access head pose information when playing spatialized audio.")
+                .origin(Language.ENGLISH)
+                .target(Language.CHINESE)
                 .build();
 
         try {

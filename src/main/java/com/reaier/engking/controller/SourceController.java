@@ -43,12 +43,12 @@ public class SourceController extends AbstractController {
     @Autowired
     SourceService sourceService;
 
-    private SourceDetailVO convertDomainVO(Source source) {
+    private SourceDetailVO detail(Source source) {
         return Copier.from(source).ignoreNullValue().to(SourceDetailVO.builder().build());
     }
 
     private Page pagebar(Page<Source> page) {
-        return new PageImpl<>(page.getContent().parallelStream().map(item -> convertDomainVO(item)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
+        return new PageImpl<>(page.getContent().parallelStream().map(item -> detail(item)).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
     }
 
     @Operation(
@@ -69,14 +69,19 @@ public class SourceController extends AbstractController {
 
     @PostMapping("/add")
     public SourceDetailVO add(@Validated @RequestBody SourceAddVO params) {
-        String md5 = DigestUtils.md5DigestAsHex(params.getContent().getBytes(StandardCharsets.UTF_8));
+        String md5 = DigestUtils.md5DigestAsHex(String.format("%s:%s:%s", params.getContent(), params.getOrigin(), params.getTarget()).getBytes(StandardCharsets.UTF_8));
         Source source = sourceService.findByToken(md5);
 
-        if (Objects.isNull(source)) {
-            source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).type(SourceType.TEXT).processStatus(SourceProcess.WAIT).build()));
+        if (Objects.isNull(params.getType())) {
+            // 未指定内容是什么，默认为文本
+            params.setType(SourceType.TEXT);
         }
 
-        return convertDomainVO(source);
+        if (Objects.isNull(source)) {
+            source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).processStatus(SourceProcess.WAIT).build()));
+        }
+
+        return detail(source);
     }
 
     @Operation(
@@ -101,7 +106,7 @@ public class SourceController extends AbstractController {
             throw new APIException(SourceException.THE_SOURCE_HAS_NOT_EXIST);
         }
 
-        return convertDomainVO(source);
+        return detail(source);
     }
 
     @Operation(
