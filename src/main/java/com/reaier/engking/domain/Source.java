@@ -4,15 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceType;
+import com.reaier.engking.dictionary.Phonics;
 import com.reaier.engking.domain.audit.Auditable;
+import com.reaier.engking.ocr.describe.Coordinate;
+import com.reaier.engking.ocr.describe.Point;
+import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Data
@@ -62,6 +68,12 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Column(name = "source",                   columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
     String source;
 
+    @Convert(converter = CoordinateConverter.class)
+    @ApiModelProperty(notes = "如果是图片，将存储图片中对应单词的坐标")
+    @JsonProperty("Coordinate")
+    @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
+    List<Coordinate> coordinate;
+
     @ApiModelProperty(notes = "上传的类型：图片，文字等")
     @Enumerated(EnumType.STRING)
     @JsonProperty("type")
@@ -73,4 +85,19 @@ public class Source extends Auditable<Integer> implements Serializable {
     @JsonProperty("process_status")
     @Column(name = "process_status",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
     SourceProcess processStatus;
+
+    @Converter(
+            autoApply = true
+    )
+    private static class CoordinateConverter implements AttributeConverter<List, String> {
+        @Nullable
+        public String convertToDatabaseColumn(List list) {
+            return null == list ? null : JsonUtils.obj2Json(list);
+        }
+
+        @Nullable
+        public List<Coordinate> convertToEntityAttribute(String list) {
+            return null == list ? null : JsonUtils.json2Obj(list, List.class, Coordinate.class, Point.class);
+        }
+    }
 }

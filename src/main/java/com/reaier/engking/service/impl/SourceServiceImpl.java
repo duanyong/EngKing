@@ -1,6 +1,7 @@
 package com.reaier.engking.service.impl;
 
 import com.reaier.engking.constants.SourceProcess;
+import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
 import com.reaier.engking.service.SourceService;
@@ -70,6 +71,11 @@ public class SourceServiceImpl implements SourceService {
     @Override
     public Source findByToken(String token) {
         return repository.findByToken(token);
+    }
+
+    @Override
+    public Page<Source> findAllByType(SourceType type, int page, int size) {
+        return repository.findAllBySourceType(type, PageRequest.of(page -1, size));
     }
 
     @Override

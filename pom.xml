@@ -136,6 +136,13 @@
 			<classifier>models</classifier>
 		</dependency>
 
+		<!-- 版本在maven生效需要时间，如获取不到对应的版本，可以调低版本号-->
+		<dependency>
+			<groupId>com.tencentcloudapi</groupId>
+			<artifactId>tencentcloud-sdk-java-ocr</artifactId>
+			<version>3.1.694</version>
+		</dependency>
+
     </dependencies>
 
 
