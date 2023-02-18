@@ -1,4 +1,4 @@
-package com.reaier.engking.dictionary.events;
+package com.reaier.engking.translation.events;
 
 import com.reaier.engking.domain.Source;
 import org.springframework.context.ApplicationEvent;

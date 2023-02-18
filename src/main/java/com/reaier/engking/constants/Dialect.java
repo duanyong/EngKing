@@ -7,9 +7,9 @@ public enum Dialect {
     American("us"),
     ;
 
-    private String symbol;
+    private String dialect;
 
-    Dialect(String symbol) {
-        this.symbol = symbol;
+    Dialect(String dialect) {
+        this.dialect = dialect;
     }
 }
