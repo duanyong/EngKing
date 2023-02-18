@@ -75,7 +75,7 @@ public class SourceServiceImpl implements SourceService {
 
     @Override
     public Page<Source> findAllByType(SourceType type, int page, int size) {
-        return repository.findAllBySourceType(type, PageRequest.of(page -1, size));
+        return repository.findAllByType(type, PageRequest.of(page -1, size));
     }
 
     @Override

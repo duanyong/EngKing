@@ -6,6 +6,7 @@ import com.reaier.engking.ocr.describe.Coordinate;
 import com.reaier.engking.ocr.describe.Point;
 import com.reaier.engking.ocr.exception.OCRException;
 import com.reaier.engking.utils.Copier;
+import com.reaier.engking.utils.JsonUtils;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -15,6 +16,7 @@ import com.tencentcloudapi.ocr.v20181119.models.*;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.io.Console;
 import java.util.*;
 
 @Service
@@ -50,7 +52,6 @@ public class TencentOCR extends AbstractOCR {
                 // 此行中有多少个单词
                 Words ttWord = ttWords[i];
 
-                sb.append(ttWord.getCharacter());
                 words.add(ttWord.getCharacter());
 
                 // 说明指定了单词对应的坐标
@@ -71,7 +72,7 @@ public class TencentOCR extends AbstractOCR {
         }
 
         if (sb.length() > 0) {
-            source.setContent(sb.substring(0, sb.length() -2));
+            source.setContent(sb.substring(0, sb.length() -1));
             source.setCoordinate(coords);
         }
     }
@@ -87,6 +88,7 @@ public class TencentOCR extends AbstractOCR {
         // 实例化一个client选项，可选的，没有特殊需求可以跳过
         ClientProfile clientProfile = new ClientProfile();
         clientProfile.setHttpProfile(httpProfile);
+        clientProfile.setDebug(true);
 
         // 实例化要请求产品的client对象,clientProfile是可选的
         OcrClient client = new OcrClient(cred, "ap-shanghai", clientProfile);
@@ -94,6 +96,9 @@ public class TencentOCR extends AbstractOCR {
         // 实例化一个请求对象,每个接口都会对应一个request对象
         EnglishOCRRequest req = new EnglishOCRRequest();
         req.setImageUrl(url);
+        req.setEnableCoordPoint(true);
+        req.setPreprocess(true);
+
         try {
 
             // 返回的resp是一个EnglishOCRResponse的实例，与请求对象对应

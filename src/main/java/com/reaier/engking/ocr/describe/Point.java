@@ -10,6 +10,6 @@ public class Point {
     @JsonProperty("x")
     Long X;
 
-    @JsonProperty("x")
+    @JsonProperty("y")
     Long Y;
 }

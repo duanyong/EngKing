@@ -13,5 +13,5 @@ import javax.validation.constraints.NotNull;
 public interface SourceRepository extends CrudRepository<Source, Integer> {
     Page<Source> findAll(Pageable pageable);
     Source findByToken(@NotNull String token);
-    Page<Source> findAllBySourceType(SourceType type, Pageable pageable);
+    Page<Source> findAllByType(SourceType type, Pageable pageable);
 }

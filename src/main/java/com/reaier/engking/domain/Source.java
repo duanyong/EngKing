@@ -4,16 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceType;
-import com.reaier.engking.dictionary.Phonics;
 import com.reaier.engking.domain.audit.Auditable;
 import com.reaier.engking.ocr.describe.Coordinate;
 import com.reaier.engking.ocr.describe.Point;
 import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -21,9 +17,10 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Data
-@Builder
+@Getter
+@Setter
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 
@@ -65,19 +62,19 @@ public class Source extends Auditable<Integer> implements Serializable {
 
     @ApiModelProperty(notes = "用于存储是图片地址或网址")
     @JsonProperty("source")
-    @Column(name = "source",                   columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
+    @Column(name = "`source`",                 columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
     String source;
 
     @Convert(converter = CoordinateConverter.class)
     @ApiModelProperty(notes = "如果是图片，将存储图片中对应单词的坐标")
-    @JsonProperty("Coordinate")
+    @JsonProperty("coordinate")
     @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
     List<Coordinate> coordinate;
 
     @ApiModelProperty(notes = "上传的类型：图片，文字等")
     @Enumerated(EnumType.STRING)
     @JsonProperty("type")
-    @Column(name = "type",                      columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
+    @Column(name = "`type`",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
     SourceType type;
 
     @ApiModelProperty(notes = "处理进度：未处理，处理中，已处理")
