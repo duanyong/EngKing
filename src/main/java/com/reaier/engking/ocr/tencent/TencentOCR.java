@@ -6,7 +6,6 @@ import com.reaier.engking.ocr.describe.Coordinate;
 import com.reaier.engking.ocr.describe.Point;
 import com.reaier.engking.ocr.exception.OCRException;
 import com.reaier.engking.utils.Copier;
-import com.reaier.engking.utils.JsonUtils;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -16,9 +15,10 @@ import com.tencentcloudapi.ocr.v20181119.models.*;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.io.Console;
 import java.util.*;
 
+// https://cloud.tencent.com/document/product/866/34938
+// 默认接口请求频率限制：10次/秒
 @Service
 public class TencentOCR extends AbstractOCR {
     private final static String SECRET_ID   = "AKIDSmI7KatAl12eQFQyI63EbAWyX9xmJ6qQ";
