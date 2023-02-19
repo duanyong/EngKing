@@ -1,10 +1,10 @@
-package com.reaier.engking.ocr.tencent;
+package com.reaier.engking.sequence.ocr.tencent;
 
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.ocr.AbstractOCR;
-import com.reaier.engking.ocr.describe.Coordinate;
-import com.reaier.engking.ocr.describe.Point;
-import com.reaier.engking.ocr.exception.OCRException;
+import com.reaier.engking.sequence.ocr.AbstractOCR;
+import com.reaier.engking.sequence.ocr.describe.Coordinate;
+import com.reaier.engking.sequence.ocr.describe.Point;
+import com.reaier.engking.sequence.ocr.exception.OCRException;
 import com.reaier.engking.utils.Copier;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;

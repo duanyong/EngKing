@@ -3,6 +3,7 @@ package com.reaier.engking.ocr;
 import com.reaier.engking.ApplicationTest;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.service.SourceService;
+import com.reaier.engking.sequence.ocr.OCRService;
 import com.reaier.engking.utils.JsonUtils;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
@@ -10,8 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.annotation.Resource;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Log4j2
 class OCRServiceTest extends ApplicationTest {

@@ -1,10 +1,10 @@
-package com.reaier.engking.translation.publisher;
+package com.reaier.engking.sequence.publisher;
 
 
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.ocr.OCRService;
-import com.reaier.engking.ocr.exception.OCRException;
+import com.reaier.engking.sequence.ocr.OCRService;
+import com.reaier.engking.sequence.ocr.exception.OCRException;
 import com.reaier.engking.service.SourceService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;

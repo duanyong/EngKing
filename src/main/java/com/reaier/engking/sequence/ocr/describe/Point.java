@@ -1,4 +1,4 @@
-package com.reaier.engking.ocr.describe;
+package com.reaier.engking.sequence.ocr.describe;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

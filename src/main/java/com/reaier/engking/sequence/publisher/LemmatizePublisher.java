@@ -1,4 +1,4 @@
-package com.reaier.engking.translation.publisher;
+package com.reaier.engking.sequence.publisher;
 
 
 import edu.stanford.nlp.ling.CoreLabel;

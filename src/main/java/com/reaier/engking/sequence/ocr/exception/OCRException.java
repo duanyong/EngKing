@@ -1,4 +1,4 @@
-package com.reaier.engking.ocr.exception;
+package com.reaier.engking.sequence.ocr.exception;
 
 import lombok.Getter;
 
