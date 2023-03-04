@@ -78,7 +78,7 @@ public class SourceController extends AbstractController {
         }
 
         if (Objects.isNull(source)) {
-            source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).processStatus(SourceProcess.WAIT).build()));
+            source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).processStatus(SourceProcess.TEXT).build()));
         }
 
         return detail(source);
@@ -100,7 +100,7 @@ public class SourceController extends AbstractController {
             @ApiResponse(responseCode = "401", description = "參數錯誤或沒有權限", content = {@Content()}),
     })
     @GetMapping("/detail/{id:\\d+}")
-    public SourceDetailVO detail(@PathVariable(value = "id") @Min(value = 1, message = ApiStatus.PARAMETER_VALIDATE_ERROR_MESSAGE) Integer id) {
+    public SourceDetailVO detail(@PathVariable(value = "id") @Min(value = 1, message = ApiStatus.PARAMETER_VALIDATE_ERROR_MESSAGE) Long id) {
         Source source = sourceService.findById(id);
         if (null == source) {
             throw new APIException(SourceException.THE_SOURCE_HAS_NOT_EXIST);

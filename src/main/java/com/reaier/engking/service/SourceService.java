@@ -8,13 +8,13 @@ import java.io.File;
 
 public interface SourceService {
     Source update(Source source);
-    Source findById(Integer id);
+    Source findById(Long id);
 
     Source process(Source source);
 
-    boolean processUrl(String uri);
-    boolean processImage(File path);
-    boolean processText(String text);
+    boolean processUrl(Source source);
+    boolean processImage(Source source);
+    boolean processText(Source source);
 
     Source findByToken(String token);
 

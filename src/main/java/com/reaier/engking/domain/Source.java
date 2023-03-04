@@ -5,6 +5,7 @@ import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.audit.Auditable;
+import com.reaier.engking.domain.convert.JSONConverter;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.describe.Point;
 import com.reaier.engking.utils.JsonUtils;
@@ -14,7 +15,9 @@ import lombok.*;
 import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -36,7 +39,7 @@ public class Source extends Auditable<Integer> implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
-    private Integer id;
+    Long id;
 
     @ApiModelProperty(notes = "从哪种语言翻译到目标语言：哪种语言")
     @Enumerated(EnumType.STRING)
@@ -71,6 +74,12 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
     List<Coordinate> coordinate;
 
+    @Convert(converter = LemmaConverter.class)
+    @ApiModelProperty(notes = "词素（单词原型）")
+    @JsonProperty("lemma")
+    @Column(name = "lemma",                     columnDefinition = "JSON NULL COMMENT '词素（单词原型）'")
+    Set<Word> lemma;
+
     @ApiModelProperty(notes = "上传的类型：图片，文字等")
     @Enumerated(EnumType.STRING)
     @JsonProperty("type")
@@ -95,6 +104,21 @@ public class Source extends Auditable<Integer> implements Serializable {
         @Nullable
         public List<Coordinate> convertToEntityAttribute(String list) {
             return null == list ? null : JsonUtils.json2Obj(list, List.class, Coordinate.class, Point.class);
+        }
+    }
+
+    @Converter(
+            autoApply = true
+    )
+    private static class LemmaConverter implements AttributeConverter<Set, String> {
+        @Nullable
+        public String convertToDatabaseColumn(Set set) {
+            return null == set ? null : JsonUtils.obj2Json(set);
+        }
+
+        @Nullable
+        public Set<Word> convertToEntityAttribute(String set) {
+            return null == set ? null : JsonUtils.json2Obj(set, HashSet.class, Word.class);
         }
     }
 }
