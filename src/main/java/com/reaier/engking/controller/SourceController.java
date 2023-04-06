@@ -9,6 +9,8 @@ import com.reaier.engking.controller.request.SourcePageVO;
 import com.reaier.engking.controller.response.SourceDetailVO;
 import com.reaier.engking.controller.status.ApiStatus;
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.sequence.events.LemmatizeEvent;
+import com.reaier.engking.sequence.publisher.LemmaPublisher;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.utils.Copier;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,12 +23,14 @@ import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -40,8 +44,11 @@ import java.util.stream.Collectors;
 public class SourceController extends AbstractController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
+    @Resource
     SourceService sourceService;
+
+    @Resource
+    ApplicationEventPublisher publisher;
 
     private SourceDetailVO detail(Source source) {
         return Copier.from(source).ignoreNullValue().to(SourceDetailVO.builder().build());
@@ -80,6 +87,9 @@ public class SourceController extends AbstractController {
         if (Objects.isNull(source)) {
             source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).processStatus(SourceProcess.TEXT).build()));
         }
+
+        // 开始分解对应的文本
+        publisher.publishEvent(new LemmatizeEvent(source));
 
         return detail(source);
     }

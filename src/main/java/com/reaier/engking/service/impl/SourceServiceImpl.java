@@ -23,10 +23,10 @@ import java.util.Objects;
 
 @Service
 public class SourceServiceImpl implements SourceService {
-    @Autowired
+    @Resource
     SourceRepository repository;
 
-    @Autowired
+    @Resource
     WordRepository wordRepository;
 
     @Resource
@@ -63,6 +63,11 @@ public class SourceServiceImpl implements SourceService {
         }
 
         return repository.save(source);
+    }
+
+    @Override
+    public void publishEvent(Source source) {
+
     }
 
     @Async

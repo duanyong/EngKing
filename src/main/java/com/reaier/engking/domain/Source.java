@@ -1,5 +1,6 @@
 package com.reaier.engking.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
@@ -91,6 +92,10 @@ public class Source extends Auditable<Integer> implements Serializable {
     @JsonProperty("process_status")
     @Column(name = "process_status",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
     SourceProcess processStatus;
+
+    @JsonIgnore
+    @Version
+    int version;
 
     @Converter(
             autoApply = true

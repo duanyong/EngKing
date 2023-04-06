@@ -4,13 +4,13 @@ import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.Source;
 import org.springframework.data.domain.Page;
 
-import java.io.File;
-
 public interface SourceService {
     Source update(Source source);
     Source findById(Long id);
 
     Source process(Source source);
+
+    void publishEvent(Source source);
 
     boolean processUrl(Source source);
     boolean processImage(Source source);
