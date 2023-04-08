@@ -29,7 +29,7 @@ public class Word extends Auditable<Integer> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
-    Integer id;
+    Long id;
 
     @ApiModelProperty(notes = "单词")
     @JsonProperty("name")

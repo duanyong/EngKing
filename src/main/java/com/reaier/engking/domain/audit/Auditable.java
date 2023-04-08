@@ -43,9 +43,6 @@ public class Auditable<U> {
     @Column(name = "update_at",                 columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP() COMMENT '最后更新时间'", insertable = false, updatable = false)
     Date modifyAt;
 
-    @Version
-    @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")
-    Integer version;
 
     @PrePersist
     public void prePersist() {

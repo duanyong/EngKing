@@ -87,15 +87,22 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Column(name = "`type`",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
     SourceType type;
 
-    @ApiModelProperty(notes = "处理进度：未处理，处理中，已处理")
+    @Convert(converter = CoordinateConverter.class)
+    @ApiModelProperty(notes = "处理流程")
     @Enumerated(EnumType.STRING)
     @JsonProperty("process_status")
-    @Column(name = "process_status",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
-    SourceProcess processStatus;
+    @Column(name = "process_status",            columnDefinition = "JSON NULL COMMENT '处理流程'")
+    List<SourceProcess> processStatus;
 
-    @JsonIgnore
+    @ApiModelProperty(notes = "处理进度：未处理，处理中，已处理")
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("process_state")
+    @Column(name = "process_state",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
+    SourceProcess processState;
+
     @Version
-    int version;
+    @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")
+    Integer version;
 
     @Converter(
             autoApply = true
