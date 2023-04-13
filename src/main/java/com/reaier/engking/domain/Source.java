@@ -15,6 +15,7 @@ import lombok.*;
 import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -91,7 +92,7 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Enumerated(EnumType.STRING)
     @JsonProperty("processes")
     @Column(name = "processes",                 columnDefinition = "JSON NULL COMMENT '处理流程'")
-    Set<SourceProcess> processes;
+    List<SourceProcess> processes;
 
     @ApiModelProperty(notes = "当前处理流程")
     @Enumerated(EnumType.STRING)
@@ -142,15 +143,15 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Converter(
             autoApply = true
     )
-    private static class ProcessConverter implements AttributeConverter<Set, String> {
+    private static class ProcessConverter implements AttributeConverter<List, String> {
         @Nullable
-        public String convertToDatabaseColumn(Set set) {
+        public String convertToDatabaseColumn(List set) {
             return null == set ? null : JsonUtils.obj2Json(set);
         }
 
         @Nullable
-        public Set<SourceProcess> convertToEntityAttribute(String set) {
-            return null == set ? null : JsonUtils.json2Obj(set, HashSet.class, SourceProcess.class);
+        public List<SourceProcess> convertToEntityAttribute(String set) {
+            return null == set ? null : JsonUtils.json2Obj(set, ArrayList.class, SourceProcess.class);
         }
     }
 }

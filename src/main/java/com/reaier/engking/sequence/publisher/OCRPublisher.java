@@ -22,7 +22,6 @@ public class OCRPublisher {
     @Resource
     OCRService ocrService;
 
-    @Scheduled(cron = "0 */5 * * * *")
     public void ocr() {
         // 如果是图片，提取图片中的内容
         Page<Source> sources = sourceService.findAllByType(SourceType.IMAGE, 1, 10);

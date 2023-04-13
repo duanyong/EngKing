@@ -6,7 +6,7 @@ import com.reaier.engking.domain.SourceWord;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.SourceWordRepository;
 import com.reaier.engking.repository.WordRepository;
-import com.reaier.engking.sequence.events.LemmatizeEvent;
+import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.CoreDocument;
