@@ -1,27 +1,19 @@
 package com.reaier.engking.sequence.publisher;
 
 
+import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.SourceWord;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.SourceWordRepository;
 import com.reaier.engking.repository.WordRepository;
-import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
-import edu.stanford.nlp.ling.CoreAnnotations;
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.pipeline.CoreDocument;
-import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import org.springframework.context.ApplicationEventPublisher;
+import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import org.springframework.context.event.EventListener;
 
 import javax.annotation.Resource;
 import java.util.*;
 
-public class LemmaPublisher {
-
-    @Resource
-    ApplicationEventPublisher publisher;
-
+public class LemmaPublisher extends AbstractProcessPublisher {
     @Resource
     WordRepository wordRepository;
 
@@ -29,16 +21,9 @@ public class LemmaPublisher {
     SourceWordRepository sourceWordRepository;
 
     @EventListener
-    public void doEvent(LemmatizeEvent event) {
-        lemmatize((Source) event.getSource());
-    }
+    public void doEvent(OCREvent event) {
+        Source source = (Source) event.getSource();
 
-    /**
-     * 根据提供的Source，对其内容进行分解为原始的单词
-     * @param source
-     *
-     */
-    public Set<String> lemmatize(Source source){
         Set<String> wordList = new HashSet<>();
         Properties properties = new Properties();
 
@@ -73,6 +58,7 @@ public class LemmaPublisher {
             }
         }
 
-        return wordList;
+        source.setProcessStatus(SourceProcessStatus.DONE);
+        sourceRepository.save(source);
     }
 }

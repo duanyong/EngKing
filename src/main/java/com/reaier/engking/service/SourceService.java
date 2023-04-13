@@ -8,14 +8,6 @@ public interface SourceService {
     Source update(Source source);
     Source findById(Long id);
 
-    Source process(Source source);
-
-    void publishEvent(Source source);
-
-    boolean processUrl(Source source);
-    boolean processImage(Source source);
-    boolean processText(Source source);
-
     Source findByToken(String token);
 
     Page<Source> findAllByType(SourceType type, int page, int size);

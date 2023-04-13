@@ -32,8 +32,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 
@@ -86,24 +87,20 @@ public class SourceController extends AbstractController {
 
         if (Objects.nonNull(source)) {
             // 已经有一个了，只需要复制即可
-
         }
 
-
-        SourceProcess currentProcess;
-        TreeSet<SourceProcess> processes = new TreeSet<>();
+        List<SourceProcess> processes = new ArrayList<>();
+        processes.add(SourceProcess.START);
 
         switch (params.getType()) {
             case TEXT:
 
-                currentProcess = SourceProcess.TEXT;
                 processes.add(SourceProcess.TEXT);
                 processes.add(SourceProcess.TRANSLATION);
 
                 break;
             case IMAGE:
 
-                currentProcess = SourceProcess.OCR;
                 processes.add(SourceProcess.OCR);
                 processes.add(SourceProcess.TEXT);
                 processes.add(SourceProcess.TRANSLATION);
@@ -111,21 +108,22 @@ public class SourceController extends AbstractController {
 
             case URL:
 
-                currentProcess = SourceProcess.URL;
                 processes.add(SourceProcess.URL);
                 processes.add(SourceProcess.TEXT);
                 processes.add(SourceProcess.TRANSLATION);
                 break;
 
             default:
-                currentProcess = SourceProcess.TEXT;
         }
+
+        // 添加结束
+        processes.add(SourceProcess.FINISH);
 
         source = sourceService.update(Copier.from(params).to(Source.builder()
                 .token(md5)
                 .processes(processes)
-                .currentProcess(currentProcess)
-                .processStatus(SourceProcessStatus.WAIT)
+                .currentProcess(SourceProcess.START)
+                .processStatus(SourceProcessStatus.DONE)
                 .build()));
 
         // 开始分解对应的文本

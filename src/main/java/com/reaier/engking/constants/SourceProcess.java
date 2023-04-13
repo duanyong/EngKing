@@ -3,15 +3,20 @@ package com.reaier.engking.constants;
 import java.util.List;
 
 public enum SourceProcess {
-    URL, OCR, TEXT, TRANSLATION, DONE;
+    START, URL, OCR, TEXT, TRANSLATION, FINISH;
 
     public SourceProcess next(List<SourceProcess> circle) {
-        for (int i = 0; i < circle.size(); i++) {
+        int ordinal = circle.size();
+        for (int i = 0; i < circle.size(); i ++) {
             if (circle.get(i).equals(this)) {
-                return circle.get(i + 1);
+                ordinal = i;
+
+                break;
             }
         }
 
-        return null;
+        return ( ++ ordinal ) >= circle.size()
+                ?  SourceProcess.FINISH
+                : circle.get(ordinal);
     }
 }

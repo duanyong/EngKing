@@ -7,6 +7,7 @@ import com.reaier.engking.domain.Source;
 import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
 import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
+import com.reaier.engking.sequence.events.preproccess.TransEvent;
 import com.reaier.engking.sequence.events.preproccess.URLEvent;
 import com.reaier.engking.service.SourceService;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 @Component
-public class PreprocessPublisher {
+public class ProcessPublisher extends AbstractProcessPublisher {
     @Resource
     ApplicationEventPublisher publisher;
 
@@ -26,21 +27,23 @@ public class PreprocessPublisher {
     @EventListener
     public void preprocess(SourceEvent event) {
         Source source = (Source) event.getSource();
-        SourceProcess process = source.getCurrentProcess();
-        if (SourceProcessStatus.SUCCESS.equals(source.getProcessStatus())) {
-
-
-            if (null == ( process = process.next(source.getProcesses()) )) {
-                process = SourceProcess.DONE;
-            }
+        if (SourceProcessStatus.FAIL.equals(source.getProcessStatus())) {
+            // todo: 上次的翻译出错了
+            return;
         }
 
-        if (!SourceProcess.DONE.equals(process)) {
-            // 将状态置于等待状态开始进行下一步的操作
-            source.setProcessStatus(SourceProcessStatus.WAIT);
+        SourceProcess process = source.getCurrentProcess();
+        if (SourceProcessStatus.DONE.equals(source.getProcessStatus())) {
+            if (null == ( process = next(source) )) {
+                process = SourceProcess.FINISH;
+            }
+
+            source.setCurrentProcess(process);
+            source.setProcessStatus(SourceProcess.FINISH.equals(process) ? SourceProcessStatus.DONE : SourceProcessStatus.DOING);
 
             sourceService.update(source);
 
+            // 开始处理对应的状态
             switch (process) {
                 case URL:
                     publisher.publishEvent(new URLEvent(source));
@@ -52,6 +55,11 @@ public class PreprocessPublisher {
 
                 case TEXT:
                     publisher.publishEvent(new LemmatizeEvent(source));
+                    break;
+
+                case TRANSLATION:
+                    publisher.publishEvent(new TransEvent(source));
+
                     break;
             }
         }
