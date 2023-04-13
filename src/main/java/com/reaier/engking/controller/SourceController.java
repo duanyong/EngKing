@@ -1,6 +1,7 @@
 package com.reaier.engking.controller;
 
 import com.reaier.engking.constants.SourceProcess;
+import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.controller.exception.APIException;
 import com.reaier.engking.controller.exception.SourceException;
@@ -34,6 +35,7 @@ import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 
@@ -84,9 +86,49 @@ public class SourceController extends AbstractController {
             params.setType(SourceType.TEXT);
         }
 
-        if (Objects.isNull(source)) {
-            source = sourceService.update(Copier.from(params).to(Source.builder().token(md5).processStatus(SourceProcess.TEXT).build()));
+        if (Objects.nonNull(source)) {
+            // 已经有一个了，只需要复制即可
+
         }
+
+
+        SourceProcess currentProcess;
+        TreeSet<SourceProcess> processes = new TreeSet<>();
+
+        switch (params.getType()) {
+            case TEXT:
+
+                currentProcess = SourceProcess.TEXT;
+                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.TRANSLATION);
+
+                break;
+            case IMAGE:
+
+                currentProcess = SourceProcess.OCR;
+                processes.add(SourceProcess.OCR);
+                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.TRANSLATION);
+                break;
+
+            case URL:
+
+                currentProcess = SourceProcess.URL;
+                processes.add(SourceProcess.URL);
+                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.TRANSLATION);
+                break;
+
+            default:
+                currentProcess = SourceProcess.TEXT;
+        }
+
+        source = sourceService.update(Copier.from(params).to(Source.builder()
+                .token(md5)
+                .processes(processes)
+                .currentProcess(currentProcess)
+                .processStatus(SourceProcessStatus.WAIT)
+                .build()));
 
         // 开始分解对应的文本
         publisher.publishEvent(new LemmatizeEvent(source));

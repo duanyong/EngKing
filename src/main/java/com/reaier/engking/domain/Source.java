@@ -1,12 +1,11 @@
 package com.reaier.engking.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
+import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.audit.Auditable;
-import com.reaier.engking.domain.convert.JSONConverter;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.describe.Point;
 import com.reaier.engking.utils.JsonUtils;
@@ -87,18 +86,24 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Column(name = "`type`",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
     SourceType type;
 
-    @Convert(converter = CoordinateConverter.class)
+    @Convert(converter = ProcessConverter.class)
     @ApiModelProperty(notes = "处理流程")
     @Enumerated(EnumType.STRING)
-    @JsonProperty("process_status")
-    @Column(name = "process_status",            columnDefinition = "JSON NULL COMMENT '处理流程'")
-    List<SourceProcess> processStatus;
+    @JsonProperty("processes")
+    @Column(name = "processes",                 columnDefinition = "JSON NULL COMMENT '处理流程'")
+    Set<SourceProcess> processes;
+
+    @ApiModelProperty(notes = "当前处理流程")
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("current_process")
+    @Column(name = "current_process",           columnDefinition = "VARCHAR(32) NOT NULL COMMENT '当前处理流程'")
+    SourceProcess currentProcess;
 
     @ApiModelProperty(notes = "处理进度：未处理，处理中，已处理")
     @Enumerated(EnumType.STRING)
-    @JsonProperty("process_state")
-    @Column(name = "process_state",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
-    SourceProcess processState;
+    @JsonProperty("process_status")
+    @Column(name = "process_status",            columnDefinition = "VARCHAR(32) NOT NULL COMMENT '处理进度：未处理，处理中，已处理'")
+    SourceProcessStatus processStatus;
 
     @Version
     @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")
@@ -131,6 +136,21 @@ public class Source extends Auditable<Integer> implements Serializable {
         @Nullable
         public Set<Word> convertToEntityAttribute(String set) {
             return null == set ? null : JsonUtils.json2Obj(set, HashSet.class, Word.class);
+        }
+    }
+
+    @Converter(
+            autoApply = true
+    )
+    private static class ProcessConverter implements AttributeConverter<Set, String> {
+        @Nullable
+        public String convertToDatabaseColumn(Set set) {
+            return null == set ? null : JsonUtils.obj2Json(set);
+        }
+
+        @Nullable
+        public Set<SourceProcess> convertToEntityAttribute(String set) {
+            return null == set ? null : JsonUtils.json2Obj(set, HashSet.class, SourceProcess.class);
         }
     }
 }
