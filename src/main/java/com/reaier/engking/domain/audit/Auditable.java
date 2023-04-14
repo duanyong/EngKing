@@ -36,12 +36,12 @@ public class Auditable<U> {
 
     @LastModifiedBy
     @JsonIgnore
-    @Column(name = "modifier_by",               columnDefinition = "INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改者账号主键'")
-    U modifierBy;
+    @Column(name = "updater_by",                columnDefinition = "INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '修改者账号主键'")
+    U updaterBy;
 
     @JsonIgnore
     @Column(name = "update_at",                 columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP() COMMENT '最后更新时间'", insertable = false, updatable = false)
-    Date modifyAt;
+    Date updateAt;
 
 
     @PrePersist
@@ -49,14 +49,14 @@ public class Auditable<U> {
         User creator = getUsernameOfAuthenticatedUser();
 
         this.creatorBy = (U) creator.getId();
-        this.modifierBy = (U) creator.getId();
+        this.updaterBy = null;
     }
 
     @PreUpdate
     public void preUpdate() {
         User modifier = getUsernameOfAuthenticatedUser();
 
-        this.modifierBy = (U) modifier.getId();
+        this.updaterBy = (U) modifier.getId();
     }
 
     private User getUsernameOfAuthenticatedUser() {

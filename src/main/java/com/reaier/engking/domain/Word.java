@@ -27,7 +27,7 @@ import java.util.List;
             @Index(name = "IDX_NAME",            columnList = "name")
     },
     uniqueConstraints = {
-            @UniqueConstraint(name = "UNQ_NAME_LANGUAGE",       columnNames = {"name", "language"})
+            @UniqueConstraint(name = "UNQ_NAME_ORIGIN_TARGET",       columnNames = {"name", "origin", "target"})
 })
 public class Word extends Auditable<Integer> implements Serializable {
     @Id

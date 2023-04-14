@@ -6,6 +6,9 @@ import org.springframework.context.ApplicationEvent;
 
 @Builder
 public class LemmatizeEvent extends ApplicationEvent {
+    public LemmatizeEvent() {
+        this(null);
+    }
 
     public LemmatizeEvent(Source source) {
         super(source);

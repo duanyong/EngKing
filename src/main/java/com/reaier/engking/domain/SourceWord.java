@@ -25,12 +25,16 @@ import java.io.Serializable;
         })
 public class SourceWord extends Auditable<Integer> implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("id")
+    @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
+    Long id;
+
     @ApiModelProperty(notes = "源主键")
     @JsonProperty("source_id")
     @Column(name = "source_id",                 columnDefinition = "INT UNSIGNED NOT NULL COMMENT '源主键'")
     Long sourceId;
 
-    @Id
     @ApiModelProperty(notes = "单词主键")
     @JsonProperty("word_id")
     @Column(name = "word_id",                   columnDefinition = "INT UNSIGNED NOT NULL COMMENT '单词主键'")
