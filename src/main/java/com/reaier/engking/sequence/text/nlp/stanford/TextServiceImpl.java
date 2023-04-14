@@ -1,6 +1,5 @@
 package com.reaier.engking.sequence.text.nlp.stanford;
 
-import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.sequence.text.TextService;
@@ -32,11 +31,10 @@ public class TextServiceImpl implements TextService {
         List<CoreLabel> tokens = document.tokens();
         Set<Word> lemma = new HashSet<>(tokens.size());
         for (CoreLabel token : document.tokens()) {
-            if (token.isMWT()) {}
-            lemma.add(Word.builder().language(source.getOrigin()).name(token.lemma()).build());
+//            if (token.isMWT()) {}
+            lemma.add(Word.builder().target(source.getOrigin()).name(token.lemma()).build());
         }
 
         source.setLemma(lemma);
-        source.setProcessStatus(SourceProcess.TRANSLATION);
     }
 }

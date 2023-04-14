@@ -25,15 +25,15 @@ public class ProcessPublisher extends AbstractProcessPublisher {
     SourceService sourceService;
 
     @EventListener
-    public void preprocess(SourceEvent event) {
+    public void doEvent(SourceEvent event) {
         Source source = (Source) event.getSource();
         if (SourceProcessStatus.FAIL.equals(source.getProcessStatus())) {
             // todo: 上次的翻译出错了
             return;
         }
 
-        SourceProcess process = source.getCurrentProcess();
         if (SourceProcessStatus.DONE.equals(source.getProcessStatus())) {
+            SourceProcess process;
             if (null == ( process = next(source) )) {
                 process = SourceProcess.FINISH;
             }

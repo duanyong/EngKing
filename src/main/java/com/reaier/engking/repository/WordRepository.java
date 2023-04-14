@@ -12,5 +12,5 @@ import javax.validation.constraints.NotNull;
 @Repository
 public interface WordRepository extends CrudRepository<Word, Long> {
     Page<Word> findAll(Pageable pageable);
-    Word findByNameAndLanguage(@NotNull String name, @NotNull Language language);
+    Word findByNameAndOriginAndTarget(@NotNull String name, @NotNull Language origin, @NotNull Language target);
 }

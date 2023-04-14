@@ -8,6 +8,7 @@ import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.SourceWordRepository;
 import com.reaier.engking.repository.WordRepository;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
+import com.reaier.engking.sequence.text.TextService;
 import org.springframework.context.event.EventListener;
 
 import javax.annotation.Resource;
@@ -20,41 +21,35 @@ public class LemmaPublisher extends AbstractProcessPublisher {
     @Resource
     SourceWordRepository sourceWordRepository;
 
+    @Resource
+    TextService textService;
+
     @EventListener
     public void doEvent(OCREvent event) {
         Source source = (Source) event.getSource();
 
-        Set<String> wordList = new HashSet<>();
-        Properties properties = new Properties();
-
-        //分詞、分句、詞性標註和次元信息。
-        properties.put("annotators", "tokenize,pos,lemma");
-
-        StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
-        CoreDocument document = new CoreDocument(source.getContent());
-        pipeline.annotate(document);
+        textService.tokenize(source);
 
         Word word;
         SourceWord sourceWord;
-        for (CoreLabel tok : document.tokens()) {
-            for (CoreLabel token: tok.get(CoreAnnotations.TokensAnnotation.class)) {
-                String originalWord = token.get(CoreAnnotations.LemmaAnnotation.class);
+        for (Word item : source.getLemma()) {
+            word = wordRepository.findByNameAndOriginAndTarget(item.getName(), source.getOrigin(), source.getTarget());
+            if (Objects.isNull(word)) {
+                word = wordRepository.save(Word.builder()
+                        .name(item.getName())
+                        .origin(source.getOrigin())
+                        .target(source.getTarget())
+                        .phonics(null)
+                        .translation(null)
+                        .build());
 
-                wordList.add(originalWord);
+                wordRepository.save(word);
+            }
 
-                word = wordRepository.findByNameAndLanguage(originalWord, source.getTarget());
-                if (Objects.isNull(word)) {
-                    word = wordRepository.save(Word.builder().name(originalWord).language(source.getTarget()).build());
-                }
-
-                sourceWord = sourceWordRepository.findBySourceIdAndWordId(source.getId(), word.getId());
-                if (Objects.isNull(sourceWord)) {
-                    sourceWord = SourceWord.builder().sourceId(source.getId()).wordId(word.getId()).build();
-
-                    if (Objects.isNull(sourceWord)) {
-                        sourceWordRepository.save(sourceWord);
-                    }
-                }
+            sourceWord = sourceWordRepository.findBySourceIdAndWordId(source.getId(), word.getId());
+            if (Objects.isNull(sourceWord)) {
+                sourceWord = SourceWord.builder().sourceId(source.getId()).wordId(word.getId()).build();
+                sourceWordRepository.save(sourceWord);
             }
         }
 

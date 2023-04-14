@@ -22,7 +22,7 @@ import java.util.Objects;
 
 @Component
 @Profile("prod")
-public class OCRPublisher extends AbstractProcessPublisher {
+public class TranslatePublisher extends AbstractProcessPublisher {
     @Resource
     OCRService ocrService;
 
