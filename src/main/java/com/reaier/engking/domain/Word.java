@@ -53,9 +53,9 @@ public class Word extends Auditable<Integer> implements Serializable {
     Language target;
 
     @Convert(converter = PhonicsConverter.class)
-    @ApiModelProperty(notes = "语法数据")
+    @ApiModelProperty(notes = "语音数据")
     @JsonProperty("phonics")
-    @Column(name = "phonics",                   columnDefinition = "JSON NULL COMMENT '语法数据'")
+    @Column(name = "phonics",                   columnDefinition = "JSON NULL COMMENT '语音数据'")
     List<Phonics> phonics;
 
     @Convert(converter = TranslationConverter.class)
@@ -63,6 +63,23 @@ public class Word extends Auditable<Integer> implements Serializable {
     @JsonProperty("translation")
     @Column(name = "translation",               columnDefinition = "JSON NULL COMMENT '翻译数据'")
     List<Translation> translation;
+
+    @Convert(converter = TranslationConverter.class)
+    @ApiModelProperty(notes = "关键例句主键列表")
+    @JsonProperty("sentence_ids")
+    @Column(name = "sentence_ids",              columnDefinition = "JSON NULL COMMENT '关键例句主键列表'")
+    List<Long> sentenceIds;
+
+    @Convert(converter = TranslationConverter.class)
+    @ApiModelProperty(notes = "关键短语主键列表")
+    @JsonProperty("phrase_ids")
+    @Column(name = "phrase_ids",                columnDefinition = "JSON NULL COMMENT '关键短语主键列表'")
+    List<Long> phraseIds;
+
+    @ApiModelProperty(notes = "词源")
+    @JsonProperty("etymology")
+    @Column(name = "etymology",                 columnDefinition = "VARCHAR(512) NULL COMMENT '词源'")
+    String etymology;
 
     @Converter(
             autoApply = true

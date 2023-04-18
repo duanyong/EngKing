@@ -33,8 +33,8 @@ public class ProcessPublisher extends AbstractProcessPublisher {
         }
 
         if (SourceProcessStatus.DONE.equals(source.getProcessStatus())) {
-            SourceProcess process;
-            if (null == ( process = next(source) )) {
+            SourceProcess process = next(source);
+            if (null == process) {
                 process = SourceProcess.FINISH;
             }
 
