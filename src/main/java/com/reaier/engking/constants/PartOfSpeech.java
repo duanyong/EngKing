@@ -22,15 +22,15 @@ public enum PartOfSpeech {
     C("countable noun"),
     PL("plural");
 
-    private String type;
+    private String desc;
 
-    private PartOfSpeech(String type) {
-        this.type = type;
+    PartOfSpeech(String desc) {
+        this.desc = desc;
     }
 
 
     @Override
     public String toString() {
-        return super.toString();
+        return name().toLowerCase();
     }
 }

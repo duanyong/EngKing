@@ -17,5 +17,5 @@ public class Translation {
     @ApiModelProperty(notes = "翻译之后的文字")
     @Enumerated(EnumType.STRING)
     @JsonProperty("content")
-    List<String> content;
+    String content;
 }

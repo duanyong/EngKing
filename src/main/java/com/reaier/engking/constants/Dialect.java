@@ -4,12 +4,16 @@ public enum Dialect {
     Chinese("cn"),
 
     English("en"),
-    American("us"),
+    American("am"),
     ;
 
     private String dialect;
 
     Dialect(String dialect) {
         this.dialect = dialect;
+    }
+
+    public String toString() {
+        return dialect;
     }
 }

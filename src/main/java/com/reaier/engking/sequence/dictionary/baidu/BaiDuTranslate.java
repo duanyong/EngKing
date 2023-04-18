@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  *
  * CURL POST
- *     curl https://fanyi-api.baidu.com/api/trans/vip/translate  -X POST -d 'appid=2015063000000001&q=apple&from=zh&to=en&salt=1435660288&tts=1&dict=1&sign=f89f9594663708c1605f3d736d01d2d4'
+ *     curl https://fanyi-api.baidu.com/api/trans/vip/translate  -X POST -d 'appid=2015063000000001&q=apple&from=en&to=zh&salt=1435660288&tts=1&dict=1&sign=f89f9594663708c1605f3d736d01d2d4'
  * */
 @Slf4j
 @Service
@@ -39,8 +39,8 @@ public class BaiDuTranslate implements TranslateService {
         params.add("q",         word.getName());
         params.add("from",      getShort(word.getOrigin()));
         params.add("to",        getShort(word.getTarget()));
-//        params.add("tts",       "1");
-//        params.add("dict",      "1");
+//        params.add("tts",       "0");
+//        params.add("dict",      "0");
 
         String salt = RandomStringUtils.randomAlphabetic(6);
         String sign = String.format("%s%s%s%s", ID, word.getName(), salt, KEY);

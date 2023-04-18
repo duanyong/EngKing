@@ -20,8 +20,8 @@ public class Phonics {
     Dialect dialect;
 
     @ApiModelProperty(notes = "音标")
-    @JsonProperty("phonetics")
-    String phonetics;
+    @JsonProperty("phonic")
+    String phonic;
 
     @ApiModelProperty(notes = "发音地址")
     @JsonProperty("sound")
