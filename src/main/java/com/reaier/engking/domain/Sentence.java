@@ -24,14 +24,13 @@ import java.util.List;
                 @Index(name = "IDX_TOKEN",            columnList = "token")
         },
         uniqueConstraints = {
-//                @UniqueConstraint(name = "UNQ_TOKEN",       columnNames = {"token"})
+                @UniqueConstraint(name = "UNQ_TOKEN",       columnNames = {"token"})
         })
 public class Sentence extends Auditable<Integer> implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
-    @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
-    Long id;
+    @JsonProperty("token")
+    @Column(name = "token",                     columnDefinition = "INT UNSIGNED")
+    Long token;
 
     @ApiModelProperty(notes = "原生语音")
     @Enumerated(EnumType.STRING)

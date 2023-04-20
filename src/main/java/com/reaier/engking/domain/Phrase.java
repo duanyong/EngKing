@@ -26,10 +26,9 @@ import java.io.Serializable;
         })
 public class Phrase extends Auditable<Integer> implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("id")
-    @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
-    Long id;
+    @JsonProperty("token")
+    @Column(name = "token",                     columnDefinition = "INT UNSIGNED NOT NULL COMMENT '短语主键'")
+    Long token;
 
     @ApiModelProperty(notes = "原生语音")
     @Enumerated(EnumType.STRING)

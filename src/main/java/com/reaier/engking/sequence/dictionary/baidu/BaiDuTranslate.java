@@ -25,7 +25,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class BaiDuTranslate implements TranslateService {
-    private static final String URI  = "https://fanyi-api.baidu.com/api/trans/vip/translate";
+    private static final String URI  = "https://fanyi-api.baidu.com/api/trans/vip/translate?tts=0&dict=0";
     private static final String ID   = "20200327000406635";
     private static final String KEY  = "Lps89W7r_MCV_Ir1jlLP";
 
@@ -39,8 +39,8 @@ public class BaiDuTranslate implements TranslateService {
         params.add("q",         word.getName());
         params.add("from",      getShort(word.getOrigin()));
         params.add("to",        getShort(word.getTarget()));
-//        params.add("tts",       "0");
-//        params.add("dict",      "0");
+//        params.add("tts",       0);
+//        params.add("dict",      0);
 
         String salt = RandomStringUtils.randomAlphabetic(6);
         String sign = String.format("%s%s%s%s", ID, word.getName(), salt, KEY);
