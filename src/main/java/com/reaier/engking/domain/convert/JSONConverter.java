@@ -15,6 +15,21 @@ public class JSONConverter {
     @Converter(
             autoApply = true
     )
+    public static class LongListConverter implements AttributeConverter<List, String > {
+        @Nullable
+        public String convertToDatabaseColumn(List list) {
+            return null == list ? null : JsonUtils.obj2Json(list);
+        }
+
+        @Nullable
+        public List<Long> convertToEntityAttribute(String list) {
+            return null == list ? null : JsonUtils.json2Obj(list, List.class, Long.class);
+        }
+    }
+
+    @Converter(
+            autoApply = true
+    )
     public static class IntegerListConverter implements AttributeConverter<List, String > {
         @Nullable
         public String convertToDatabaseColumn(List list) {

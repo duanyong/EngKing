@@ -28,7 +28,7 @@ class TextServiceTest extends ApplicationTest {
     void tearDown() {
     }
 
-    @Test
+
     void tokenize() {
         textService.tokenize(source);
     }

@@ -8,7 +8,6 @@ import com.reaier.engking.sequence.dictionary.exception.TranslateException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.http.*;
-import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -23,7 +22,6 @@ import java.util.Map;
  *     curl https://fanyi-api.baidu.com/api/trans/vip/translate  -X POST -d 'appid=2015063000000001&q=apple&from=en&to=zh&salt=1435660288&tts=1&dict=1&sign=f89f9594663708c1605f3d736d01d2d4'
  * */
 @Slf4j
-@Service
 public class BaiDuTranslate implements TranslateService {
     private static final String URI  = "https://fanyi-api.baidu.com/api/trans/vip/translate?tts=0&dict=0";
     private static final String ID   = "20200327000406635";
@@ -37,8 +35,8 @@ public class BaiDuTranslate implements TranslateService {
         MultiValueMap<String, Object> params = new LinkedMultiValueMap<>();
         params.add("appid",     ID);
         params.add("q",         word.getName());
-        params.add("from",      getShort(word.getOrigin()));
-        params.add("to",        getShort(word.getTarget()));
+        params.add("from",      "en");
+        params.add("to",        "zh");
 //        params.add("tts",       0);
 //        params.add("dict",      0);
 
@@ -59,12 +57,9 @@ public class BaiDuTranslate implements TranslateService {
                 .body(params);
 
         RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<ICIBAResponse> responseEntity = restTemplate.exchange(requestEntity, ICIBAResponse.class);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
+        ResponseEntity<ICIBAResponse> responseEntity = restTemplate.exchange(requestEntity, ICIBAResponse.class);
 
-        log.debug(responseEntity.getBody());
-
-        return null;
+        return responseEntity.getBody();
     }
 
      private String getShort(Language target) {
