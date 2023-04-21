@@ -1,22 +1,13 @@
 package com.reaier.engking.sequence.dictionary.ecdict;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.reaier.engking.dictionary.Phonics;
-import com.reaier.engking.dictionary.Translation;
-import com.reaier.engking.domain.audit.Auditable;
-import com.reaier.engking.domain.convert.JSONConverter;
-import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
 
 
 @Builder
@@ -24,9 +15,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-@Table(name = "words")
-public class ECDict extends Auditable<Integer> implements Serializable {
+@Table(name = "ecdicts")
+public class ECDict {
     @Id
     @ApiModelProperty(notes = "单词")
     @JsonProperty("word")
@@ -47,7 +37,6 @@ public class ECDict extends Auditable<Integer> implements Serializable {
     @JsonProperty("translation")
     @Column(name = "translation",               columnDefinition = "VARCHAR(2048) NULL COMMENT '单词释义（中文），每行一个释义'")
     String translation;
-
 
     @ApiModelProperty(notes = "时态复数等变换，使用 \"/\" 分割不同项目，见后面表格")
     @JsonProperty("pos")

@@ -41,7 +41,7 @@ public class RestTemplateConfiguration {
     private final static int INIT_CONNECTION_TIME       = 5 * 1000;
     private final static int CONNECTION_TIME            = 5 * 1000;
     private final static int READ_TIMEOUT               = 30 * 1000;
-    private final static int POOL_MAX_TOTAL             = 4096;
+    private final static int POOL_MAX_TOTAL             = 1024;
     private final static int POOL_MAX_ROUTE_TOTAL       = 200;
     private final static int POOL_EVICT_SECONDS         = 30;
     private final static int POOL_INACTIVITY_SECONDS    = 2;    // 空连接隔N秒验证一次

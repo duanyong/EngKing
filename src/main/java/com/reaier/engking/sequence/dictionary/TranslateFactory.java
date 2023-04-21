@@ -2,6 +2,7 @@ package com.reaier.engking.sequence.dictionary;
 
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.sequence.dictionary.baidu.BaiDuTranslate;
+import com.reaier.engking.sequence.dictionary.ecdict.ECDictTranslate;
 import com.reaier.engking.sequence.dictionary.exception.TranslateException;
 
 public final class TranslateFactory {
@@ -9,7 +10,8 @@ public final class TranslateFactory {
         TranslateService service;
 
         switch (api) {
-            case
+            case ECDICT:
+                service = new ECDictTranslate();
             case BAIDU:
                 service = new BaiDuTranslate();
 

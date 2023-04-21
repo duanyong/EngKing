@@ -33,12 +33,10 @@ public class LemmaPublisher extends AbstractProcessPublisher {
         Word word;
         SourceWord sourceWord;
         for (Word item : source.getLemma()) {
-            word = wordRepository.findByNameAndOriginAndTarget(item.getName(), source.getOrigin(), source.getTarget());
+            word = wordRepository.findByName(item.getName());
             if (Objects.isNull(word)) {
                 word = wordRepository.save(Word.builder()
                         .name(item.getName())
-                        .origin(source.getOrigin())
-                        .target(source.getTarget())
                         .phonics(null)
                         .translation(null)
                         .build());

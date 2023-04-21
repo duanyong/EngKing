@@ -1,11 +1,9 @@
 package com.reaier.engking.domain;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.dictionary.Phonics;
 import com.reaier.engking.dictionary.Translation;
 import com.reaier.engking.domain.audit.Auditable;
-import com.reaier.engking.domain.convert.JSONConverter;
 import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -16,25 +14,24 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Builder
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(value = JsonInclude.Include.NON_NULL)
-@Table(name = "Words",
+@Table(name = "words",
     indexes = {
             @Index(name = "IDX_NAME",            columnList = "name")
     },
     uniqueConstraints = {
-            @UniqueConstraint(name = "UNQ_NAME_ORIGIN_TARGET",       columnNames = {"name", "origin", "target"})
+            @UniqueConstraint(name = "UNQ_NAME",       columnNames = {"name"})
 })
 public class Word extends Auditable<Integer> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")
-    Long id;
+    Integer id;
 
     @ApiModelProperty(notes = "单词")
     @JsonProperty("name")
@@ -55,18 +52,19 @@ public class Word extends Auditable<Integer> implements Serializable {
     @JsonProperty("translation")
     @Column(name = "translation",               columnDefinition = "VARCHAR(2048) NULL COMMENT '单词解释，不同类型的意思采用\n分隔'")
     String translation;
-
-    @Convert(converter = JSONConverter.LongListConverter.class)
-    @ApiModelProperty(notes = "关键例句主键列表")
-    @JsonProperty("sentence_ids")
-    @Column(name = "sentence_ids",              columnDefinition = "JSON NULL COMMENT '关键例句主键列表'")
-    List<Long> sentenceIds;
-
-    @Convert(converter = JSONConverter.LongListConverter.class)
-    @ApiModelProperty(notes = "关键短语主键列表")
-    @JsonProperty("phrase_ids")
-    @Column(name = "phrase_ids",                columnDefinition = "JSON NULL COMMENT '关键短语主键列表'")
-    List<Long> phraseIds;
+//
+//    @Convert(converter = JSONConverter.LongListConverter.class)
+//    @ApiModelProperty(notes = "关键短语主键列表")
+//    @JsonProperty("phrase_ids")
+//    @Column(name = "phrase_ids",                columnDefinition = "JSON NULL COMMENT '关键短语主键列表'")
+//    List<Long> phraseIds;
+//
+//    @Convert(converter = JSONConverter.LongListConverter.class)
+//    @ApiModelProperty(notes = "关键例句主键列表")
+//    @JsonProperty("sentence_ids")
+//    @Column(name = "sentence_ids",              columnDefinition = "JSON NULL COMMENT '关键例句主键列表'")
+//    List<Long> sentenceIds;
+//
 //
 //    @ApiModelProperty(notes = "词源")
 //    @JsonProperty("etymology")

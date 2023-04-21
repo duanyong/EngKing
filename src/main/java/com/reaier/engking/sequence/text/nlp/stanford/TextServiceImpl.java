@@ -32,7 +32,7 @@ public class TextServiceImpl implements TextService {
         Set<Word> lemma = new HashSet<>(tokens.size());
         for (CoreLabel token : document.tokens()) {
 //            if (token.isMWT()) {}
-            lemma.add(Word.builder().target(source.getOrigin()).name(token.lemma()).build());
+            lemma.add(Word.builder().name(token.lemma()).build());
         }
 
         source.setLemma(lemma);

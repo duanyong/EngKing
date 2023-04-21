@@ -49,7 +49,7 @@ public class Auditable<U> {
         User creator = getUsernameOfAuthenticatedUser();
 
         this.creatorBy = (U) creator.getId();
-        this.updaterBy = null;
+        this.updaterBy = (U) creator.getId();
     }
 
     @PreUpdate

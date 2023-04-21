@@ -1,5 +1,6 @@
 package com.reaier.engking.sequence.dictionary.ecdict;
 
+import com.reaier.engking.Application;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.sequence.dictionary.TranslateService;
 import com.reaier.engking.sequence.dictionary.exception.TranslateException;
@@ -17,8 +18,7 @@ import java.util.Objects;
 public class ECDictTranslate implements TranslateService {
     @Override
     public void translate(Word word) throws TranslateException {
-        ECDictRepository repository = null;
-        ConfigurableApplicationContext context =
+        ECDictRepository repository = Application.getContext().getBean(ECDictRepository.class);
 
         ECDict dict = repository.findByWord(word.getName());
         if (Objects.isNull(dict)) {

@@ -49,11 +49,10 @@ public class OCRPublisher extends AbstractProcessPublisher {
         List<Coordinate> list = source.getCoordinate();
         for (Coordinate item : list) {
             if (StringUtils.isNotEmpty(item.getWord())) {
-                Word word = wordRepository.findByNameAndOriginAndTarget(item.getWord(), source.getOrigin(), source.getTarget());
+                Word word = wordRepository.findByName(item.getWord());
                 if (Objects.isNull(word)) {
                     word = Word.builder()
                             .name(item.getWord())
-                            .target(source.getTarget())
                             .phonics(null)
                             .translation(null)
                             .build();
