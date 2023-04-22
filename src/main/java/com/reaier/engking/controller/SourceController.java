@@ -10,6 +10,7 @@ import com.reaier.engking.controller.request.SourcePageVO;
 import com.reaier.engking.controller.response.SourceDetailVO;
 import com.reaier.engking.controller.status.ApiStatus;
 import com.reaier.engking.domain.Source;
+import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.utils.Copier;
@@ -93,6 +94,11 @@ public class SourceController extends AbstractController {
         processes.add(SourceProcess.START);
 
         switch (params.getType()) {
+            case WORD:
+
+                processes.add(SourceProcess.TRANSLATION);
+
+                break;
             case TEXT:
 
                 processes.add(SourceProcess.TEXT);
@@ -127,7 +133,7 @@ public class SourceController extends AbstractController {
                 .build()));
 
         // 开始分解对应的文本
-        publisher.publishEvent(new LemmatizeEvent(source));
+        publisher.publishEvent(new SourceEvent(source));
 
         return detail(source);
     }
