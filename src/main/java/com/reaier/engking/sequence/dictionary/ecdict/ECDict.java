@@ -24,9 +24,9 @@ public class ECDict {
     String word;
 
     @ApiModelProperty(notes = "音标，以英语英标为主")
-    @JsonProperty("phonetic")
-    @Column(name = "phonetic",                   columnDefinition = "VARCHAR(512) NULL COMMENT '音标，以英语英标为主'")
-    String phonetic;
+    @JsonProperty("phonics")
+    @Column(name = "phonics",                   columnDefinition = "VARCHAR(512) NULL COMMENT '音标，以英语英标为主'")
+    String phonics;
 
     @ApiModelProperty(notes = "单词释义（英文），每行一个释义")
     @JsonProperty("definition")

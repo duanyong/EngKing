@@ -76,34 +76,37 @@ public class Word extends Auditable<Integer> implements Serializable {
 //    @Column(name = "is_refine",                 columnDefinition = "TINYINT UNSIGNED NOT NULL DEFAULT '0' COMMENT '人工精修过，自动翻译类无法处理，默认为false'")
 //    String isRefine;
 
+    @Version
+    @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")
+    Integer version;
 
-    @Converter(
-            autoApply = true
-    )
-    private static class PhonicsConverter implements AttributeConverter<List, String> {
-        @Nullable
-        public String convertToDatabaseColumn(List list) {
-            return null == list ? null : JsonUtils.obj2Json(list);
-        }
-
-        @Nullable
-        public List<Phonics> convertToEntityAttribute(String list) {
-            return null == list ? null : JsonUtils.json2Obj(list, List.class, Phonics.class);
-        }
-    }
-
-    @Converter(
-            autoApply = true
-    )
-    private static class TranslationConverter implements AttributeConverter<List, String> {
-        @Nullable
-        public String convertToDatabaseColumn(List list) {
-            return null == list ? null : JsonUtils.obj2Json(list);
-        }
-
-        @Nullable
-        public List<Translation> convertToEntityAttribute(String list) {
-            return null == list ? null : JsonUtils.json2Obj(list, List.class, Translation.class);
-        }
-    }
+//    @Converter(
+//            autoApply = true
+//    )
+//    private static class PhonicsConverter implements AttributeConverter<List, String> {
+//        @Nullable
+//        public String convertToDatabaseColumn(List list) {
+//            return null == list ? null : JsonUtils.obj2Json(list);
+//        }
+//
+//        @Nullable
+//        public List<Phonics> convertToEntityAttribute(String list) {
+//            return null == list ? null : JsonUtils.json2Obj(list, List.class, Phonics.class);
+//        }
+//    }
+//
+//    @Converter(
+//            autoApply = true
+//    )
+//    private static class TranslationConverter implements AttributeConverter<List, String> {
+//        @Nullable
+//        public String convertToDatabaseColumn(List list) {
+//            return null == list ? null : JsonUtils.obj2Json(list);
+//        }
+//
+//        @Nullable
+//        public List<Translation> convertToEntityAttribute(String list) {
+//            return null == list ? null : JsonUtils.json2Obj(list, List.class, Translation.class);
+//        }
+//    }
 }

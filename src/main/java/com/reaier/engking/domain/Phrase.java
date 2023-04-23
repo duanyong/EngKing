@@ -17,45 +17,38 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name = "Phrases",
+@Table(name = "phrases",
         indexes = {
                 @Index(name = "IDX_TOKEN",            columnList = "token")
         },
         uniqueConstraints = {
                 @UniqueConstraint(name = "UNQ_TOKEN",       columnNames = {"token"})
         })
-public class Phrase extends Auditable<Integer> implements Serializable {
+public class Phrase extends Auditable<String> implements Serializable {
     @Id
     @JsonProperty("token")
-    @Column(name = "token",                     columnDefinition = "INT UNSIGNED NOT NULL COMMENT '短语主键'")
-    Long token;
-
-    @ApiModelProperty(notes = "原生语音")
-    @Enumerated(EnumType.STRING)
-    @JsonProperty("origin")
-    @Column(name = "origin",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '语种'")
-    Language origin;
-
-    @ApiModelProperty(notes = "目标语音")
-    @Enumerated(EnumType.STRING)
-    @JsonProperty("target")
-    @Column(name = "target",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '目标语音'")
-    Language target;
+    @Column(name = "token",                     columnDefinition = "CHAR(32) NOT NULL COMMENT '短语主键'")
+    String token;
 
     @ApiModelProperty(notes = "短语")
     @JsonProperty("phrase")
-    @Column(name = "phrase",                    columnDefinition = "TEXT NULL COMMENT '短语'")
+    @Column(name = "phrase",                    columnDefinition = "VARCHAR(512) NULL COMMENT '短语'")
     String phrase;
 
+    @ApiModelProperty(notes = "语音数据")
+    @JsonProperty("phonics")
+    @Column(name = "phonics",                   columnDefinition = "VARCHAR(512) NULL COMMENT '语音数据'")
+    String phonics;
+
     @ApiModelProperty(notes = "翻译的短语")
-    @JsonProperty("translate")
-    @Column(name = "translate",                 columnDefinition = "TEXT NULL COMMENT '翻译的短语'")
-    String translate;
-//
-//    @ApiModelProperty(notes = "相似词")
-//    @JsonProperty("close")
-//    @Column(name = "close",                     columnDefinition = "VARCHAR(1024) NULL COMMENT '短语'")
-//    String close;
+    @JsonProperty("translation")
+    @Column(name = "translation",               columnDefinition = "VARCHAR(512) NULL COMMENT '翻译的短语'")
+    String translation;
+
+    @ApiModelProperty(notes = "相似词")
+    @JsonProperty("word_ids")
+    @Column(name = "word_ids",                  columnDefinition = "VARCHAR(512) NULL COMMENT '短语'")
+    String wordIds;
 
     @Version
     @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")

@@ -27,6 +27,6 @@ public class ECDictTranslate implements TranslateService {
 
         word.setTranslation(dict.getTranslation());
         word.setDefinition(dict.getDefinition());
-        word.setPhonics(dict.getPhonetic());
+        word.setPhonics(dict.getPhonics());
     }
 }
