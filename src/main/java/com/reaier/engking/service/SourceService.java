@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 
 public interface SourceService {
     Source update(Source source);
-    Source findById(Long id);
+    Source findById(Integer id);
 
     Source findByToken(String token);
 

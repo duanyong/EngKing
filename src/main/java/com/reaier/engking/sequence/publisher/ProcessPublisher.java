@@ -9,58 +9,72 @@ import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.events.preproccess.TransEvent;
 import com.reaier.engking.sequence.events.preproccess.URLEvent;
-import com.reaier.engking.service.SourceService;
+import com.reaier.engking.sequence.exception.EventException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
+@Slf4j
 @Component
 public class ProcessPublisher extends AbstractProcessPublisher {
     @Resource
     ApplicationEventPublisher publisher;
 
-    @Resource
-    SourceService sourceService;
-
     @EventListener
-    public void doEvent(SourceEvent event) {
+    public void doEvent(SourceEvent event) throws EventException {
         Source source = (Source) event.getSource();
         if (SourceProcessStatus.FAIL.equals(source.getProcessStatus())) {
             // todo: 上次的翻译出错了
             return;
         }
 
+
         if (SourceProcessStatus.DONE.equals(source.getProcessStatus())) {
-            SourceProcess process = next(source);
+            SourceProcess process;
+            SourceProcessStatus status = null;
+
+            process = next(source);
             if (null == process) {
                 process = SourceProcess.FINISH;
             }
 
-            source.setCurrentProcess(process);
-            source.setProcessStatus(SourceProcess.FINISH.equals(process) ? SourceProcessStatus.DONE : SourceProcessStatus.DOING);
+            try {
+                // 开始处理对应的状态
+                switch (process) {
+                    case URL:
+                        publisher.publishEvent(new URLEvent(source));
+                        break;
 
-            sourceService.update(source);
+                    case OCR:
+                        publisher.publishEvent(new OCREvent(source));
+                        break;
 
-            // 开始处理对应的状态
-            switch (process) {
-                case URL:
-                    publisher.publishEvent(new URLEvent(source));
-                    break;
+                    case TEXT:
+                        publisher.publishEvent(new LemmatizeEvent(source));
+                        break;
 
-                case OCR:
-                    publisher.publishEvent(new OCREvent(source));
-                    break;
+                    case TRANSLATION:
+                        publisher.publishEvent(new TransEvent(source));
 
-                case TEXT:
-                    publisher.publishEvent(new LemmatizeEvent(source));
-                    break;
+                        break;
+                }
 
-                case TRANSLATION:
-                    publisher.publishEvent(new TransEvent(source));
+                status = SourceProcessStatus.DOING;
+            } catch (EventException e) {
+                // 处理出错
+                status  = SourceProcessStatus.FAIL;
+                process = e.getProcess();
 
-                    break;
+            } finally {
+                source = sourceRepository.findById(source.getId()).orElse(null);
+                if (Objects.nonNull(source)) {
+                    source.setProcessStatus(status);
+                    source.setCurrentProcess(process);
+                }
             }
         }
     }

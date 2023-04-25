@@ -2,6 +2,7 @@ package com.reaier.engking.controller;
 
 import com.reaier.engking.ApplicationTest;
 import com.reaier.engking.constants.Language;
+import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.controller.request.SourceAddVO;
 import com.reaier.engking.utils.JsonUtils;
 import org.junit.jupiter.api.Test;
@@ -30,12 +31,11 @@ class SourceControllerTest extends ApplicationTest {
 
 
     @Test
-    void add() {
+    void addText() {
         final String api = API + "/add";
         SourceAddVO params = SourceAddVO.builder()
                 .content("Apps may be able to access head pose information when playing spatialized audio.")
-                .origin(Language.ENGLISH)
-                .target(Language.CHINESE)
+                .content("https://client.sina.com.cn/static/abc.png")
                 .build();
 
         try {
@@ -57,6 +57,32 @@ class SourceControllerTest extends ApplicationTest {
         }
     }
 
+    @Test
+    void addImage() {
+        final String api = API + "/add";
+        SourceAddVO params = SourceAddVO.builder()
+                .content("https://client.sina.com.cn/static/abc.png")
+                .type(SourceType.IMAGE)
+                .build();
+
+        try {
+            mvcResult = mvc.perform(
+                    post(api)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(JsonUtils.obj2Json(params))
+                            .accept(MediaType.APPLICATION_JSON)                 // 接受的格式为JSON
+            ).andExpect(
+                    status().is2xxSuccessful()
+            ).andExpect(
+                    MockMvcResultMatchers.jsonPath("code").value(0)
+            ).andDo(
+                    print()
+            ).andReturn();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void detail() {

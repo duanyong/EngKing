@@ -28,13 +28,13 @@ public class TencentOCR extends AbstractOCR {
     public void ocr(Source source) throws OCRException {
         EnglishOCRResponse response;
         try {
-            response = ocrEnglish(source.getSource());
+            response = ocrEnglish(source.getContent());
         } catch (TencentCloudSDKException e) {
             throw new OCRException(e);
         }
 
         // 用于提取整个文章
-        StringBuffer sb = new  StringBuffer();
+        StringBuffer sb = new StringBuffer ();
 
         // 用于提取整个单词的坐标系
         List<String> words      = new LinkedList<>();
@@ -55,14 +55,14 @@ public class TencentOCR extends AbstractOCR {
                 words.add(ttWord.getCharacter());
 
                 // 说明指定了单词对应的坐标
-                Point[] points = null;
+                List<Long> points = new ArrayList<>(8);
                 WordCoordPoint ttWordCoord = i < ttPoints.length ? ttPoints[i] : null;
                 if (null != ttWordCoord ) {
                     Coord[] ttCoords = ttWordCoord.getWordCoordinate();
                     if (null != ttCoords) {
-                        points = new Point[ttCoords.length];
                         for (int j = 0; j < ttCoords.length; j++) {
-                            points[j] = Copier.from(ttCoords[j]).to(new Point());
+                            points.add(ttCoords[j].getX());
+                            points.add(ttCoords[j].getY());
                         }
                     }
                 }

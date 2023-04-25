@@ -32,7 +32,7 @@ class OCRServiceTest extends ApplicationTest {
 
     @Test
     void ocr() {
-        Source source = Source.builder().source("https://bpic.588ku.com/element_origin_min_pic/19/04/22/179275a55d22dd5d535f2149d80ccc5b.jpg").build();
+        Source source = Source.builder().content("https://bpic.588ku.com/element_origin_min_pic/19/04/22/179275a55d22dd5d535f2149d80ccc5b.jpg").build();
         ocrService.ocr(source);
 
         log.info(JsonUtils.obj2Json(source));

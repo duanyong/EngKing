@@ -39,40 +39,28 @@ public class Source extends Auditable<Integer> implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")
     @Column(name = "id",                        columnDefinition = "INT UNSIGNED")
-    Long id;
+    Integer id;
 
-    @ApiModelProperty(notes = "从哪种语言翻译到目标语言：哪种语言")
+    @ApiModelProperty(notes = "上传的类型：图片，文字等")
     @Enumerated(EnumType.STRING)
-    @JsonProperty("origin")
-    @Column(name = "origin",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '从哪种语言翻译到目标语言：哪种语言'")
-    Language origin;
-
-    @ApiModelProperty(notes = "从哪种语言翻译到目标语言：目标语言")
-    @Enumerated(EnumType.STRING)
-    @JsonProperty("target")
-    @Column(name = "target",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '从哪种语言翻译到目标语言：目标语言'")
-    Language target;
+    @JsonProperty("type")
+    @Column(name = "`type`",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
+    SourceType type;
 
     @ApiModelProperty(notes = "内容标识")
     @JsonProperty("token")
     @Column(name = "token",                     columnDefinition = "CHAR(32) NULL COMMENT '内容标识'")
     String token;
 
+    @ApiModelProperty(notes = "用于存储是图片地址或网址")
+    @JsonProperty("source")
+    @Column(name = "source",                   columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
+    String source;
+
     @ApiModelProperty(notes = "处理的内容")
     @JsonProperty("content")
     @Column(name = "content",                   columnDefinition = "TEXT NULL COMMENT '处理的内容'")
     String content;
-
-    @ApiModelProperty(notes = "用于存储是图片地址或网址")
-    @JsonProperty("source")
-    @Column(name = "`source`",                 columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
-    String source;
-
-    @Convert(converter = CoordinateConverter.class)
-    @ApiModelProperty(notes = "如果是图片，将存储图片中对应单词的坐标")
-    @JsonProperty("coordinate")
-    @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
-    List<Coordinate> coordinate;
 
     @Convert(converter = LemmaConverter.class)
     @ApiModelProperty(notes = "词素（单词原型）")
@@ -80,11 +68,11 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Column(name = "lemma",                     columnDefinition = "JSON NULL COMMENT '词素（单词原型）'")
     Set<Word> lemma;
 
-    @ApiModelProperty(notes = "上传的类型：图片，文字等")
-    @Enumerated(EnumType.STRING)
-    @JsonProperty("type")
-    @Column(name = "`type`",                    columnDefinition = "VARCHAR(32) NOT NULL COMMENT '上传的类型：图片，文字等'")
-    SourceType type;
+    @Convert(converter = CoordinateConverter.class)
+    @ApiModelProperty(notes = "如果是图片，将存储图片中对应单词的坐标")
+    @JsonProperty("coordinate")
+    @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
+    List<Coordinate> coordinate;
 
     @Convert(converter = ProcessConverter.class)
     @ApiModelProperty(notes = "处理流程")
@@ -119,7 +107,7 @@ public class Source extends Auditable<Integer> implements Serializable {
 
         @Nullable
         public List<Coordinate> convertToEntityAttribute(String list) {
-            return null == list ? null : JsonUtils.json2Obj(list, List.class, Coordinate.class, Point.class);
+            return null == list ? null : JsonUtils.json2Obj(list, List.class, Coordinate.class);
         }
     }
 

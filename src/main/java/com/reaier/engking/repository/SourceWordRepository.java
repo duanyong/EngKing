@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SourceWordRepository extends CrudRepository<SourceWord, Integer> {
-    SourceWord findBySourceIdAndWordId(Long sourceId, Integer Integer);
+    SourceWord findBySourceIdAndWordId(Integer sourceId, Integer Integer);
 }

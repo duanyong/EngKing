@@ -3,8 +3,10 @@ package com.reaier.engking;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.retry.annotation.EnableRetry;
 
 
+@EnableRetry
 @SpringBootApplication
 public class Application {
     static ApplicationContext context;

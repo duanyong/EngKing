@@ -25,7 +25,7 @@ public class SourceServiceImpl implements SourceService {
     }
 
     @Override
-    public Source findById(Long id) {
+    public Source findById(Integer id) {
         return repository.findById(id).orElse(null);
     }
 

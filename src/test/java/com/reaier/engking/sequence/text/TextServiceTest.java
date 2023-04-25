@@ -21,7 +21,7 @@ class TextServiceTest extends ApplicationTest {
 
     @BeforeEach
     void setUp() {
-        source = sourceService.findById(2L);
+        source = sourceService.findById(2);
     }
 
     @AfterEach

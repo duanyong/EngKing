@@ -2,6 +2,7 @@ package com.reaier.engking.domain.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.reaier.engking.domain.User;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
@@ -19,7 +19,7 @@ import java.util.Date;
 @Setter(AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
-public class Auditable<U> {
+public abstract class Auditable<U> {
 //    @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "id",                        columnDefinition = "INT(10) UNSIGNED NOT NULL COMMENT '项目主键'")

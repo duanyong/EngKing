@@ -78,17 +78,23 @@ public class SourceController extends AbstractController {
 
     @PostMapping("/add")
     public SourceDetailVO add(@Validated @RequestBody SourceAddVO params) {
-        String md5 = DigestUtils.md5DigestAsHex(String.format("%s:%s:%s", params.getContent(), params.getOrigin(), params.getTarget()).getBytes(StandardCharsets.UTF_8));
+        String md5 = DigestUtils.md5DigestAsHex(params.getContent().getBytes(StandardCharsets.UTF_8));
         Source source = sourceService.findByToken(md5);
+
+        if (Objects.nonNull(source)) {
+            return detail(source.getId());
+        }
 
         if (Objects.isNull(params.getType())) {
             // 未指定内容是什么，默认为文本
             params.setType(SourceType.TEXT);
         }
 
-        if (Objects.nonNull(source)) {
-            // 已经有一个了，只需要复制即可
-        }
+        source = sourceService.update(Copier.from(params).to(Source.builder()
+                .token(md5)
+                .currentProcess(SourceProcess.START)
+                .processStatus(SourceProcessStatus.DONE)
+                .build()));
 
         List<SourceProcess> processes = new ArrayList<>();
         processes.add(SourceProcess.START);
@@ -110,6 +116,9 @@ public class SourceController extends AbstractController {
                 processes.add(SourceProcess.OCR);
                 processes.add(SourceProcess.TEXT);
                 processes.add(SourceProcess.TRANSLATION);
+
+                source.setSource(params.getContent());
+
                 break;
 
             case URL:
@@ -117,6 +126,8 @@ public class SourceController extends AbstractController {
                 processes.add(SourceProcess.URL);
                 processes.add(SourceProcess.TEXT);
                 processes.add(SourceProcess.TRANSLATION);
+
+                source.setSource(params.getContent());
                 break;
 
             default:
@@ -124,13 +135,7 @@ public class SourceController extends AbstractController {
 
         // 添加结束
         processes.add(SourceProcess.FINISH);
-
-        source = sourceService.update(Copier.from(params).to(Source.builder()
-                .token(md5)
-                .processes(processes)
-                .currentProcess(SourceProcess.START)
-                .processStatus(SourceProcessStatus.DONE)
-                .build()));
+        source.setProcesses(processes);
 
         // 开始分解对应的文本
         publisher.publishEvent(new SourceEvent(source));
@@ -154,7 +159,7 @@ public class SourceController extends AbstractController {
             @ApiResponse(responseCode = "401", description = "參數錯誤或沒有權限", content = {@Content()}),
     })
     @GetMapping("/detail/{id:\\d+}")
-    public SourceDetailVO detail(@PathVariable(value = "id") @Min(value = 1, message = ApiStatus.PARAMETER_VALIDATE_ERROR_MESSAGE) Long id) {
+    public SourceDetailVO detail(@PathVariable(value = "id") @Min(value = 1, message = ApiStatus.PARAMETER_VALIDATE_ERROR_MESSAGE) Integer id) {
         Source source = sourceService.findById(id);
         if (null == source) {
             throw new APIException(SourceException.THE_SOURCE_HAS_NOT_EXIST);

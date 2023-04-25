@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.validation.constraints.NotNull;
 
 @Repository
-public interface SourceRepository extends CrudRepository<Source, Long> {
+public interface SourceRepository extends CrudRepository<Source, Integer> {
     Page<Source> findAll(Pageable pageable);
     Source findByToken(@NotNull String token);
     Page<Source> findAllByType(SourceType type, Pageable pageable);

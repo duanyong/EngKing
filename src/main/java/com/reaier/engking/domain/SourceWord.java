@@ -33,7 +33,7 @@ public class SourceWord extends Auditable<Integer> implements Serializable {
     @ApiModelProperty(notes = "源主键")
     @JsonProperty("source_id")
     @Column(name = "source_id",                 columnDefinition = "INT UNSIGNED NOT NULL COMMENT '源主键'")
-    Long sourceId;
+    Integer sourceId;
 
     @ApiModelProperty(notes = "单词主键")
     @JsonProperty("word_id")
