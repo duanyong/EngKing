@@ -9,9 +9,9 @@ import com.reaier.engking.repository.SourceWordRepository;
 import com.reaier.engking.repository.WordRepository;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.text.TextService;
+import jakarta.annotation.Resource;
 import org.springframework.context.event.EventListener;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 public class LemmaPublisher extends AbstractProcessPublisher {
@@ -43,15 +43,8 @@ public class LemmaPublisher extends AbstractProcessPublisher {
 
                 wordRepository.save(word);
             }
-
-            sourceWord = sourceWordRepository.findBySourceIdAndWordId(source.getId(), word.getId());
-            if (Objects.isNull(sourceWord)) {
-                sourceWord = SourceWord.builder().sourceId(source.getId()).wordId(word.getId()).build();
-                sourceWordRepository.save(sourceWord);
-            }
         }
 
         source.setProcessStatus(SourceProcessStatus.DONE);
-        sourceRepository.save(source);
     }
 }

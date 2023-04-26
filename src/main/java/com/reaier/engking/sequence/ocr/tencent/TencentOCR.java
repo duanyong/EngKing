@@ -4,6 +4,7 @@ import com.reaier.engking.domain.Source;
 import com.reaier.engking.sequence.ocr.AbstractOCR;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
+import com.reaier.engking.utils.WordUtils;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
@@ -11,12 +12,14 @@ import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.ocr.v20181119.OcrClient;
 import com.tencentcloudapi.ocr.v20181119.models.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 // https://cloud.tencent.com/document/product/866/34938
 // 默认接口请求频率限制：10次/秒
+@Slf4j
 @Service
 public class TencentOCR extends AbstractOCR {
     private final static String SECRET_ID   = "AKIDSmI7KatAl12eQFQyI63EbAWyX9xmJ6qQ";
@@ -26,21 +29,23 @@ public class TencentOCR extends AbstractOCR {
     public void ocr(Source source) throws OCRException {
         EnglishOCRResponse response;
         try {
-            response = ocrEnglish(source.getContent());
+            response = ocrEnglish(source.getSource());
         } catch (TencentCloudSDKException e) {
             throw new OCRException(e);
         }
 
         // 用于提取整个文章
-        StringBuffer sb = new StringBuffer ();
+        StringBuilder sb = new StringBuilder();
 
         // 用于提取整个单词的坐标系
-        List<String> words      = new LinkedList<>();
+//        List<String> words      = new LinkedList<>();
         List<Coordinate> coords = new LinkedList<>();
 
         TextDetectionEn[] ens = response.getTextDetections();
         for (TextDetectionEn item : ens) {
-            sb.append(item.getDetectedText()).append(' ');
+            sb.append(item.getDetectedText())
+                    .append("\r\n");
+            log.debug(item.getDetectedText());
 
             Words[] ttWords = item.getWords();
             WordCoordPoint[] ttPoints = item.getWordCoordPoint();
@@ -49,8 +54,14 @@ public class TencentOCR extends AbstractOCR {
             for (int i = 0; i < ttWords.length; i++) {
                 // 此行中有多少个单词
                 Words ttWord = ttWords[i];
+                if (!WordUtils.isWord(ttWord.getCharacter())) {
+                    // 只接受英文单词
+                    log.debug("识别的非单词: {}", ttWord.getCharacter());
+                    continue;
+                }
 
-                words.add(ttWord.getCharacter());
+                log.debug(ttWord.getCharacter());
+//                words.add(ttWord.getCharacter());
 
                 // 说明指定了单词对应的坐标
                 List<Long> points = new ArrayList<>(8);
@@ -65,17 +76,18 @@ public class TencentOCR extends AbstractOCR {
                     }
                 }
 
-                coords.add(null == points ? null : Coordinate.builder().word(ttWord.getCharacter()).points(points).build());
+                coords.add(Coordinate.builder().word(ttWord.getCharacter()).points(points).build());
             }
         }
 
         if (sb.length() > 0) {
-            source.setContent(sb.substring(0, sb.length() -1));
+            source.setContent(sb.toString());
             source.setCoordinate(coords);
         }
     }
 
     private EnglishOCRResponse ocrEnglish(@NotNull String url) throws TencentCloudSDKException {
+        log.debug("OCR阶段开始，URI：{}", url);
         // 密钥可前往官网控制台 https://console.cloud.tencent.com/cam/capi 进行获取
         Credential cred = new Credential(SECRET_ID, SECRET_KEY);
 
@@ -98,7 +110,6 @@ public class TencentOCR extends AbstractOCR {
         req.setPreprocess(true);
 
         try {
-
             // 返回的resp是一个EnglishOCRResponse的实例，与请求对象对应
             return client.EnglishOCR(req);
         } catch (TencentCloudSDKException e) {

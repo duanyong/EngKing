@@ -3,6 +3,8 @@ package com.reaier.engking.utils;
 public class WordUtils {
         public static boolean isWord(String word) {
             int n = word.length();
+            if (1 == n) return false;
+
             boolean hasHyphens = false;
             for (int i = 0; i < n; i++) {
                 if (Character.isDigit(word.charAt(i))) {

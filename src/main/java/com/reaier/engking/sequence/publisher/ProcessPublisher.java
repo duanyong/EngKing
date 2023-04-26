@@ -68,12 +68,15 @@ public class ProcessPublisher extends AbstractProcessPublisher {
                 // 处理出错
                 status  = SourceProcessStatus.FAIL;
                 process = e.getProcess();
+                e.printStackTrace();
 
             } finally {
                 source = sourceRepository.findById(source.getId()).orElse(null);
                 if (Objects.nonNull(source)) {
                     source.setProcessStatus(status);
                     source.setCurrentProcess(process);
+
+                    sourceRepository.save(source);
                 }
             }
         }
