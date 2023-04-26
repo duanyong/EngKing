@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WordRepository extends CrudRepository<Word, Long> {
+public interface WordRepository extends CrudRepository<Word, Integer> {
     Page<Word> findAll(Pageable pageable);
     Word findByName(String name);
 }
