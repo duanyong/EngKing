@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -62,15 +63,15 @@ public class Source extends Auditable<Integer> implements Serializable {
 
     @Convert(converter = LemmaConverter.class)
     @ApiModelProperty(notes = "词素（单词原型）")
-    @JsonProperty("lemma")
-    @Column(name = "lemma",                     columnDefinition = "JSON NULL COMMENT '词素（单词原型）'")
-    Set<Word> lemma;
+    @JsonProperty("lemmas")
+    @Column(name = "lemmas",                    columnDefinition = "JSON NULL COMMENT '词素（单词原型）'")
+    Map<String, String> lemmas;
 
     @Convert(converter = CoordinateConverter.class)
     @ApiModelProperty(notes = "如果是图片，将存储图片中对应单词的坐标")
-    @JsonProperty("coordinate")
-    @Column(name = "Coordinate",                columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
-    List<Coordinate> coordinate;
+    @JsonProperty("coordinates")
+    @Column(name = "Coordinates",               columnDefinition = "JSON NULL COMMENT '如果是图片，将存储图片中对应单词的坐标'")
+    List<Coordinate> coordinates;
 
     @Convert(converter = ProcessConverter.class)
     @ApiModelProperty(notes = "处理流程")
@@ -112,15 +113,15 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Converter(
             autoApply = true
     )
-    private static class LemmaConverter implements AttributeConverter<Set, String> {
-        @Nullable
-        public String convertToDatabaseColumn(Set set) {
-            return null == set ? null : JsonUtils.obj2Json(set);
+    private static class LemmaConverter implements AttributeConverter<Map<String, String>, String> {
+        @Override
+        public String convertToDatabaseColumn(Map<String, String> string) {
+            return null == string ? null : JsonUtils.obj2Json(string);
         }
 
         @Nullable
-        public Set<Word> convertToEntityAttribute(String set) {
-            return null == set ? null : JsonUtils.json2Obj(set, HashSet.class, Word.class);
+        public Map<String, String> convertToEntityAttribute(String set) {
+            return null == set ? null : JsonUtils.json2Obj(set, Map.class);
         }
     }
 

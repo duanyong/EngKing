@@ -1,9 +1,10 @@
-package com.reaier.engking.sequence.publisher;
+package com.reaier.engking.sequence.listener;
 
 import com.reaier.engking.ApplicationTest;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
 import com.reaier.engking.sequence.events.SourceEvent;
+import com.reaier.engking.sequence.events.preproccess.LemmaEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +14,7 @@ import org.springframework.context.ApplicationEventPublisher;
 
 
 
-class ProcessPublisherTest extends ApplicationTest {
+class SourcePublisherTest extends ApplicationTest {
     @Resource
     ApplicationEventPublisher publisher;
 
@@ -40,6 +41,19 @@ class ProcessPublisherTest extends ApplicationTest {
         Source source = sourceRepository.findById(3).orElse(null);
 
         publisher.publishEvent(new OCREvent(source));
+
+        try {
+            Thread.sleep(50 * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    void doLemmaEvent() {
+        Source source = sourceRepository.findById(3).orElse(null);
+
+        publisher.publishEvent(new LemmaEvent(source));
 
         try {
             Thread.sleep(50 * 1000);

@@ -1,19 +1,15 @@
-package com.reaier.engking.sequence.publisher;
+package com.reaier.engking.sequence.listener;
 
 
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.SourceRepository;
-import com.reaier.engking.repository.WordRepository;
 import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.exception.EventException;
 import com.reaier.engking.sequence.ocr.OCRService;
-import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
-import com.reaier.engking.utils.WordUtils;
 import jakarta.annotation.Resource;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
@@ -30,16 +26,14 @@ import java.util.Objects;
 @Slf4j
 @Component
 //@Profile("prod")
-public class OCRPublisher extends AbstractProcessPublisher {
+public class OCRListener extends AbstractProcessListener {
     @Resource
     OCRService ocrService;
 
     @Resource
-    WordRepository wordRepository;
-
-    @Resource
     SourceRepository sourceRepository;
 
+    // https://blog.csdn.net/daijiguo/article/details/85078433 关于@Async注解所起子线程会随着主线程退出而退出的问题的分析
     @Async
     @EventListener
     public void doEvent(OCREvent event) throws EventException {
@@ -75,7 +69,7 @@ public class OCRPublisher extends AbstractProcessPublisher {
         }
 
         newest.setContent(source.getContent());
-        newest.setCoordinate(source.getCoordinate());
+        newest.setCoordinates(source.getCoordinates());
         newest.setCurrentProcess(SourceProcess.OCR);
         newest.setProcessStatus(source.getProcessStatus());
 
@@ -86,6 +80,6 @@ public class OCRPublisher extends AbstractProcessPublisher {
     private void Recover(OptimisticLockException exception, Integer id, SourceProcessStatus status) {
         log.warn("OCR保存时失败，失败的SourceId[{}]，需要保存的状态：{}, Message: {}", id, status, exception.getMessage());
 
-        throw new EventException(SourceProcess.OCR, "OCR保存时失败");
+        throw new EventException(SourceProcess.OCR, "尝试保存OCR结果时失败");
     }
 }

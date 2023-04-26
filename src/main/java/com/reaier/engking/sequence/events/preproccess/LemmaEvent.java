@@ -4,13 +4,8 @@ import com.reaier.engking.domain.Source;
 import lombok.Builder;
 import org.springframework.context.ApplicationEvent;
 
-@Builder
-public class LemmatizeEvent extends ApplicationEvent {
-    public LemmatizeEvent() {
-        this(null);
-    }
-
-    public LemmatizeEvent(Source source) {
+public class LemmaEvent extends ApplicationEvent {
+    public LemmaEvent(Source source) {
         super(source);
     }
 }

@@ -11,7 +11,6 @@ import com.reaier.engking.controller.response.SourceDetailVO;
 import com.reaier.engking.controller.status.ApiStatus;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.sequence.events.SourceEvent;
-import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.utils.Copier;
 import io.swagger.v3.oas.annotations.Operation;
@@ -102,19 +101,20 @@ public class SourceController extends AbstractController {
         switch (params.getType()) {
             case WORD:
 
+                processes.add(SourceProcess.LEMMA);
                 processes.add(SourceProcess.TRANSLATION);
 
                 break;
             case TEXT:
 
-                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.LEMMA);
                 processes.add(SourceProcess.TRANSLATION);
 
                 break;
             case IMAGE:
 
                 processes.add(SourceProcess.OCR);
-                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.LEMMA);
                 processes.add(SourceProcess.TRANSLATION);
 
                 source.setSource(params.getContent());
@@ -124,7 +124,7 @@ public class SourceController extends AbstractController {
             case URL:
 
                 processes.add(SourceProcess.URL);
-                processes.add(SourceProcess.TEXT);
+                processes.add(SourceProcess.LEMMA);
                 processes.add(SourceProcess.TRANSLATION);
 
                 source.setSource(params.getContent());

@@ -5,5 +5,4 @@ import com.reaier.engking.sequence.text.exception.TextException;
 
 public interface TextService {
     void tokenize(Source source) throws TextException;
-
 }

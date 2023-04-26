@@ -82,7 +82,7 @@ public class TencentOCR extends AbstractOCR {
 
         if (sb.length() > 0) {
             source.setContent(sb.toString());
-            source.setCoordinate(coords);
+            source.setCoordinates(coords);
         }
     }
 

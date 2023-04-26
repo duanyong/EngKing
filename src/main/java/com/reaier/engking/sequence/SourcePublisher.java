@@ -1,10 +1,11 @@
-package com.reaier.engking.sequence.publisher;
+package com.reaier.engking.sequence;
 
 
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.domain.Source;
-import com.reaier.engking.sequence.events.preproccess.LemmatizeEvent;
+import com.reaier.engking.repository.SourceRepository;
+import com.reaier.engking.sequence.events.preproccess.LemmaEvent;
 import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.events.preproccess.TransEvent;
@@ -20,9 +21,16 @@ import java.util.Objects;
 
 @Slf4j
 @Component
-public class ProcessPublisher extends AbstractProcessPublisher {
+public class SourcePublisher {
     @Resource
     ApplicationEventPublisher publisher;
+
+    @Resource
+    protected SourceRepository sourceRepository;
+
+    protected SourceProcess next(Source source) {
+        return source.getCurrentProcess().next(source.getProcesses());
+    }
 
     @EventListener
     public void doEvent(SourceEvent event) throws EventException {
@@ -53,8 +61,8 @@ public class ProcessPublisher extends AbstractProcessPublisher {
                         publisher.publishEvent(new OCREvent(source));
                         break;
 
-                    case TEXT:
-                        publisher.publishEvent(new LemmatizeEvent(source));
+                    case LEMMA:
+                        publisher.publishEvent(new LemmaEvent(source));
                         break;
 
                     case TRANSLATION:

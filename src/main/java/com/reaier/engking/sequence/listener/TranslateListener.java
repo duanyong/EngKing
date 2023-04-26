@@ -1,4 +1,4 @@
-package com.reaier.engking.sequence.publisher;
+package com.reaier.engking.sequence.listener;
 
 
 import com.reaier.engking.constants.SourceProcessStatus;
@@ -13,7 +13,6 @@ import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
 import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
@@ -21,8 +20,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-@Profile("prod")
-public class TranslatePublisher extends AbstractProcessPublisher {
+//@Profile("prod")
+public class TranslateListener extends AbstractProcessListener {
     @Resource
     OCRService ocrService;
 
@@ -46,7 +45,7 @@ public class TranslatePublisher extends AbstractProcessPublisher {
         }
 
         // 将识别出来的单词存储起来
-        List<Coordinate> list = source.getCoordinate();
+        List<Coordinate> list = source.getCoordinates();
         for (Coordinate item : list) {
             if (StringUtils.isNotEmpty(item.getWord())) {
                 Word word = wordRepository.findByName(item.getWord());

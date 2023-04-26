@@ -3,7 +3,7 @@ package com.reaier.engking.constants;
 import java.util.List;
 
 public enum SourceProcess {
-    START, URL, OCR, TEXT, TRANSLATION, FINISH;
+    START, URL, OCR, LEMMA, TRANSLATION, FINISH;
 
     public SourceProcess next(List<SourceProcess> circle) {
         int ordinal = circle.size();
