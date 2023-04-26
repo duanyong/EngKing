@@ -10,12 +10,12 @@ import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.events.preproccess.TransEvent;
 import com.reaier.engking.sequence.events.preproccess.URLEvent;
 import com.reaier.engking.sequence.exception.EventException;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 @Slf4j

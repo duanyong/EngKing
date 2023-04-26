@@ -1,10 +1,10 @@
 package com.reaier.engking.domain.convert;
 
 import com.reaier.engking.utils.JsonUtils;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 import java.util.List;
 
 

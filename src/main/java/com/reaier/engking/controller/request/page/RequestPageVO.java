@@ -2,11 +2,9 @@ package com.reaier.engking.controller.request.page;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Setter;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
 
 @Setter
 public class RequestPageVO implements IRequestPageVO {

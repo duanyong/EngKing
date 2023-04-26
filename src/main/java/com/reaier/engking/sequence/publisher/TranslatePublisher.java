@@ -11,12 +11,12 @@ import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.ocr.OCRService;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
+import jakarta.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 

@@ -3,9 +3,9 @@ package com.reaier.engking.dictionary;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.PartOfSpeech;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 public class Translation {
     @ApiModelProperty(notes = "词性")

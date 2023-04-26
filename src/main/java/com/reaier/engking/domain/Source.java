@@ -1,19 +1,17 @@
 package com.reaier.engking.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceProcess;
 import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.audit.Auditable;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
-import com.reaier.engking.sequence.ocr.describe.Point;
 import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.*;
 import lombok.*;
 
 import javax.annotation.Nullable;
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;

@@ -14,6 +14,8 @@ import com.reaier.engking.sequence.ocr.OCRService;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
 import com.reaier.engking.utils.WordUtils;
+import jakarta.annotation.Resource;
+import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.retry.annotation.Backoff;
@@ -21,8 +23,6 @@ import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.persistence.OptimisticLockException;
 import java.util.List;
 import java.util.Objects;
 

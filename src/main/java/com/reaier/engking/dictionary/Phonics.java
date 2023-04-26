@@ -3,11 +3,11 @@ package com.reaier.engking.dictionary;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reaier.engking.constants.Dialect;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.*;
 
 
 @Getter

@@ -5,9 +5,9 @@ import com.reaier.engking.constants.Language;
 import com.reaier.engking.domain.audit.Auditable;
 import com.reaier.engking.domain.convert.JSONConverter;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 

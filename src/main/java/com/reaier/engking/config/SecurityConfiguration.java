@@ -15,7 +15,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.formLogin().and().csrf().disable().requestMatchers().antMatchers("/swagger-ui/**");
+        // TODO：暂没解决掉这个问题
+//        http.formLogin().and().csrf().disable().requestMatchers().antMatchers("/swagger-ui/**");
 
         return http.build();
     }

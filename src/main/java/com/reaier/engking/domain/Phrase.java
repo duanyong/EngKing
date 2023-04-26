@@ -1,12 +1,11 @@
 package com.reaier.engking.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.reaier.engking.constants.Language;
 import com.reaier.engking.domain.audit.Auditable;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 

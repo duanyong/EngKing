@@ -3,18 +3,16 @@ package com.reaier.engking.sequence.ocr.tencent;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.sequence.ocr.AbstractOCR;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
-import com.reaier.engking.sequence.ocr.describe.Point;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
-import com.reaier.engking.utils.Copier;
 import com.tencentcloudapi.common.Credential;
 import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.common.profile.ClientProfile;
 import com.tencentcloudapi.common.profile.HttpProfile;
 import com.tencentcloudapi.ocr.v20181119.OcrClient;
 import com.tencentcloudapi.ocr.v20181119.models.*;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 // https://cloud.tencent.com/document/product/866/34938

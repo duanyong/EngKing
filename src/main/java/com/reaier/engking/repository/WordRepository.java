@@ -6,10 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.NotNull;
-
 @Repository
 public interface WordRepository extends CrudRepository<Word, Long> {
     Page<Word> findAll(Pageable pageable);
-    Word findByName(@NotNull String name);
+    Word findByName(String name);
 }
