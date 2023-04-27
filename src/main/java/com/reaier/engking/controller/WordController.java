@@ -1,22 +1,17 @@
 package com.reaier.engking.controller;
 
-import com.reaier.engking.constants.SourceProcess;
-import com.reaier.engking.constants.SourceProcessStatus;
-import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.controller.exception.APIException;
 import com.reaier.engking.controller.exception.SourceException;
 import com.reaier.engking.controller.exception.WordException;
-import com.reaier.engking.controller.request.SourceAddVO;
-import com.reaier.engking.controller.request.SourcePageVO;
 import com.reaier.engking.controller.request.WordAddVO;
 import com.reaier.engking.controller.response.SourceDetailVO;
-import com.reaier.engking.controller.status.ApiStatus;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.domain.SourceWord;
+import com.reaier.engking.domain.UserWord;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.SourceWordRepository;
+import com.reaier.engking.repository.UserWordRepository;
 import com.reaier.engking.repository.WordRepository;
-import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.service.SourceService;
 import com.reaier.engking.utils.Copier;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,21 +21,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import jakarta.validation.constraints.Min;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -58,6 +47,9 @@ public class WordController extends AbstractController {
 
     @Resource
     SourceWordRepository sourceWordRepository;
+
+    @Resource
+    UserWordRepository userWordRepository;
 
     @Resource
     WordRepository wordRepository;
@@ -87,7 +79,7 @@ public class WordController extends AbstractController {
 
 
     @PostMapping("/add")
-    public List add(@Validated WordAddVO params) {
+    public List add(@Validated @RequestBody WordAddVO params) {
         Source source = sourceService.findById(params.getSourceId());
 
         if (Objects.isNull(source)) {
@@ -98,23 +90,28 @@ public class WordController extends AbstractController {
             throw new APIException(WordException.THE_WORD_IS_EMPTY);
         }
 
-        List<SourceWord> datas = params.getWords().parallelStream().distinct().map(item -> {
-            Word word = wordRepository.findByName(item.trim());
-            if (Objects.isNull(word)) {
-                return null;
-            }
+        List<Word> words = params.getWords().parallelStream().distinct().map(wordRepository::findByName).filter(Objects::nonNull).toList();
 
-            SourceWord data = sourceWordRepository.findBySourceIdAndWordId(source.getId(), word.getId());
-            if (Objects.isNull(data)) {
-                return null;
-            }
+        List<SourceWord> sourceWords = words.parallelStream()
+                .filter(word -> Objects.isNull(sourceWordRepository.findBySourceIdAndWordId(source.getId(), word.getId())))
+                .map(word -> SourceWord.builder().sourceId(source.getId()).wordId(word.getId()).build())
+                .collect(Collectors.toList());
 
-            return SourceWord.builder().sourceId(source.getId()).wordId(word.getId()).build();
-        }).filter(Objects::nonNull).collect(Collectors.toList());
+        List<UserWord> userWords = words.parallelStream()
+                .filter(word -> Objects.isNull(userWordRepository.findBySourceIdAndWordId(params.getSourceId(), word.getId())))
+                .map(word -> UserWord.builder().wordId(word.getId()).sourceId(params.getSourceId()).build())
+                .collect(Collectors.toList());
 
-        sourceWordRepository.saveAll(datas);
+        // 将对应单词添加到词源表和单词表中
+        if (!userWords.isEmpty()) {
+            userWordRepository.saveAll(userWords);
+        }
 
-        return datas.parallelStream().map(data -> wordRepository.findById(data.getId())).collect(Collectors.toList());
+        if (!sourceWords.isEmpty()) {
+            sourceWordRepository.saveAll(sourceWords);
+        }
+
+        return sourceWords.parallelStream().map(data -> wordRepository.findById(data.getId())).collect(Collectors.toList());
     }
 }
 

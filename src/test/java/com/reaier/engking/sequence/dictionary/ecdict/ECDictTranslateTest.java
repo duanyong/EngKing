@@ -5,8 +5,7 @@ import com.reaier.engking.domain.Phrase;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.PhraseRepository;
 import com.reaier.engking.repository.WordRepository;
-import com.reaier.engking.utils.JsonUtils;
-import com.tencentcloudapi.ocr.v20181119.models.Words;
+import jakarta.annotation.Resource;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;

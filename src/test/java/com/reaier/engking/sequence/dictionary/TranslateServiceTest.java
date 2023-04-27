@@ -3,10 +3,10 @@ package com.reaier.engking.sequence.dictionary;
 import com.reaier.engking.ApplicationTest;
 import com.reaier.engking.domain.Word;
 import com.reaier.engking.repository.WordRepository;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.Resource;
 
 class TranslateServiceTest extends ApplicationTest {
 
@@ -20,7 +20,7 @@ class TranslateServiceTest extends ApplicationTest {
 
     @BeforeEach
     private void before() {
-        word = wordRepository.findById(1l).orElse(null);
+        word = wordRepository.findById(1).orElse(null);
     }
 
     @Test

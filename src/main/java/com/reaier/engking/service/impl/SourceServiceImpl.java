@@ -3,16 +3,13 @@ package com.reaier.engking.service.impl;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.repository.SourceRepository;
-import com.reaier.engking.repository.WordRepository;
-import com.reaier.engking.sequence.ocr.OCRService;
-import com.reaier.engking.sequence.text.TextService;
 import com.reaier.engking.service.SourceService;
+import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 
 @Service
 public class SourceServiceImpl implements SourceService {

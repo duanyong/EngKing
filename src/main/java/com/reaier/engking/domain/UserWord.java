@@ -16,14 +16,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Table(name = "source_words",
+@Table(name = "user_words",
         indexes = {
-                @Index(name = "IDX_SOURCE_WORD",            columnList = "source_id,word_id")
+                @Index(name = "IDX_USER_WORD",            columnList = "creator_by,word_id")
         },
         uniqueConstraints = {
-                @UniqueConstraint(name = "UNQ_SOURCE_WORD",       columnNames = {"source_id", "word_id"})
+                @UniqueConstraint(name = "UNQ_SOURCE_WORD_CREATOR",       columnNames = {"source_id", "word_id", "creator_by"})
         })
-public class SourceWord extends Auditable<Integer> implements Serializable {
+public class UserWord extends Auditable<Integer> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("id")

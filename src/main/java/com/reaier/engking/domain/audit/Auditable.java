@@ -27,7 +27,7 @@ public abstract class Auditable<U> {
 
     @CreatedBy
     @JsonIgnore
-    @Column(name = "creator_by",                columnDefinition = "INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建者账号主键'")
+    @Column(name = "creator_by",                columnDefinition = "INT(10) UNSIGNED NOT NULL DEFAULT '0' COMMENT '创建者账号主键'", updatable = false)
     Integer creatorBy;
 
     @JsonIgnore

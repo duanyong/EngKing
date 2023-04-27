@@ -93,6 +93,12 @@
 			<version>${springfox.version}</version>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>org.hibernate.validator</groupId>-->
+<!--			<artifactId>hibernate-validator</artifactId>-->
+<!--			<version>8.0.0.Final</version>-->
+<!--		</dependency>-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -121,12 +127,12 @@
 			<version>31.1-jre</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/net.jodah/typetools -->
-		<dependency>
-			<groupId>net.jodah</groupId>
-			<artifactId>typetools</artifactId>
-			<version>0.4.1</version>
-		</dependency>
+<!--		&lt;!&ndash; https://mvnrepository.com/artifact/net.jodah/typetools &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>net.jodah</groupId>-->
+<!--			<artifactId>typetools</artifactId>-->
+<!--			<version>0.4.1</version>-->
+<!--		</dependency>-->
 
 <!--		&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient &ndash;&gt;-->
 <!--		<dependency>-->
@@ -182,6 +188,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>16</source>
+					<target>16</target>
+				</configuration>
 			</plugin>
 
 		</plugins>

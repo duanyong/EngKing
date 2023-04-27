@@ -1,10 +1,10 @@
 package com.reaier.engking.controller;
 
 import com.reaier.engking.ApplicationTest;
-import com.reaier.engking.constants.Language;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.controller.request.SourceAddVO;
 import com.reaier.engking.utils.JsonUtils;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
@@ -12,9 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import javax.annotation.Resource;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

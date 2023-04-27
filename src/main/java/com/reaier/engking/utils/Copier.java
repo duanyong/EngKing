@@ -2,7 +2,6 @@ package com.reaier.engking.utils;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import net.jodah.typetools.TypeResolver;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.util.Assert;
@@ -11,7 +10,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class Copier {
@@ -32,26 +30,26 @@ public class Copier {
         return new Copier(source);
     }
 
-    /**
-     * 注册属性转换器,可以多次调用
-     * 不要传lambda表达式
-     * @param converter spring提供的转换器接口
-     */
-    public <S, T> Copier usePropertyConverter(Converter<S, T> converter) {
-        Assert.notNull(converter, "属性转换器不能为空");
-
-        Class<?>[] generics = TypeResolver.resolveRawArguments(Converter.class, converter.getClass());
-
-        Assert.isTrue(generics.length == 2, "converter的泛型数量必须为2");
-
-        converterTable.put(
-                Objects.requireNonNull(generics[0]),
-                Objects.requireNonNull(generics[1]),
-                converter
-        );
-
-        return this;
-    }
+//    /**
+//     * 注册属性转换器,可以多次调用
+//     * 不要传lambda表达式
+//     * @param converter spring提供的转换器接口
+//     */
+//    public <S, T> Copier usePropertyConverter(Converter<S, T> converter) {
+//        Assert.notNull(converter, "属性转换器不能为空");
+//
+//        Class<?>[] generics = TypeResolver.resolveRawArguments(Converter.class, converter.getClass());
+//
+//        Assert.isTrue(generics.length == 2, "converter的泛型数量必须为2");
+//
+//        converterTable.put(
+//                Objects.requireNonNull(generics[0]),
+//                Objects.requireNonNull(generics[1]),
+//                converter
+//        );
+//
+//        return this;
+//    }
 
 
     /**
