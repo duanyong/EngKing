@@ -54,7 +54,7 @@ public class LemmaListener extends AbstractProcessListener {
             return ;
         }
 
-        newest.setContent(source.getContent());
+        newest.setTexts(source.getTexts());
         newest.setLemmas(source.getLemmas());
         newest.setCurrentProcess(SourceProcess.LEMMA);
         newest.setProcessStatus(source.getProcessStatus());

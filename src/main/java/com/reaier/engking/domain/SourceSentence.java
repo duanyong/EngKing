@@ -1,7 +1,6 @@
 package com.reaier.engking.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.reaier.engking.constants.Language;
 import com.reaier.engking.domain.audit.Auditable;
 import com.reaier.engking.domain.convert.JSONConverter;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,19 +17,24 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-// 用于示范的句子
-@Table(name = "sentences",
+
+@Table(name = "source_sentences",
         indexes = {
-                @Index(name = "IDX_TOKEN",            columnList = "token")
+                @Index(name = "IDX_USER_WORD",            columnList = "creator_by,word_id")
         },
         uniqueConstraints = {
-                @UniqueConstraint(name = "UNQ_TOKEN",       columnNames = {"token"})
+                @UniqueConstraint(name = "UNQ_SOURCE_WORD_CREATOR",       columnNames = {"source_id", "word_id", "creator_by"})
         })
-public class Sentence extends Auditable<Integer> implements Serializable {
+public class SourceSentence extends Auditable<Integer> implements Serializable {
     @Id
     @JsonProperty("token")
     @Column(name = "token",                     columnDefinition = "INT UNSIGNED")
     Long token;
+
+    @ApiModelProperty(notes = "源主键")
+    @JsonProperty("source_id")
+    @Column(name = "source_id",                 columnDefinition = "INT UNSIGNED NOT NULL COMMENT '源主键'")
+    Integer sourceId;
 
     @ApiModelProperty(notes = "句子")
     @JsonProperty("sentence")
@@ -54,7 +58,7 @@ public class Sentence extends Auditable<Integer> implements Serializable {
     @Column(name = "key_phrases",               columnDefinition = "JSON NULL COMMENT '关键句型'")
     List<String> keyPhrases;
 
-    @Convert(converter = JSONConverter.StringListConverter.class)
+    @Convert(converter = JSONConverter.IntegerListConverter.class)
     @ApiModelProperty(notes = "单词列表")
     @JsonProperty("word_ids")
     @Column(name = "word_ids",                  columnDefinition = "JSON NULL COMMENT '关键字'")

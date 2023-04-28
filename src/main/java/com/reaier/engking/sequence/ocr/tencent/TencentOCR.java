@@ -2,7 +2,8 @@ package com.reaier.engking.sequence.ocr.tencent;
 
 import com.reaier.engking.domain.Source;
 import com.reaier.engking.sequence.ocr.AbstractOCR;
-import com.reaier.engking.sequence.ocr.describe.Coordinate;
+import com.reaier.engking.sequence.source.Text;
+import com.reaier.engking.sequence.source.Word;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
 import com.reaier.engking.utils.WordUtils;
 import com.tencentcloudapi.common.Credential;
@@ -19,6 +20,7 @@ import java.util.*;
 
 // https://cloud.tencent.com/document/product/866/34938
 // 默认接口请求频率限制：10次/秒
+// TODO: 应使用HTTP池，同步对路由进行并发限制
 @Slf4j
 @Service
 public class TencentOCR extends AbstractOCR {
@@ -26,7 +28,7 @@ public class TencentOCR extends AbstractOCR {
     private final static String SECRET_KEY  = "2W6MDGuCxoLJtvapr0qwQ035zs66RsB2";
 
     @Override
-    public void ocr(Source source) throws OCRException {
+    public List<Text> ocr(Source source) throws OCRException {
         EnglishOCRResponse response;
         try {
             response = ocrEnglish(source.getSource());
@@ -34,22 +36,19 @@ public class TencentOCR extends AbstractOCR {
             throw new OCRException(e);
         }
 
-        // 用于提取整个文章
-        StringBuilder sb = new StringBuilder();
 
         // 用于提取整个单词的坐标系
-//        List<String> words      = new LinkedList<>();
-        List<Coordinate> coords = new LinkedList<>();
+        List<Text> texts        = new LinkedList<>();
 
         TextDetectionEn[] ens = response.getTextDetections();
         for (TextDetectionEn item : ens) {
-            sb.append(item.getDetectedText())
-                    .append("\r\n");
+            Text text = Text.builder().text(item.getDetectedText()).build();
             log.debug(item.getDetectedText());
 
             Words[] ttWords = item.getWords();
             WordCoordPoint[] ttPoints = item.getWordCoordPoint();
 
+            List<Word> words = new LinkedList<>();
             // 根据每行对应的句子，将每个单词单独拿出来
             for (int i = 0; i < ttWords.length; i++) {
                 // 此行中有多少个单词
@@ -60,11 +59,11 @@ public class TencentOCR extends AbstractOCR {
                     continue;
                 }
 
+                Word word = Word.builder().word(ttWord.getCharacter()).build();
                 log.debug(ttWord.getCharacter());
-//                words.add(ttWord.getCharacter());
 
                 // 说明指定了单词对应的坐标
-                List<Long> points = new ArrayList<>(8);
+                List<Long> points = new ArrayList<>(ttPoints.length * 2);
                 WordCoordPoint ttWordCoord = i < ttPoints.length ? ttPoints[i] : null;
                 if (null != ttWordCoord ) {
                     Coord[] ttCoords = ttWordCoord.getWordCoordinate();
@@ -76,14 +75,14 @@ public class TencentOCR extends AbstractOCR {
                     }
                 }
 
-                coords.add(Coordinate.builder().word(ttWord.getCharacter()).points(points).build());
+                word.setPoints(points);
+                words.add(word);
             }
+
+            text.setWords(words);
         }
 
-        if (sb.length() > 0) {
-            source.setContent(sb.toString());
-            source.setCoordinates(coords);
-        }
+        return texts;
     }
 
     private EnglishOCRResponse ocrEnglish(@NotNull String url) throws TencentCloudSDKException {

@@ -27,7 +27,7 @@ public class TextServiceImpl implements TextService {
         properties.put("annotators", "tokenize,pos,lemma");
 
         StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
-        CoreDocument document = new CoreDocument(source.getContent());
+        CoreDocument document = new CoreDocument(source.getTexts());
         pipeline.annotate(document);
 
         Map<String, String> lemmas = new HashMap<>();

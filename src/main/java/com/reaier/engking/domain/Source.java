@@ -6,6 +6,7 @@ import com.reaier.engking.constants.SourceProcessStatus;
 import com.reaier.engking.constants.SourceType;
 import com.reaier.engking.domain.audit.Auditable;
 import com.reaier.engking.sequence.ocr.describe.Coordinate;
+import com.reaier.engking.sequence.source.Text;
 import com.reaier.engking.utils.JsonUtils;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.persistence.*;
@@ -13,10 +14,8 @@ import lombok.*;
 
 import javax.annotation.Nullable;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 
 @Getter
@@ -53,13 +52,15 @@ public class Source extends Auditable<Integer> implements Serializable {
 
     @ApiModelProperty(notes = "用于存储是图片地址或网址")
     @JsonProperty("source")
-    @Column(name = "source",                   columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
+    @Column(name = "source",                    columnDefinition = "VARCHAR(512) NULL COMMENT '用于存储是图片地址或网址'")
     String source;
 
-    @ApiModelProperty(notes = "处理的内容")
-    @JsonProperty("content")
-    @Column(name = "content",                   columnDefinition = "TEXT NULL COMMENT '处理的内容'")
-    String content;
+    // 通过OCR识别出来的文本内容，包含短句和单词列表，单词包括对应的位置信息
+    @Convert(converter = TextConverter.class)
+    @ApiModelProperty(notes = "通过OCR识别出来的文本内容")
+    @JsonProperty("texts")
+    @Column(name = "texts",                     columnDefinition = "JSON NULL COMMENT '通过OCR识别出来的文本内容'")
+    List<Text> texts;
 
     @Convert(converter = LemmaConverter.class)
     @ApiModelProperty(notes = "词素（单词原型）")
@@ -94,6 +95,21 @@ public class Source extends Auditable<Integer> implements Serializable {
     @Version
     @Column(name = "version",                   columnDefinition = "INT(10) UNSIGNED DEFAULT '0' COMMENT '版本号处理'")
     Integer version;
+
+    @Converter(
+            autoApply = true
+    )
+    private static class TextConverter implements AttributeConverter<List, String> {
+        @Nullable
+        public String convertToDatabaseColumn(List list) {
+            return null == list ? null : JsonUtils.obj2Json(list);
+        }
+
+        @Nullable
+        public List<Text> convertToEntityAttribute(String list) {
+            return null == list ? null : JsonUtils.json2Obj(list, List.class, Text.class);
+        }
+    }
 
     @Converter(
             autoApply = true

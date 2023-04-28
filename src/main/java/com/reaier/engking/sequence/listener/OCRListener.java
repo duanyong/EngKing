@@ -9,7 +9,9 @@ import com.reaier.engking.sequence.events.SourceEvent;
 import com.reaier.engking.sequence.events.preproccess.OCREvent;
 import com.reaier.engking.sequence.exception.EventException;
 import com.reaier.engking.sequence.ocr.OCRService;
+import com.reaier.engking.sequence.ocr.describe.Coordinate;
 import com.reaier.engking.sequence.ocr.exception.OCRException;
+import com.reaier.engking.sequence.source.Text;
 import jakarta.annotation.Resource;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,8 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -41,9 +45,9 @@ public class OCRListener extends AbstractProcessListener {
         Source source = (Source) event.getSource();
 
         log.info("开始处理 OCR 事件: {}", source.getSource());
+        List<Text> texts;
         try {
-            ocrService.ocr(source);
-            source.setProcessStatus(SourceProcessStatus.DONE);      // OCR 处理成功
+            texts = ocrService.ocr(source);
         } catch (OCRException e) {
             // 识别失败
             log.warn("处理 OCR 失败: {}，错误原因: {}", source.getSource(), e.getMessage());
@@ -54,7 +58,17 @@ public class OCRListener extends AbstractProcessListener {
             throw new EventException(source.getCurrentProcess(), e.getMessage());
         }
 
+        StringBuilder content = new StringBuilder();
+        List<Coordinate> words = new LinkedList<>();
+        texts.forEach(text -> {
+            content.append(text.getText()).append("r\rn");
 
+            text.getWords().forEach(word -> words.add(Coordinate.builder().word(word.getWord()).points(word.getPoints()).build()));
+        });
+
+
+        source.setTexts(content.toString());
+        source.setProcessStatus(SourceProcessStatus.DONE);      // OCR 处理成功
         update(source.getId(), source);
 
         // 进行下一步
@@ -68,7 +82,7 @@ public class OCRListener extends AbstractProcessListener {
             return ;
         }
 
-        newest.setContent(source.getContent());
+        newest.setTexts(source.getTexts());
         newest.setCoordinates(source.getCoordinates());
         newest.setCurrentProcess(SourceProcess.OCR);
         newest.setProcessStatus(source.getProcessStatus());
