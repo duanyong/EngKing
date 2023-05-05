@@ -64,7 +64,7 @@ public abstract class Auditable<U> {
 
         if (authentication == null || !authentication.isAuthenticated()) {
 //            return null;
-            return User.builder().id(1).username("Tucker Duan").build();
+            return User.builder().id(1).nickname("Tucker Duan").build();
         }
 
         return ((User) authentication.getCredentials());

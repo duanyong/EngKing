@@ -23,6 +23,10 @@ public class ResponseVO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Pagebar pagebar;
 
+    public static ResponseVO isOK() {
+        return new ResponseVO(null);
+    }
+
     public ResponseVO(final Object data) {
         this(data, BaseApiStatus.SUCCESS);
     }
